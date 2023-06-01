@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<HTML lang="en">
+    <head>
+        <title>HTML Test</title>
+        <style>
+
+            #colorContainer {
+                width: 401px;
+                height: 401px;
+                position: relative;
+            }
+            #grad1 {
+                width: 100%;
+                height: 100%;            
+                position: absolute;
+                top: 0;
+                left: 0;
+                background-image: 
+                    linear-gradient(to bottom, hsla(0,0%,0%,0), hsla(0,0%,0%,1)),
+                    linear-gradient(to left, hsla(0,0%,100%,1), hsla(0,100%,50%,1));         
+            }
+            #cursor {
+                width: 5px;
+                height: 5px;            
+                position: absolute;
+                top: -3px;
+                left: -3px;
+                border: 1px solid hsl(180,100%,50%);
+            }
+            #volContainer {
+                width: 400px;
+                height: 20px;
+                position: relative;
+                margin-top:20px;
+            }
+            #vol {
+                appearance: none;
+                width: 100%;
+                margin-left: 0px;
+                margin-top: 0px;
+                position: absolute;
+                top: 0;
+                left: 0;
+                z-index: 1;
+                background: #00000000;
+            }
+            #vol::-webkit-slider-runnable-track {
+                appearance: none;
+                height: 100%;
+                margin-left: -5px;
+                margin-right: -5px;
+            }
+            #vol::-webkit-slider-thumb {
+                appearance: none;
+                height: 20px;
+                width: 10px;
+                border: 1px solid black;
+            }
+            #volCanvas {
+                width: 100%;
+                height: 100%;
+                top: 0;
+                position: absolute;
+                background-image: 
+                    linear-gradient(to right, hsla(0,100%,50%,1), hsla(60,100%,50%,1), hsla(120,100%,50%,1), hsla(180,100%,50%,1), hsla(240,100%,50%,1), hsla(300,100%,50%,1), hsla(360,100%,50%,1));
+            }
+            #sampleColor {
+                margin-top: 10px;
+                width: 190px;
+                height: 50px;
+                border: 1px solid black;
+                background-color: hsl(0,100%,50%);
+            }
+            #similarColor {
+                margin-top: 10px;
+                width: 190px;
+                height: 50px;
+                border: 1px solid black;
+                background-color: #FF0000;
+            }
+            #infoContainer {
+                display: inline-flex;
+            }
+
+            @media screen and (max-width: 1000px) {
+                #colorContainer {
+                    width: 901px;
+                    height: 901px;
+                    margin-top: 20px;
+                    margin-left: 20px;
+                }
+                #cursor {
+                    width: 25px;
+                    height: 25px;            
+                    top: -15px;
+                    left: -15px;
+                    border: 3px solid hsl(180,100%,50%);
+                }
+                #volContainer {
+                    width: 900px;
+                    height: 100px;
+                    margin-left: 20px;
+                    margin-right: 20px;
+                }
+                #vol::-webkit-slider-thumb {
+                    height: 100px;
+                    width: 40px;
+                    border: 5px solid black;
+                }
+                #vol::-webkit-slider-runnable-track {
+                    height: 100%;
+                    margin-left: -20px;
+                    margin-right: -20px;
+                }
+                #infoContainer {
+                    display: block;
+                }
+                #sampleColor, #similarColor {
+                    width: 900px;
+                    height: 200px;
+                    margin-left: 20px;
+                }
+                p {
+                    font-size: 48px;
+                    font-weight: bold;
+                }
+            }
+
+        </style>
+        <script>
+            var sampleHue = 0;
+            var sampleSaturation = 100;
+            var sampleValue = 100;
+
+            document.addEventListener('DOMContentLoaded', function () {
+                var mouseDown;
+
+                document.body.onmousedown = function() { 
+                    mouseDown = true;
+                }
+                document.body.onmouseup = function() {
+                    mouseDown = false;
+                }
+
+                const div = document.getElementById('colorContainer');
+                const cursorPos = document.getElementById('cursor');
+                div.addEventListener('mousemove', function(event) { 
+                    var rect = div.getBoundingClientRect(); 
+                    var x = event.clientX - rect.left; 
+                    if (x < 0) {
+                        x = 0;
+                    }
+                    if (x > rect.width - 1) {
+                        x = rect.width - 1;
+                    }
+                    var y = event.clientY - rect.top; 
+                    if (y < 0) {
+                        y = 0;
+                    }
+                    if (y > rect.height - 1) {
+                        y = rect.height - 1;
+                    }
+        
+                    if(mouseDown) {
+                        // console.log('Cursor position: ' + x + ',' + y);
+                        const cursorOffsetX = parseInt(document.getElementById('cursor').offsetWidth / 2);
+                        const cursorOffsetY = parseInt(document.getElementById('cursor').offsetHeight / 2);
+                        cursorPos.style.top = (y - cursorOffsetY) + "px";
+                        cursorPos.style.left = (x - cursorOffsetX) + "px";
+                        sampleSaturation = 100 - (x / ((rect.width - 1) / 100));
+                        sampleValue = 100 - (y / ((rect.height - 1) / 100));
+                        // document.getElementById("clickPos").innerHTML = sampleHue + ',' + sampleSaturation + ',' + sampleValue;
+                        document.getElementById('sampleColor').style.backgroundColor = 'hsl(' + sampleHue + ',' + convertToHSL(sampleSaturation,sampleValue) + ')';
+                        // document.getElementById('sampleHSL').innerHTML = sampleHue + ',' + convertToHSL(sampleSaturation,sampleValue);
+                        const rgbValue = convertToRGB(sampleHue,sampleSaturation,sampleValue);
+                        document.getElementById('sampleHex').innerHTML = 'Wanted color: #' + rgbValue;
+
+                        getColorData(rgbValue);
+                    }
+
+
+                     
+                });
+
+                div.addEventListener('mousedown', function(event) { 
+                    var rect = div.getBoundingClientRect(); 
+                    var x = event.clientX - rect.left; 
+                    if (x < 0) {
+                        x = 0;
+                    }
+                    if (x > rect.width - 1) {
+                        x = rect.width - 1;
+                    }
+                    var y = event.clientY - rect.top; 
+                    if (y < 0) {
+                        y = 0;
+                    }
+                    if (y > rect.height - 1) {
+                        y = rect.height - 1;
+                    }
+
+                    // console.log(rect);
+                    // console.log(x);
+                    // console.log(y);
+
+                    const cursorOffsetX = parseInt(document.getElementById('cursor').offsetWidth / 2);
+                    const cursorOffsetY = parseInt(document.getElementById('cursor').offsetHeight / 2);
+                    cursorPos.style.top = (y - cursorOffsetY) + "px";
+                    cursorPos.style.left = (x - cursorOffsetX) + "px";
+
+                    sampleSaturation = 100 - (x / ((rect.width - 1) / 100));
+                    sampleValue = 100 - (y / ((rect.height - 1) / 100));
+
+                    // document.getElementById("clickPos").innerHTML = sampleHue + ',' + sampleSaturation + ',' + sampleValue;
+                    document.getElementById('sampleColor').style.backgroundColor = 'hsl(' + sampleHue + ',' + convertToHSL(sampleSaturation,sampleValue) + ')';
+                    // document.getElementById('sampleHSL').innerHTML = sampleHue + ',' + convertToHSL(sampleSaturation,sampleValue);
+                    const rgbValue = convertToRGB(sampleHue,sampleSaturation,sampleValue);
+                    document.getElementById('sampleHex').innerHTML = 'Wanted color: #' + rgbValue;
+
+                    getColorData(rgbValue);
+                });
+            });
+
+
+
+            function myFunction1(myVal) {
+                var cursorColor = myVal - 180;
+                document.getElementById("grad1").style = 'background-image: linear-gradient(to bottom, hsla(0,0%,0%,0), hsla(0,0%,0%,1)),linear-gradient(to left, hsla(0,0%,100%,1), hsla(' + (myVal - 1) + ',100%,50%,1))';
+                if (cursorColor < 0) {
+                    cursorColor = cursorColor + 360;
+                }
+                // document.getElementById('cursor').style.borderColor = 'hsl(' + (cursorColor - 1) + ',100%,50%)';
+                sampleHue = myVal - 1;
+                document.getElementById('sampleColor').style.backgroundColor = 'hsl(' + sampleHue + ',' + convertToHSL(sampleSaturation,sampleValue) + ')';
+                // document.getElementById('sampleHSL').innerHTML = sampleHue + ',' + convertToHSL(sampleSaturation,sampleValue);
+                const rgbValue = convertToRGB(sampleHue,sampleSaturation,sampleValue);
+                document.getElementById('sampleHex').innerHTML = 'Wanted color: #' + rgbValue;
+
+                getColorData(rgbValue);
+            }
+
+            function convertToHSL(HSVSaturation,HSVValue) {
+                var HSLLightness = 0;
+                var HSLSaturation = 0;
+                HSVSaturation = HSVSaturation / 100;
+                HSVValue = HSVValue / 100;
+
+                HSLLightness = HSVValue * (1 - (HSVSaturation / 2));
+                if (HSLLightness === 0 || HSLLightness === 1) {
+                    HSLSaturation = 0;
+                } else {
+                    HSLSaturation = (HSVValue - HSLLightness) / Math.min(HSLLightness, 1 - HSLLightness);
+                }
+                return (HSLSaturation * 100) + '%,' + (HSLLightness * 100) + '%';
+            }
+
+            function convertToRGB(HSVHue, HSVSaturation, HSVValue) {
+                // console.log("hue: " + HSVHue);
+                // console.log("saturation: " + HSVSaturation);
+                // console.log("value: " + HSVValue);
+
+                const value = HSVValue / 100;
+                const saturation = HSVSaturation / 100;
+                const chroma = value * saturation;
+                // console.log('C: ' + chroma);
+                const component = chroma * (1 - Math.abs((HSVHue/60) % 2 - 1));
+                // console.log('X: ' + component);
+                const variant = value - chroma;
+                // console.log('m: ' + variant);
+            
+                if (0 <= HSVHue && HSVHue < 60) {
+                    red = chroma;
+                    green = component;
+                    blue = 0;
+                } else if (60 <= HSVHue && HSVHue < 120) {
+                    red = component;
+                    green = chroma;
+                    blue = 0;
+                } else if (120 <= HSVHue && HSVHue < 180) {
+                    red = 0;
+                    green = chroma;
+                    blue = component;
+                } else if (180 <= HSVHue && HSVHue < 240) {
+                    red = 0;
+                    green = component;
+                    blue = chroma;
+                } else if (240 <= HSVHue && HSVHue < 300) {
+                    red = component;
+                    green = 0;
+                    blue = chroma;
+                } else if (300 <= HSVHue && HSVHue < 360) {
+                    red = chroma;
+                    green = 0;
+                    blue = component;
+                }
+
+                redHex = ('00' + Math.round((red + variant) * 255).toString(16).toUpperCase()).slice(-2);
+                greenHex = ('00' + Math.round((green + variant) * 255).toString(16).toUpperCase()).slice(-2);
+                blueHex = ('00' + Math.round((blue + variant) * 255).toString(16).toUpperCase()).slice(-2);
+                return redHex + greenHex + blueHex;
+                
+            }
+            
+            function getColorData(rgbColor) {
+                const apiString = 'https://www.thecolorapi.com/id?hex=' + rgbColor;
+                fetch(apiString)
+                .then(response => response.json())
+                .then(data => {
+                    // console.log("wanted: " + rgbColor);
+                    const closestHex = data.name['closest_named_hex'].replace('#','');
+                    var difference = 0;
+                    // console.log(parseInt(rgbColor.substring(0,2), 16));
+                    // console.log(parseInt(rgbColor.substring(2,4), 16));
+                    // console.log(parseInt(rgbColor.substring(4,6), 16));   
+                    // console.log("actual: " + closestHex);                
+                    // console.log(parseInt(closestHex.substring(0,2), 16));
+                    // console.log(parseInt(closestHex.substring(2,4), 16));
+                    // console.log(parseInt(closestHex.substring(4,6), 16));
+                    // console.log("name: " + data.name['value']);
+                    difference = difference + Math.abs(parseInt(rgbColor.substring(0,2), 16) - parseInt(closestHex.substring(0,2), 16));
+                    difference = difference + Math.abs(parseInt(rgbColor.substring(2,4), 16) - parseInt(closestHex.substring(2,4), 16));
+                    difference = difference + Math.abs(parseInt(rgbColor.substring(4,6), 16) - parseInt(closestHex.substring(4,6), 16));
+                    const percentDiff = Math.floor((768 - difference)/768 * 100);
+                    document.getElementById('similarity').innerHTML = percentDiff + "% similar to: " + data.name['value'];
+                    document.getElementById('similarColor').style.backgroundColor = '#' + closestHex;
+                })
+                // Catch any errors and log them to the console
+                .catch(error => {
+                    console.log('Error:', error);
+                });
+
+            }
+
+            
+
+        </script>
+    </head>
+    <body>
+        <div id="colorContainer">
+            <canvas id="grad1"></canvas>
+            <div id="cursor"></div>
+        </div>
+
+        <div id="volContainer">
+            <input type="range" id="vol" name="vol" min="1" max="360" value="1" oninput="myFunction1(this.value)">
+            <canvas id="volCanvas"></canvas>
+        </div>
+
+        <div id="infoContainer">
+            <div style="margin-right:20px">
+                <p id="sampleHex">Wanted color: #FF0000</p>
+                <div id="sampleColor"></div>
+            </div>
+    
+            <!-- <p id="clickPos">0,0,0</p>
+            <p id="sampleHSL">0,0,0</p>
+            <p id="rgbColor">#FF0000</p> -->
+            <div>
+                <p id="similarity">100% similar to: Red</p>
+                <div id="similarColor"></div>
+            </div>
+        </div>
+
+
+
+    </body>
+</HTML>
