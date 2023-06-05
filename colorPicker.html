@@ -145,6 +145,43 @@
 
                 const div = document.getElementById('colorContainer');
                 const cursorPos = document.getElementById('cursor');
+
+                div.addEventListener('touchmove', function(event) { 
+                    var rect = div.getBoundingClientRect(); 
+                    var x = event.clientX - rect.left; 
+                    if (x < 0) {
+                        x = 0;
+                    }
+                    if (x > rect.width - 1) {
+                        x = rect.width - 1;
+                    }
+                    var y = event.clientY - rect.top; 
+                    if (y < 0) {
+                        y = 0;
+                    }
+                    if (y > rect.height - 1) {
+                        y = rect.height - 1;
+                    }
+        
+                    // console.log('Cursor position: ' + x + ',' + y);
+                    const cursorOffsetX = parseInt(document.getElementById('cursor').offsetWidth / 2);
+                    const cursorOffsetY = parseInt(document.getElementById('cursor').offsetHeight / 2);
+                    cursorPos.style.top = (y - cursorOffsetY) + "px";
+                    cursorPos.style.left = (x - cursorOffsetX) + "px";
+                    sampleSaturation = 100 - (x / ((rect.width - 1) / 100));
+                    sampleValue = 100 - (y / ((rect.height - 1) / 100));
+                    // document.getElementById("clickPos").innerHTML = sampleHue + ',' + sampleSaturation + ',' + sampleValue;
+                    document.getElementById('sampleColor').style.backgroundColor = 'hsl(' + sampleHue + ',' + convertToHSL(sampleSaturation,sampleValue) + ')';
+                    // document.getElementById('sampleHSL').innerHTML = sampleHue + ',' + convertToHSL(sampleSaturation,sampleValue);
+                    const rgbValue = convertToRGB(sampleHue,sampleSaturation,sampleValue);
+                    document.getElementById('sampleHex').innerHTML = 'Wanted color: #' + rgbValue;
+
+                    getColorData(rgbValue);
+
+
+                     
+                });
+
                 div.addEventListener('mousemove', function(event) { 
                     var rect = div.getBoundingClientRect(); 
                     var x = event.clientX - rect.left; 
