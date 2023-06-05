@@ -148,14 +148,14 @@
 
                 div.addEventListener('touchmove', function(event) { 
                     var rect = div.getBoundingClientRect(); 
-                    var x = event.clientX - rect.left; 
+                    var x = event.touches[0].clientX - rect.left; 
                     if (x < 0) {
                         x = 0;
                     }
                     if (x > rect.width - 1) {
                         x = rect.width - 1;
                     }
-                    var y = event.clientY - rect.top; 
+                    var y = event.touches[0].clientY - rect.top; 
                     if (y < 0) {
                         y = 0;
                     }
