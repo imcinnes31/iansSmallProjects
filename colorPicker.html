@@ -8,6 +8,7 @@
                 width: 401px;
                 height: 401px;
                 position: relative;
+                touch-action: none;
             }
             #grad1 {
                 width: 100%;
@@ -174,7 +175,7 @@
                     document.getElementById('sampleColor').style.backgroundColor = 'hsl(' + sampleHue + ',' + convertToHSL(sampleSaturation,sampleValue) + ')';
                     // document.getElementById('sampleHSL').innerHTML = sampleHue + ',' + convertToHSL(sampleSaturation,sampleValue);
                     const rgbValue = convertToRGB(sampleHue,sampleSaturation,sampleValue);
-                    document.getElementById('sampleHex').innerHTML = 'Wanted color: #' + rgbValue + " " + x + " " + y;
+                    document.getElementById('sampleHex').innerHTML = 'Wanted color: #' + rgbValue;
 
                     getColorData(rgbValue);
 
@@ -374,7 +375,6 @@
         </script>
     </head>
     <body>
-        <h1>1</h1>
         <div id="colorContainer">
             <canvas id="grad1"></canvas>
             <div id="cursor"></div>
