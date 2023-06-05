@@ -174,7 +174,7 @@
                     document.getElementById('sampleColor').style.backgroundColor = 'hsl(' + sampleHue + ',' + convertToHSL(sampleSaturation,sampleValue) + ')';
                     // document.getElementById('sampleHSL').innerHTML = sampleHue + ',' + convertToHSL(sampleSaturation,sampleValue);
                     const rgbValue = convertToRGB(sampleHue,sampleSaturation,sampleValue);
-                    document.getElementById('sampleHex').innerHTML = 'Wanted color: #' + rgbValue;
+                    document.getElementById('sampleHex').innerHTML = 'Wanted color: #' + rgbValue + " " + x + " " + y;
 
                     getColorData(rgbValue);
 
