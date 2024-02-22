@@ -34,10 +34,10 @@
                 "visualStudio": " Visual Studio for many of my web applications,",
                 "microsoftOffice": " am experienced in using Microsoft Word, Excel, Outlook, " +
                     "and Access,",
-                "SQLServer": " used Microsoft SQL Server for SQL Databases,",
-                "MySQLWorkbench": " used MySQLWorkbench for MySQL Databases,",
-                "mongoDBCompass": " used MongoDB Compass for MongoDB databases,",
-                "postman": " used Postman to test requests to APIs,",
+                "SQLServer": " Microsoft SQL Server for SQL Databases,",
+                "MySQLWorkbench": " MySQLWorkbench for MySQL Databases,",
+                "mongoDBCompass": " MongoDB Compass for MongoDB databases,",
+                "postman": " Postman to test requests to APIs,",
                 
                 "gitHub": " use Github to host static web applications or to control versions of " +
                     "full stack ones,",
@@ -60,18 +60,35 @@
                 const todaysDate = new Date();
                 letterContent += months[todaysDate.getMonth()] + " " + todaysDate.getDate() + ", " + todaysDate.getFullYear();
 
-                companyName = document.getElementById('companyName').value;
+                companyName = document.getElementById('companyName').value.trim();
                 shortCompanyName = companyName.length > 0 ? companyName.split(" ")[0] : "";
-                positionTitle = document.getElementById('position').value;
+                positionTitle = document.getElementById('position').value.trim();
+                companyAddress = document.getElementById('companyAddress').value.trim();
+                hrName = document.getElementById('humanResourcesName').value.trim();
+                hrPosition = document.getElementById('humanResourcesPosition').value.trim();
 
-                letterContent += "<br><br>SUBJECT: " + positionTitle;
+                // companyName = "Relish New Brand Experience Inc.";
+                // shortCompanyName = companyName.length > 0 ? companyName.split(" ")[0] : "";
+                // positionTitle = "Software Developer";
+                // companyAddress = "200-141 Bannatyne Avenue, Winnipeg, MB R3B 0R3";
+                // hrName = document.getElementById('humanResourcesName').value;
+                // hrPosition = document.getElementById('humanResourcesPosition').value;
 
-                letterContent += "<br><br>As an avid software programmer, I genuinely enjoy the whole " +
+                letterContent += "\n\n" + companyName + "\n" + companyAddress.replace(", Winnipeg","\nWinnipeg") + "\nAttn: ";
+                if (hrName.length == 0) {
+                    letterContent += shortCompanyName + " Hiring Team";
+                } else {
+                    letterContent += hrName + " - " + hrPosition;
+                }
+
+                letterContent += "\n\n\nSUBJECT: " + positionTitle;
+
+                letterContent += "\n\nAs an avid software programmer, I genuinely enjoy the whole " +
                 "programming process: writing code, modifying it, integrating it, and testing it," + 
                 " then going back in to make it better. This is why I am excited about joining the " +
                 shortCompanyName + " team in the role of " + positionTitle + "."
 
-                letterContent += "<br><br>I would be a great fit for this position because ";
+                letterContent += "\n\nI would be a great fit for this position because ";
                 var softwareSentences = [];
                 var softwareCount = 0;
                 var deploySentences = [];
@@ -117,7 +134,7 @@
                     }
                 }
                 letterContent.trim();
-                const unknownTechBox = document.getElementById('unknowns').value;
+                const unknownTechBox = document.getElementById('unknowns').value.trim();
 
                 if (unknownTechBox.length > 0) {
                     const unknownTechs = unknownTechBox.split(",");
@@ -133,10 +150,70 @@
 
                 letterContent += "And most important of all, my skill set includes coaching and cooperating with other developers to produce outstanding programming work as a team.";
 
-                letterContent += "<br><br>I am detail oriented, adaptable, and take constructive criticism well. My resume is attached with more information about my skills and experience. I look forward to discussing how I can contribute to " + shortCompanyName + " in this role with you. I can be reached at imcinnes31@gmail.com or (204) 293-1517. Thank you for your time. <br><br>Sincerely, <br><br><br><br>Ian McInnes"
+                letterContent += "\n\nI am detail oriented, adaptable, and take constructive criticism well. My resume is attached with more information about my skills and experience. I look forward to discussing how I can contribute to " + shortCompanyName + " in this role with you. I can be reached at imcinnes31@gmail.com or (204) 293-1517. Thank you for your time.";
 
-                document.getElementById("coverLetterBody").innerHTML = letterContent;
+                document.getElementById("letterBodyText").value = letterContent;
+                document.getElementById("letterBodyText").style.height = "";
+                document.getElementById("letterBodyText").style.height = document.getElementById("letterBodyText").scrollHeight + "px";
             };
+
+            function printDiv() {
+                var inputContents = [];
+                var inputsChecked = [];
+                document.querySelectorAll("input[type='text']").forEach((e) => {
+                    inputContents.push(e.value.trim());
+                });
+                document.querySelectorAll("input[type='checkbox']").forEach((e) => {
+                    inputsChecked.push(e.checked);
+                });
+
+                var originalContents = document.body.innerHTML; 
+
+                const bodyText = document.getElementById("letterBodyText").value;
+
+                var printPage = document.createElement("div");
+                var divToPrint = document.createElement("div");
+                divToPrint.style = document.getElementById("printableArea").style;
+                var header = document.createElement("div");
+                header.innerHTML = '<span style="font-weight: bold;font-size:16.5;">Ian McInnes</span><br>'
+                        + '606-340 Princess St. | Winnipeg, MB | R3B 3L2 | (204) 293-1517 | <br>' +
+                        'imcinnes31@gmail.com<br><br>';
+                header.style = "text-align: right;font-family: 'Times New Roman', Times, serif;font-size:12.5;";
+                var letterBody = document.createElement("div");
+                letterBody.innerHTML = document.getElementById("letterBodyText").value.replaceAll("\n","<br>");                
+                letterBody.style = "font-family: 'Times New Roman', Times, serif;font-size:12.5;";
+                var closing = document.createElement("div");
+                closing.innerHTML = '<br>Sincerely,<br><br><br><br>Ian McInnes';
+                closing.style = "font-family: 'Times New Roman', Times, serif;font-size:12.5;";
+                divToPrint.appendChild(header);
+                // divToPrint.appendChild(document.getElementById("letterHeader"));
+                divToPrint.appendChild(letterBody);
+                divToPrint.appendChild(closing);
+                // divToPrint.appendChild(document.getElementById("letterClosing"));
+
+                printPage.appendChild(divToPrint);
+                document.body.innerHTML = printPage.innerHTML;
+
+                document.body.style="margin:96px;"
+
+                window.print();
+
+                document.body.innerHTML = originalContents;
+                document.getElementById("letterBodyText").value = bodyText;
+                document.querySelectorAll("input[type='text']").forEach((e) => {
+                    e.value = inputContents.shift();
+                });
+                document.querySelectorAll("input[type='checkbox']").forEach((e) => {
+                    e.checked = inputsChecked.shift();
+                });
+
+                document.querySelectorAll("input[type='checkbox']").forEach((checkbox)=>{
+                    checkbox.addEventListener('change', (e) => {
+                        constructLetter();
+                    });
+                });
+
+            }
 
         </script>
     </head>
@@ -150,6 +227,18 @@
             <br>
             <label for="position">Position Offered</label>
             <input type="text" id="position" name="position" onkeyup="constructLetter()">
+            <br>
+            <br>
+            <label for="companyAddress">Company Address</label>
+            <input type="text" id="companyAddress" name="companyAddress" onkeyup="constructLetter()">
+            <br>
+            <br>
+            <label for="humanResourcesName">Human Resources Name</label>
+            <input type="text" id="humanResourcesName" name="humanResourcesName" onkeyup="constructLetter()">
+            <br>
+            <br>
+            <label for="humanResourcesPosition">Human Resources Position</label>
+            <input type="text" id="humanResourcesPosition" name="humanResourcesPosition" onkeyup="constructLetter()">
 
             <h2>Check known languages and technologies:</h2>
 
@@ -272,14 +361,12 @@
 
             <h2>Cover Letter Body:</h2>
 
-            <div style="width:100%;">
-                <div style="width:90%;border:1px solid black;padding:10px;margin:auto">
-                    <!-- <div style="text-align: right;">
-                        Ian McInnes<br>
-                        606-340 Princess St. | Winnipeg, MB | R3B 3L2 | (204) 293-1517 | imcinnes31@gmail.com
-                    </div> -->
-                    <div id="coverLetterBody"></div>
+            <div style="width:100%;text-align: center;">
+                <div id="printableArea" style="width:90%;border:1px solid black;padding:10px;margin:auto">
+                    <textarea id="letterBodyText" style="font-family:'Times New Roman', Times, serif;font-size:12.5;width:100%;" oninput="this.style.height = '';this.style.height = this.scrollHeight + 'px'" style="width:100%;" type="text" id="coverLetterBody"></textarea>
                 </div>
+                <br>
+                <input type="button" onclick="printDiv()" value="Print Cover Letter" style="font-weight: bold; padding: 5px;"/>
             </div>
         </form>
     </body>
