@@ -13,8 +13,8 @@
             }
             const letterStrings = {
                 "htmlCSSJavascript": "I am experienced in building client side web pages with " + 
-                    "HTML, CSS, and Javascript,",
-                "react": " as well as using and constructing React components,",
+                    "HTML, CSS, and JavaScript,",
+                "react": " as well as constructing and using React components,",
                 "bootstrap": " and using Bootstrap to give them a professional touch.",
 
                 "java": "I have an Oracle Certification in Java Programming, together with a " +
@@ -183,35 +183,41 @@
                 letterBody.innerHTML = document.getElementById("letterBodyText").value.replaceAll("\n","<br>");                
                 letterBody.style = "font-family: 'Times New Roman', Times, serif;font-size:12.5;";
                 var closing = document.createElement("div");
-                closing.innerHTML = '<br>Sincerely,<br><br><br><br>Ian McInnes';
+                closing.innerHTML = '<br>Sincerely,<br><br>' +
+                '<img src="20240222_225753.png" style="height:48px">' +
+                '<br><br>Ian McInnes';
                 closing.style = "font-family: 'Times New Roman', Times, serif;font-size:12.5;";
+
                 divToPrint.appendChild(header);
-                // divToPrint.appendChild(document.getElementById("letterHeader"));
                 divToPrint.appendChild(letterBody);
                 divToPrint.appendChild(closing);
-                // divToPrint.appendChild(document.getElementById("letterClosing"));
-
                 printPage.appendChild(divToPrint);
-                document.body.innerHTML = printPage.innerHTML;
 
+                document.body.innerHTML = printPage.innerHTML;
                 document.body.style="margin:96px;"
 
-                window.print();
+                setTimeout(function() {
+                    window.print();
+                }, 50);
 
-                document.body.innerHTML = originalContents;
-                document.getElementById("letterBodyText").value = bodyText;
-                document.querySelectorAll("input[type='text']").forEach((e) => {
-                    e.value = inputContents.shift();
-                });
-                document.querySelectorAll("input[type='checkbox']").forEach((e) => {
-                    e.checked = inputsChecked.shift();
-                });
-
-                document.querySelectorAll("input[type='checkbox']").forEach((checkbox)=>{
-                    checkbox.addEventListener('change', (e) => {
-                        constructLetter();
+                setTimeout(function() {
+                    document.body.innerHTML = originalContents;
+                    document.getElementById("letterBodyText").value = bodyText;
+                    document.querySelectorAll("input[type='text']").forEach((e) => {
+                        e.value = inputContents.shift();
                     });
-                });
+                    document.querySelectorAll("input[type='checkbox']").forEach((e) => {
+                        e.checked = inputsChecked.shift();
+                    });
+
+                    document.querySelectorAll("input[type='checkbox']").forEach((checkbox)=>{
+                        checkbox.addEventListener('change', (e) => {
+                            constructLetter();
+                        });
+                    });
+
+                    document.body.style = "none";
+                }, 50);
 
             }
 
