@@ -25,7 +25,7 @@
                 "node": "I also have experience using Node.js to read and write data or files,",
                 "express": " while using Express to create and use APIs.",
 
-                "SQL": "I have a proven track record in creating tables, queries, procedures, " + 
+                "SQL": "I am adept in creating tables, queries, procedures, " + 
                     "indexes, and views in SQL databases,",
                 "MySQL": " primarily using MySQL.",
                 "mongoDB": "I have built, entered, queried, and updated data in MongoDB databases.",
@@ -224,7 +224,7 @@
         </script>
     </head>
     <body>
-        <form>
+        <form action="coverLetterPrint.html" target="_blank">
             <h2>Company Info</h2>
 
             <label for="companyName">Company Name</label>
@@ -369,10 +369,11 @@
 
             <div style="width:100%;text-align: center;">
                 <div id="printableArea" style="width:90%;border:1px solid black;padding:10px;margin:auto">
-                    <textarea id="letterBodyText" style="font-family:'Times New Roman', Times, serif;font-size:12.5;width:100%;" oninput="this.style.height = '';this.style.height = this.scrollHeight + 'px'" style="width:100%;" type="text" id="coverLetterBody"></textarea>
+                    <textarea name="letterContents" id="letterBodyText" style="font-family:'Times New Roman', Times, serif;font-size:12.5;width:100%;" oninput="this.style.height = '';this.style.height = this.scrollHeight + 'px'" style="width:100%;" type="text" id="coverLetterBody"></textarea>
                 </div>
                 <br>
-                <input type="button" onclick="printDiv()" value="Print Cover Letter" style="font-weight: bold; padding: 5px;"/>
+                <!-- <input type="button" onclick="printDiv()" value="Print Cover Letter" style="font-weight: bold; padding: 5px;"/> -->
+                <input type="submit" value="Make Cover Letter" style="font-weight: bold; padding: 5px;"/>
             </div>
         </form>
     </body>
