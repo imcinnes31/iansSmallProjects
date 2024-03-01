@@ -8,7 +8,7 @@
             document.addEventListener('DOMContentLoaded', () => {
                 const queryString = window.location.search;
                 const urlParams = new URLSearchParams(queryString);
-                document.title = "Ian McInnes - LetterTo" + urlParams.get("companyName").replace(".","").replace(" ","");
+                document.title = "Ian McInnes - LetterTo" + urlParams.get("companyName").replaceAll(".","").replaceAll(" ","");
                 document.getElementById("letterBody").innerHTML = urlParams.get("letterContents").replaceAll("\n","<br>");
             });
         </script>
