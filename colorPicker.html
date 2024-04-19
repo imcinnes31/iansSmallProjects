@@ -260,6 +260,7 @@
                 });
 
                 div.addEventListener('mouseup', function(event) { 
+                    console.log('mouse up');
                     const rgbValue = convertToRGB(sampleHue,sampleSaturation,sampleValue);
                     getColorData(rgbValue);
                 });
