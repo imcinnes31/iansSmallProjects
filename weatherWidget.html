@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Weather Widget</title>
+        <style>
+
+            .light {
+                width:100px;
+                height:100px;
+                opacity:0%;
+                position:absolute;
+                top:0;
+                left:0;
+            }
+
+        </style>
+        <script>
+            var weatherData;
+            async function getWeatherData(latitudeGiven,longitudeGiven) {
+                const fetchString = "https://api.open-meteo.com/v1/forecast?latitude=" + latitudeGiven + "&longitude=" + longitudeGiven + "&current=temperature_2m,relative_humidity_2m,precipitation,rain,showers,snowfall,cloud_cover,wind_speed_10m,wind_direction_10m"
+                const weatherPromise = await fetch(fetchString);
+                if (!weatherPromise.ok) {
+                    throw new Error("HTTP error " + weatherPromise.status);
+                }
+                return weatherPromise.json();
+            }
+
+            function getWindData(windSpeed,windDirection) {
+                const directions = [
+                    'N',
+                    'NNE',
+                    'NE',
+                    'ENE',
+                    'E',
+                    'ESE',
+                    'SE',
+                    'SSE',
+                    'S',
+                    'SSW',
+                    'SW',
+                    'WSW',
+                    'W',
+                    'WNW',
+                    'NW',
+                    'NNW',
+                    'N'
+                ];
+
+                return parseInt(windSpeed) + " km/h " + (parseInt(windSpeed) > 0 ? directions[Math.round(parseFloat(windDirection)/22.5)] : "");
+            }
+
+            document.addEventListener('DOMContentLoaded', async function () {
+                var latitude;
+                var longitude;
+
+                if (navigator.geolocation) {
+                    await navigator.geolocation.getCurrentPosition(async function(position) {
+                        latitude = position.coords.latitude;
+                        longitude = position.coords.longitude;
+                        weatherData = await getWeatherData(latitude,longitude);
+                        console.log(weatherData['current']);
+                        console.log(getWindData(weatherData['current']['wind_speed_10m'],weatherData['current']['wind_direction_10m']));
+                    });
+                } else {
+                    console.log("Geolocation is not supported by this browser.");
+                }
+
+                const animationLength = 1;
+                document.querySelectorAll('.light').forEach((e, i, a) => { 
+                    e.animate(
+                        [
+                            { marginLeft: "200px", offset: 0 },
+                            { marginLeft: "0px" , offset: (1 / a.length / 5 * 3) },
+                            { opacity: "100%", offset: (1 / a.length / 5 * 4) },
+                            { opacity: "0%", offset: (1 / a.length / 5 * 5) },
+                            { opacity: "0%", offset: 1 },
+                        ],
+                        {
+                            duration: a.length * animationLength * 1000,
+                            iterations: Infinity,
+                            delay: i * animationLength * 1000,
+                        }
+                    );
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <div style="position:relative;height:100px;width:200px;border:1px solid black;overflow:hidden;">
+            <div class="light" style="background-color:red"></div>
+            <div class="light" style="background-color:orange"></div>
+            <div class="light" style="background-color:yellow"></div>
+            <div class="light" style="background-color:green"></div>
+            <div class="light" style="background-color:blue"></div>   
+            <div class="light" style="background-color:indigo"></div>
+            <div class="light" style="background-color:violet"></div>     
+        </div>
+    </body>
+</html>

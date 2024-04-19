@@ -129,13 +129,14 @@
             }
 
         </style>
+        <script src="weatherInfo.js"></script>
         <script>
             var sampleHue = 0;
             var sampleSaturation = 100;
             var sampleValue = 100;
-            var mouseDown;
 
             document.addEventListener('DOMContentLoaded', function () {
+                var mouseDown;
 
                 document.body.onmousedown = function() { 
                     mouseDown = true;
@@ -177,13 +178,10 @@
                     const rgbValue = convertToRGB(sampleHue,sampleSaturation,sampleValue);
                     document.getElementById('sampleHex').innerHTML = 'Wanted color: #' + rgbValue;
 
-                    // getColorData(rgbValue);
-                     
-                });
-
-                div.addEventListener('touchend', function(event) { 
-                    const rgbValue = convertToRGB(sampleHue,sampleSaturation,sampleValue);
                     getColorData(rgbValue);
+
+
+                     
                 });
 
                 div.addEventListener('mousemove', function(event) { 
@@ -266,17 +264,6 @@
                     const rgbValue = convertToRGB(sampleHue,sampleSaturation,sampleValue);
                     getColorData(rgbValue);
                 });
-
-                document.getElementById('vol').addEventListener('mouseup', function(event) {
-                    const rgbValue = convertToRGB(sampleHue,sampleSaturation,sampleValue);
-                    getColorData(rgbValue);
-                });
-
-                document.getElementById('vol').addEventListener('touchend', function(event) {
-                    const rgbValue = convertToRGB(sampleHue,sampleSaturation,sampleValue);
-                    getColorData(rgbValue);
-                });
-
             });
 
 
@@ -293,6 +280,8 @@
                 // document.getElementById('sampleHSL').innerHTML = sampleHue + ',' + convertToHSL(sampleSaturation,sampleValue);
                 const rgbValue = convertToRGB(sampleHue,sampleSaturation,sampleValue);
                 document.getElementById('sampleHex').innerHTML = 'Wanted color: #' + rgbValue;
+
+                getColorData(rgbValue);
             }
 
             function convertToHSL(HSVSaturation,HSVValue) {
