@@ -1,28 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
+<!-- saved from url=(0094)file:///C:/Users/IansAcerLaptop/OneDrive/Documents/GitHub/iansSmallProjects/weatherWidget.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
         <title>Weather Widget</title>
         <style>
 
-            .light {
-                width:100px;
-                height:100px;
+            .weatherScroll {
+                width:200px;
+                height:50px;
                 opacity:0%;
                 position:absolute;
                 top:0;
                 left:0;
+                color:black;
             }
 
         </style>
+    <script src="./Weather Widget_files/weatherInfo.js.download"></script>
         <script>
             var weatherData;
+            var locationData;
+
+            async function getLocationData(latitudeGiven,longitudeGiven) {
+                const fetchString = "https://api.weatherapi.com/v1/current.json?key=" + weatherApiKey + "&q=" + latitudeGiven + "," + longitudeGiven + "&aqi=no";
+                const locationPromise = await fetch(fetchString);
+                if (!locationPromise.ok) {
+                    throw new Error("HTTP error " + locationPromise.status);
+                }
+                const locationJson = await locationPromise.json();
+                return locationJson['location'];
+            }
+
             async function getWeatherData(latitudeGiven,longitudeGiven) {
-                const fetchString = "https://api.open-meteo.com/v1/forecast?latitude=" + latitudeGiven + "&longitude=" + longitudeGiven + "&current=temperature_2m,relative_humidity_2m,precipitation,rain,showers,snowfall,cloud_cover,wind_speed_10m,wind_direction_10m"
+                const fetchString = "https://api.open-meteo.com/v1/forecast?latitude=" + latitudeGiven + "&longitude=" + longitudeGiven + "&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,rain,showers,snowfall,weather_code,cloud_cover,wind_speed_10m,wind_direction_10m,visibility"
                 const weatherPromise = await fetch(fetchString);
                 if (!weatherPromise.ok) {
                     throw new Error("HTTP error " + weatherPromise.status);
                 }
-                return weatherPromise.json();
+                const weatherJson = await weatherPromise.json();
+                return weatherJson['current'];
             }
 
             function getWindData(windSpeed,windDirection) {
@@ -49,6 +64,35 @@
                 return parseInt(windSpeed) + " km/h " + (parseInt(windSpeed) > 0 ? directions[Math.round(parseFloat(windDirection)/22.5)] : "");
             }
 
+            const codeList = {
+                0: ["Clear", 113],
+                1: ["A Few Clouds", 116],
+                2: ["Partly Cloudy", 119],
+                3: ["Overcast", 122],
+                45: ["Fog", 248],
+                48: ["Depositing Fog", 260],
+                51: ["Light Drizzle", 266],
+                53: ["Moderate Drizzle", 266],
+                55: ["Intense Drizzle", 266],
+                56: ["Light Freezing Drizzle", 281],
+                57: ["Dense Freezing Drizzle", 284],
+                61: ["Light Rain", 296],
+                63: ["Moderate Rain", 302],
+                65: ["Heavy Rain", 308],
+                66: ["Light Freezing Rain", 311],
+                67: ["Heavy Freezing Rain", 314],
+                71: ["Light Snowfall", 326],
+                73: ["Moderate Snowfall", 332],
+                75: ["Heavy Snowfall", 338],
+                77: ["Ice Pellets", 350],
+                80: ["Light Rain Showers", 353],
+                81: ["Moderate Rain Showers", 356],
+                82: ["Heavy Rain Showers", 356],
+                85: ["Light Snow Showers", 368],
+                86: ["Heavy Snow Showers", 371],
+                95: ["Thunderstorm", 389],
+            }
+
             document.addEventListener('DOMContentLoaded', async function () {
                 var latitude;
                 var longitude;
@@ -57,43 +101,94 @@
                     await navigator.geolocation.getCurrentPosition(async function(position) {
                         latitude = position.coords.latitude;
                         longitude = position.coords.longitude;
+
+                        // console.log(latitude);
+                        // console.log(longitude);
+
+                        locationData = await getLocationData(latitude,longitude);
                         weatherData = await getWeatherData(latitude,longitude);
-                        console.log(weatherData['current']);
-                        console.log(getWindData(weatherData['current']['wind_speed_10m'],weatherData['current']['wind_direction_10m']));
+
+                        console.log(locationData);
+                        console.log(weatherData);
+
+                        document.getElementById('currentLocation').innerHTML = locationData['name'] + ", " + locationData['region'];
+                        const currentDateAndTime = new Date(locationData['localtime']);
+                        document.getElementById('currentDateTime').innerHTML = currentDateAndTime.toDateString() + ", " + currentDateAndTime.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+                        document.getElementById('weatherType').innerHTML = codeList[weatherData['weather_code']][0];
+                        document.getElementById('currentTemp').innerHTML = "Temperature: " + Math.round(weatherData['temperature_2m']) + '\u00B0C';
+                        document.getElementById('iconPhoto').src = "https://cdn.weatherapi.com/weather/64x64/" + (weatherData['is_day'] ? "day" : "night") + "/" + codeList[weatherData['weather_code']][1] + ".png";
+
+                        const currentWeather = {
+                            "ambient": "Feels Like: " + Math.round(weatherData['apparent_temperature']) + '\u00B0C',
+                            "wind": "Wind: " + (Math.round(weatherData['wind_speed_10m']) > 0 ? getWindData(weatherData['wind_speed_10m'],weatherData['wind_direction_10m']) : "None"),
+                            "precipitation": Math.floor(weatherData['rain']) > 0 ? "Rain: " + Math.floor(weatherData['rain']) + "mm" :  Math.floor(weatherData['showers']) > 0 ? "Showers: " + Math.floor(weatherData['showers']) + "mm" : Math.floor(weatherData['snowfall']) > 0 ? "Snow: " + Math.floor(weatherData['snowfall']) + "mm" : "Precipitation: None",
+                            "humidity": "Humidity: " + (weatherData['relative_humidity_2m'] > 0 ? weatherData['relative_humidity_2m'] + "%" : "None"),
+                            "visibility": "Visibility: " + Math.round(weatherData['visibility']/1000) + "km",
+                        }
+
+                        for (const x in currentWeather) {
+                            const infoDiv = document.createElement('h4');
+                            infoDiv.className = 'dataHeader weatherScroll';
+                            infoDiv.innerHTML = currentWeather[x];
+                            document.getElementById('weatherBoard').appendChild(infoDiv)
+                        }
+
+                        if (weatherData['is_day']) {
+                            document.querySelectorAll('.dataHeader').forEach((e) => e.style = "color:darkblue;");
+                            document.getElementById('backgroundPicture').src = "daytime.jpg";
+                        } else {
+                            document.querySelectorAll('.dataHeader').forEach((e) => e.style = "color:yellow;");
+                            document.getElementById('backgroundPicture').src = "nighttime.jpg";
+                        }
+
+                        const animationLength = 3;
+                        document.querySelectorAll('.weatherScroll').forEach((e, i, a) => { 
+                            e.animate(
+                                [
+                                    { marginLeft: "150px", offset: 0 },
+                                    { marginLeft: "0px" , offset: (1 / a.length / 5 * 3) },
+                                    { opacity: "100%", offset: (1 / a.length / 5 * 4) },
+                                    { opacity: "0%", offset: (1 / a.length / 5 * 5) },
+                                    { opacity: "0%", offset: 1 },
+                                ],
+                                {
+                                    duration: a.length * animationLength * 1000,
+                                    iterations: Infinity,
+                                    delay: i * animationLength * 1000,
+                                }
+                            );
+                        });
+
                     });
                 } else {
                     console.log("Geolocation is not supported by this browser.");
                 }
 
-                const animationLength = 1;
-                document.querySelectorAll('.light').forEach((e, i, a) => { 
-                    e.animate(
-                        [
-                            { marginLeft: "200px", offset: 0 },
-                            { marginLeft: "0px" , offset: (1 / a.length / 5 * 3) },
-                            { opacity: "100%", offset: (1 / a.length / 5 * 4) },
-                            { opacity: "0%", offset: (1 / a.length / 5 * 5) },
-                            { opacity: "0%", offset: 1 },
-                        ],
-                        {
-                            duration: a.length * animationLength * 1000,
-                            iterations: Infinity,
-                            delay: i * animationLength * 1000,
-                        }
-                    );
-                });
             });
+
         </script>
     </head>
     <body>
-        <div style="position:relative;height:100px;width:200px;border:1px solid black;overflow:hidden;">
-            <div class="light" style="background-color:red"></div>
-            <div class="light" style="background-color:orange"></div>
-            <div class="light" style="background-color:yellow"></div>
-            <div class="light" style="background-color:green"></div>
-            <div class="light" style="background-color:blue"></div>   
-            <div class="light" style="background-color:indigo"></div>
-            <div class="light" style="background-color:violet"></div>     
+        <div id="widgetFrame">
+            <img id="backgroundPicture" width="480px" height="300px" src="./Weather Widget_files/nighttime.jpg">
+            <div style="margin-top:-295px;margin-left:20px;border:1px solid black;width:440px;height:280px;">
+                <h3 class="dataHeader" id="currentLocation" style="color: yellow;">Winnipeg, Manitoba</h3>
+                <div style="display:inline-flex;">
+                    <div id="iconFrame" style="width:150px;height:150px;display:flex;justify-content:center;align-items:center;">
+                        <img id="iconPhoto" style="width:150px;height:150px;" src="./Weather Widget_files/122.png">
+                    </div>
+                    <div style="margin-left:50px;">
+                        <h1 class="dataHeader" id="weatherType" style="color: yellow;">Overcast</h1>
+                        <h2 class="dataHeader" id="currentTemp" style="color: yellow;">Temperature: 0�C</h2>
+                        <div id="weatherBoard" style="position:relative;height:50px;width:200px;margin-top:-30px;">
+
+                        <h4 class="dataHeader weatherScroll" style="color: yellow;">Feels Like: -6�C</h4><h4 class="dataHeader weatherScroll" style="color: yellow;">Wind: 17 km/h WNW</h4><h4 class="dataHeader weatherScroll" style="color: yellow;">Precipitation: None</h4><h4 class="dataHeader weatherScroll" style="color: yellow;">Humidity: 82%</h4><h4 class="dataHeader weatherScroll" style="color: yellow;">Visibility: 17km</h4></div>
+                    </div>
+                </div>
+                <div style="text-align:right;margin-top:40px;"><h4 class="dataHeader" id="currentDateTime" style="color: yellow;">Thu Apr 18 2024, 8:33 PM</h4></div>
+                
+            </div>
         </div>
-    </body>
-</html>
+
+    
+</body></html>
