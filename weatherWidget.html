@@ -15,7 +15,7 @@
             }
 
         </style>
-    <script src="./Weather Widget_files/weatherInfo.js.download"></script>
+    <script src="./weatherInfo.js"></script>
         <script>
             var weatherData;
             var locationData;
@@ -170,22 +170,22 @@
     </head>
     <body>
         <div id="widgetFrame">
-            <img id="backgroundPicture" width="480px" height="300px" src="./Weather Widget_files/nighttime.jpg">
+            <img id="backgroundPicture" width="480px" height="300px">
             <div style="margin-top:-295px;margin-left:20px;border:1px solid black;width:440px;height:280px;">
-                <h3 class="dataHeader" id="currentLocation" style="color: yellow;">Winnipeg, Manitoba</h3>
+                <h3 class="dataHeader" id="currentLocation"></h3>
                 <div style="display:inline-flex;">
                     <div id="iconFrame" style="width:150px;height:150px;display:flex;justify-content:center;align-items:center;">
-                        <img id="iconPhoto" style="width:150px;height:150px;" src="./Weather Widget_files/122.png">
+                        <img id="iconPhoto" style="width:150px;height:150px;">
                     </div>
                     <div style="margin-left:50px;">
-                        <h1 class="dataHeader" id="weatherType" style="color: yellow;">Overcast</h1>
-                        <h2 class="dataHeader" id="currentTemp" style="color: yellow;">Temperature: 0�C</h2>
+                        <h1 class="dataHeader" id="weatherType"></h1>
+                        <h2 class="dataHeader" id="currentTemp"></h2>
                         <div id="weatherBoard" style="position:relative;height:50px;width:200px;margin-top:-30px;">
 
-                        <h4 class="dataHeader weatherScroll" style="color: yellow;">Feels Like: -6�C</h4><h4 class="dataHeader weatherScroll" style="color: yellow;">Wind: 17 km/h WNW</h4><h4 class="dataHeader weatherScroll" style="color: yellow;">Precipitation: None</h4><h4 class="dataHeader weatherScroll" style="color: yellow;">Humidity: 82%</h4><h4 class="dataHeader weatherScroll" style="color: yellow;">Visibility: 17km</h4></div>
+                        </div>
                     </div>
                 </div>
-                <div style="text-align:right;margin-top:40px;"><h4 class="dataHeader" id="currentDateTime" style="color: yellow;">Thu Apr 18 2024, 8:33 PM</h4></div>
+                <div style="text-align:right;margin-top:40px;"><h4 class="dataHeader" id="currentDateTime"></h4></div>
                 
             </div>
         </div>
