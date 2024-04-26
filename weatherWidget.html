@@ -111,7 +111,7 @@
                         console.log(locationData);
                         console.log(weatherData);
 
-                        document.getElementById('currentLocation').innerHTML = locationData['name'] + ", " + locationData['region'];
+                        document.getElementById('currentLocation').innerHTML = locationData['name'] + ", " + locationData['region'] + ", " + locationData['country'];
                         const currentDateAndTime = new Date(locationData['localtime']);
                         document.getElementById('currentDateTime').innerHTML = currentDateAndTime.toDateString() + ", " + currentDateAndTime.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
                         document.getElementById('weatherType').innerHTML = codeList[weatherData['weather_code']][0];
@@ -121,7 +121,7 @@
                         const currentWeather = {
                             "ambient": "Feels Like: " + Math.round(weatherData['apparent_temperature']) + '\u00B0C',
                             "wind": "Wind: " + (Math.round(weatherData['wind_speed_10m']) > 0 ? getWindData(weatherData['wind_speed_10m'],weatherData['wind_direction_10m']) : "None"),
-                            "precipitation": Math.floor(weatherData['rain']) > 0 ? "Rain: " + Math.floor(weatherData['rain']) + "mm" :  Math.floor(weatherData['showers']) > 0 ? "Showers: " + Math.floor(weatherData['showers']) + "mm" : Math.floor(weatherData['snowfall']) > 0 ? "Snow: " + Math.floor(weatherData['snowfall']) + "mm" : "Precipitation: None",
+                            "precipitation": weatherData['rain'] > 0 ? "Rain: " + weatherData['rain'] + "mm" :  weatherData['showers'] > 0 ? "Showers: " + weatherData['showers'] + "mm" : weatherData['snowfall'] > 0 ? "Snow: " + weatherData['snowfall'] + "mm" : "Precipitation: None",
                             "humidity": "Humidity: " + (weatherData['relative_humidity_2m'] > 0 ? weatherData['relative_humidity_2m'] + "%" : "None"),
                             "visibility": "Visibility: " + Math.round(weatherData['visibility']/1000) + "km",
                         }
@@ -135,10 +135,22 @@
 
                         if (weatherData['is_day']) {
                             document.querySelectorAll('.dataHeader').forEach((e) => e.style = "color:darkblue;");
-                            document.getElementById('backgroundPicture').src = "daytime.jpg";
+                            if (weatherData['rain'] > 0) {
+                                document.getElementById('backgroundPicture').src = "daytimeRain.jpg";
+                            } else if (weatherData['snow'] > 0) {
+                                document.getElementById('backgroundPicture').src = "daytimeSnow.jpg";
+                            } else {
+                                document.getElementById('backgroundPicture').src = "daytime.jpg";
+                            }
                         } else {
                             document.querySelectorAll('.dataHeader').forEach((e) => e.style = "color:yellow;");
-                            document.getElementById('backgroundPicture').src = "nighttime.jpg";
+                            if (weatherData['rain'] > 0) {
+                                document.getElementById('backgroundPicture').src = "nighttimeRain.jpg";
+                            } else if (weatherData['snow'] > 0) {
+                                document.getElementById('backgroundPicture').src = "nighttimeSnow.jpg";
+                            } else {
+                                document.getElementById('backgroundPicture').src = "nighttime.jpg";
+                            }                        
                         }
 
                         const animationLength = 3;
@@ -185,7 +197,7 @@
                         </div>
                     </div>
                 </div>
-                <div style="text-align:right;margin-top:40px;"><h4 class="dataHeader" id="currentDateTime"></h4></div>
+                <div style="text-align:right;"><h4 class="dataHeader" id="currentDateTime"></h4></div>
                 
             </div>
         </div>
