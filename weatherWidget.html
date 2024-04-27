@@ -163,22 +163,6 @@
                 }
 
                 const animationLength = 3;
-                document.querySelectorAll('.weatherScroll').forEach((e, i, a) => { 
-                    e.animate(
-                        [
-                            { marginLeft: "150px", offset: 0 },
-                            { marginLeft: "0px" , offset: (1 / a.length / 5 * 3) },
-                            { opacity: "100%", offset: (1 / a.length / 5 * 4) },
-                            { opacity: "0%", offset: (1 / a.length / 5 * 5) },
-                            { opacity: "0%", offset: 1 },
-                        ],
-                        {
-                            duration: a.length * animationLength * 1000,
-                            iterations: Infinity,
-                            delay: i * animationLength * 1000,
-                        }
-                    );
-                });
 
                 return (
                     <div id="widgetFrame">
@@ -196,6 +180,22 @@
                                         {Object.keys(weather).map((key, index) => ( 
                                             <h4 class="dataHeader weatherScroll">{weather[key]}</h4>
                                         ))}
+                                        {document.querySelectorAll('.weatherScroll').forEach((e, i, a) => { 
+                                            e.animate(
+                                                [
+                                                    { marginLeft: "150px", offset: 0 },
+                                                    { marginLeft: "0px" , offset: (1 / a.length / 5 * 3) },
+                                                    { opacity: "100%", offset: (1 / a.length / 5 * 4) },
+                                                    { opacity: "0%", offset: (1 / a.length / 5 * 5) },
+                                                    { opacity: "0%", offset: 1 },
+                                                ],
+                                                {
+                                                    duration: a.length * animationLength * 1000,
+                                                    iterations: Infinity,
+                                                    delay: i * animationLength * 1000,
+                                                }
+                                            );
+                                        })}
                                     </div>
                                 </div>
                             </div>
