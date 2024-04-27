@@ -1,8 +1,55 @@
 <!DOCTYPE html>
-<!-- saved from url=(0094)file:///C:/Users/IansAcerLaptop/OneDrive/Documents/GitHub/iansSmallProjects/weatherWidget.html -->
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
-        <title>Weather Widget</title>
+<html lang="en">
+    <head>
+        <script src="https://unpkg.com/react@17/umd/react.production.min.js" crossorigin></script>
+        <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js" crossorigin></script>
+        <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+        <script src="./weatherInfo.js"></script>
         <style>
+            #widgetFrame {
+                width:480px;
+                height:300px;
+            }
+
+            #backgroundPicture {
+                width:480px;
+                height:300px;
+            }
+
+            #widgetContent {
+                margin-top:-295px;
+                margin-left:20px;
+                width:440px;
+                height:280px;
+            }
+
+            #widgetInfo {
+                display:inline-flex;
+            }
+
+            #iconFrame {
+                width:150px;
+                height:150px;
+                display:flex;
+                justify-content:center;
+                align-items:center;
+            }
+
+            #iconPhoto {
+                width:150px;
+                height:150px;
+            }
+
+            #weatherHeaders {
+                margin-left:50px;
+            }
+
+            #weatherBoard {
+                position:relative;
+                height:50px;
+                width:200px;
+                margin-top:-30px;
+            }
 
             .weatherScroll {
                 width:200px;
@@ -11,196 +58,163 @@
                 position:absolute;
                 top:0;
                 left:0;
-                color:black;
             }
 
+            .dataHeader {
+                color:white;
+            }
+
+            #timeDisplay {
+                text-align:right;
+            }
         </style>
-    <script src="./weatherInfo.js"></script>
-        <script>
-            var weatherData;
-            var locationData;
-
-            async function getLocationData(latitudeGiven,longitudeGiven) {
-                const fetchString = "https://api.weatherapi.com/v1/current.json?key=" + weatherApiKey + "&q=" + latitudeGiven + "," + longitudeGiven + "&aqi=no";
-                const locationPromise = await fetch(fetchString);
-                if (!locationPromise.ok) {
-                    throw new Error("HTTP error " + locationPromise.status);
-                }
-                const locationJson = await locationPromise.json();
-                return locationJson['location'];
-            }
-
-            async function getWeatherData(latitudeGiven,longitudeGiven) {
-                const fetchString = "https://api.open-meteo.com/v1/forecast?latitude=" + latitudeGiven + "&longitude=" + longitudeGiven + "&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,rain,showers,snowfall,weather_code,cloud_cover,wind_speed_10m,wind_direction_10m,visibility"
-                const weatherPromise = await fetch(fetchString);
-                if (!weatherPromise.ok) {
-                    throw new Error("HTTP error " + weatherPromise.status);
-                }
-                const weatherJson = await weatherPromise.json();
-                return weatherJson['current'];
-            }
-
-            function getWindData(windSpeed,windDirection) {
-                const directions = [
-                    'N',
-                    'NNE',
-                    'NE',
-                    'ENE',
-                    'E',
-                    'ESE',
-                    'SE',
-                    'SSE',
-                    'S',
-                    'SSW',
-                    'SW',
-                    'WSW',
-                    'W',
-                    'WNW',
-                    'NW',
-                    'NNW',
-                    'N'
-                ];
-
-                return parseInt(windSpeed) + " km/h " + (parseInt(windSpeed) > 0 ? directions[Math.round(parseFloat(windDirection)/22.5)] : "");
-            }
-
-            const codeList = {
-                0: ["Clear", 113],
-                1: ["A Few Clouds", 116],
-                2: ["Partly Cloudy", 119],
-                3: ["Overcast", 122],
-                45: ["Fog", 248],
-                48: ["Depositing Fog", 260],
-                51: ["Light Drizzle", 266],
-                53: ["Moderate Drizzle", 266],
-                55: ["Intense Drizzle", 266],
-                56: ["Light Freezing Drizzle", 281],
-                57: ["Dense Freezing Drizzle", 284],
-                61: ["Light Rain", 296],
-                63: ["Moderate Rain", 302],
-                65: ["Heavy Rain", 308],
-                66: ["Light Freezing Rain", 311],
-                67: ["Heavy Freezing Rain", 314],
-                71: ["Light Snowfall", 326],
-                73: ["Moderate Snowfall", 332],
-                75: ["Heavy Snowfall", 338],
-                77: ["Ice Pellets", 350],
-                80: ["Light Rain Showers", 353],
-                81: ["Moderate Rain Showers", 356],
-                82: ["Heavy Rain Showers", 356],
-                85: ["Light Snow Showers", 368],
-                86: ["Heavy Snow Showers", 371],
-                95: ["Thunderstorm", 389],
-            }
-
-            document.addEventListener('DOMContentLoaded', async function () {
-                var latitude;
-                var longitude;
-
-                if (navigator.geolocation) {
-                    await navigator.geolocation.getCurrentPosition(async function(position) {
-                        latitude = position.coords.latitude;
-                        longitude = position.coords.longitude;
-
-                        // console.log(latitude);
-                        // console.log(longitude);
-
-                        locationData = await getLocationData(latitude,longitude);
-                        weatherData = await getWeatherData(latitude,longitude);
-
-                        console.log(locationData);
-                        console.log(weatherData);
-
-                        document.getElementById('currentLocation').innerHTML = locationData['name'] + ", " + locationData['region'] + ", " + locationData['country'];
-                        const currentDateAndTime = new Date(locationData['localtime']);
-                        document.getElementById('currentDateTime').innerHTML = currentDateAndTime.toDateString() + ", " + currentDateAndTime.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
-                        document.getElementById('weatherType').innerHTML = codeList[weatherData['weather_code']][0];
-                        document.getElementById('currentTemp').innerHTML = "Temperature: " + Math.round(weatherData['temperature_2m']) + '\u00B0C';
-                        document.getElementById('iconPhoto').src = "https://cdn.weatherapi.com/weather/64x64/" + (weatherData['is_day'] ? "day" : "night") + "/" + codeList[weatherData['weather_code']][1] + ".png";
-
-                        const currentWeather = {
-                            "ambient": "Feels Like: " + Math.round(weatherData['apparent_temperature']) + '\u00B0C',
-                            "wind": "Wind: " + (Math.round(weatherData['wind_speed_10m']) > 0 ? getWindData(weatherData['wind_speed_10m'],weatherData['wind_direction_10m']) : "None"),
-                            "precipitation": weatherData['rain'] > 0 ? "Rain: " + weatherData['rain'] + "mm" :  weatherData['showers'] > 0 ? "Showers: " + weatherData['showers'] + "mm" : weatherData['snowfall'] > 0 ? "Snow: " + weatherData['snowfall'] + "mm" : "Precipitation: None",
-                            "humidity": "Humidity: " + (weatherData['relative_humidity_2m'] > 0 ? weatherData['relative_humidity_2m'] + "%" : "None"),
-                            "visibility": "Visibility: " + Math.round(weatherData['visibility']/1000) + "km",
-                        }
-
-                        for (const x in currentWeather) {
-                            const infoDiv = document.createElement('h4');
-                            infoDiv.className = 'dataHeader weatherScroll';
-                            infoDiv.innerHTML = currentWeather[x];
-                            document.getElementById('weatherBoard').appendChild(infoDiv)
-                        }
-
-                        if (weatherData['is_day']) {
-                            document.querySelectorAll('.dataHeader').forEach((e) => e.style = "color:darkblue;");
-                            if (weatherData['rain'] > 0) {
-                                document.getElementById('backgroundPicture').src = "daytimeRain.jpg";
-                            } else if (weatherData['snow'] > 0) {
-                                document.getElementById('backgroundPicture').src = "daytimeSnow.jpg";
-                            } else {
-                                document.getElementById('backgroundPicture').src = "daytime.jpg";
-                            }
-                        } else {
-                            document.querySelectorAll('.dataHeader').forEach((e) => e.style = "color:yellow;");
-                            if (weatherData['rain'] > 0) {
-                                document.getElementById('backgroundPicture').src = "nighttimeRain.jpg";
-                            } else if (weatherData['snow'] > 0) {
-                                document.getElementById('backgroundPicture').src = "nighttimeSnow.jpg";
-                            } else {
-                                document.getElementById('backgroundPicture').src = "nighttime.jpg";
-                            }                        
-                        }
-
-                        const animationLength = 3;
-                        document.querySelectorAll('.weatherScroll').forEach((e, i, a) => { 
-                            e.animate(
-                                [
-                                    { marginLeft: "150px", offset: 0 },
-                                    { marginLeft: "0px" , offset: (1 / a.length / 5 * 3) },
-                                    { opacity: "100%", offset: (1 / a.length / 5 * 4) },
-                                    { opacity: "0%", offset: (1 / a.length / 5 * 5) },
-                                    { opacity: "0%", offset: 1 },
-                                ],
-                                {
-                                    duration: a.length * animationLength * 1000,
-                                    iterations: Infinity,
-                                    delay: i * animationLength * 1000,
-                                }
-                            );
-                        });
-
-                    });
-                } else {
-                    console.log("Geolocation is not supported by this browser.");
-                }
-
-            });
-
-        </script>
+        <title>Weather Widget</title>
     </head>
-    <body style="width:480px;height:300px;margin:0px;">
-        <div id="widgetFrame" style="width:480px;height:300px;">
-            <img id="backgroundPicture" width="480px" height="300px">
-            <div style="margin-top:-295px;margin-left:20px;width:440px;height:280px;">
-                <h3 class="dataHeader" id="currentLocation"></h3>
-                <div style="display:inline-flex;">
-                    <div id="iconFrame" style="width:150px;height:150px;display:flex;justify-content:center;align-items:center;">
-                        <img id="iconPhoto" style="width:150px;height:150px;">
-                    </div>
-                    <div style="margin-left:50px;">
-                        <h1 class="dataHeader" id="weatherType"></h1>
-                        <h2 class="dataHeader" id="currentTemp"></h2>
-                        <div id="weatherBoard" style="position:relative;height:50px;width:200px;margin-top:-30px;">
+    <body>
+        <div id="app"></div>
 
+        <script type="text/babel">
+
+
+            function App() {
+                const [position, setPosition] = 
+                React.useState({
+                    latitude: null,
+                    longitude: null,
+                });
+
+                const [headers, setHeaders] =
+                React.useState({
+                    backgroundImage: null,
+                    city : null,
+                    condition: null,
+                    icon: null,
+                    temperature: null,
+                    isDay: null,
+                });
+
+                const [weather, setWeather] =
+                React.useState({
+                    feelsLike : null,
+                    precipitation : null,
+                    wind: null,
+                    humidity: null,
+                    visibility: null,
+                });
+
+                React.useEffect(() => {
+                    if (navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition(function showPosition(positionGiven){
+                            setPosition({
+                                latitude: positionGiven.coords.latitude,
+                                longitude: positionGiven.coords.longitude,
+                            });
+                        });
+                    } else {
+                        document.getElementById("demo").innerHTML =
+                            "Geolocation is not supported by this browser.";
+                    }
+
+                    const animationLength = 3;
+                }, []);
+
+                React.useEffect(() => {
+                    getWeatherData();
+                }, [position.latitude,position.longitude]);
+
+                setInterval(getWeatherData, 60000);
+
+                function getWeatherData() {
+
+                    if (position.latitude && position.longitude) {
+                        const fetchString = "https://api.weatherapi.com/v1/current.json?key=" + weatherApiKey + "&q=" + position.latitude + "," + position.longitude + "&aqi=no";
+                        fetch(fetchString)
+                        .then((response) => {
+                            return response.json();
+                        })
+                        .then((data) => {
+                            const rainCodes = [1150,1153,1168,1171,1180,1183,1186,1189,1192,1195,1198,1201,1204,1207,1240,1243,1246,1249,1252,1273,1276];
+                            const snowCodes = [1210,1213,1216,1219,1222,1225,1237,1255,1258,1261,1264,1279,1282];
+
+                            // const backgroundImage = data.current.is_day ? parseInt(data.current.condition.code) in rainCodes ? "daytimeRain.jpg" : parseInt(data.current.condition.code) in snowCodes ? "daytimeSnow.jpg" : "daytime.jpg" : parseInt(data.current.condition.code) in rainCodes ? "nighttimeRain.jpg" : parseInt(data.current.condition.code) in snowCodes ? "nighttimeSnow.jpg" : "nighttime.jpg";
+                            setHeaders({
+                                backgroundImage: rainCodes.includes(parseInt(data.current.condition.code)) ? data.current.is_day ? "daytimeRain.jpg" : "nighttimeRain.jpg" : snowCodes.includes(parseInt(data.current.condition.code)) ? data.current.is_day ? "daytimeSnow.jpg" : "nighttimeSnow.jpg" : data.current.is_day ? "daytime.jpg" : "nighttime.jpg",
+                                city : data.location.name + ", " + data.location.region + ", " + data.location.country,
+                                condition: data.current.condition.text,
+                                icon: "https:" + data.current.condition.icon,
+                                temperature: data.current.temp_c + '\u00B0C',
+                                isDay: data.current.is_day,
+                            });
+
+                            document.querySelectorAll('.dataHeader').forEach((e) => e.style = data.current.is_day ? "color:darkblue;" : "color:yellow;");
+
+                            setWeather({
+                                feelsLike: "Feels Like: " + Math.round(data.current.feelslike_c) + '\u00B0C',
+                                precipitaion: "Precipitation: " + (data.current.precip_mm > 0 ? (data.current.precip_mm + "mm") : "None"),
+                                wind: "Winds: " + (data.current.wind_kph > 0 ? (Math.round(data.current.wind_kph) + "km/h " + data.current.wind_dir) : "Calm"),
+                                humidity: "Humidity: " + data.current.humidity + "%",
+                                visibility: "Visibility: " + data.current.vis_km + "km",
+                            })
+                            
+                        });
+                    }
+
+
+                }
+
+                const animationLength = 3;
+                document.querySelectorAll('.weatherScroll').forEach((e, i, a) => { 
+                    e.animate(
+                        [
+                            { marginLeft: "150px", offset: 0 },
+                            { marginLeft: "0px" , offset: (1 / a.length / 5 * 3) },
+                            { opacity: "100%", offset: (1 / a.length / 5 * 4) },
+                            { opacity: "0%", offset: (1 / a.length / 5 * 5) },
+                            { opacity: "0%", offset: 1 },
+                        ],
+                        {
+                            duration: a.length * animationLength * 1000,
+                            iterations: Infinity,
+                            delay: i * animationLength * 1000,
+                        }
+                    );
+                });
+
+                return (
+                    <div id="widgetFrame">
+                        <img id="backgroundPicture" src={headers.backgroundImage}/>
+                        <div id="widgetContent">
+                            <h3 class="dataHeader" id="currentLocation">{headers.city}</h3>
+                            <div id="widgetInfo">
+                                <div id="iconFrame">
+                                    <img id="iconPhoto" src={headers.icon}/>
+                                </div>
+                                <div id="weatherHeaders">
+                                    <h1 class="dataHeader" id="weatherType">{headers.condition}</h1>
+                                    <h2 class="dataHeader" id="currentTemp">Temperature: {headers.temperature}</h2>
+                                    <div id="weatherBoard">
+                                        {Object.keys(weather).map((key, index) => ( 
+                                            <h4 class="dataHeader weatherScroll">{weather[key]}</h4>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="timeDisplay"><h4 class="dataHeader" id="currentDateTime">
+                                {new Date().toDateString() + ", " + new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}
+                            </h4></div>
                         </div>
-                    </div>
-                </div>
-                <div style="text-align:right;"><h4 class="dataHeader" id="currentDateTime"></h4></div>
-                
-            </div>
-        </div>
 
-    
-</body></html>
+
+                    </div>
+                );
+
+
+
+
+
+            }
+
+            ReactDOM.render(<App />, document.querySelector("#app"));
+        </script>
+    </body>
+</html>
