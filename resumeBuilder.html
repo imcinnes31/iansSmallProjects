@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Resume Builder</title>
+        <script src="skillsDictionary.js"></script>
+        <script src="coverLetterPhrases.js"></script>
+        <script>
+            let resumeSkillsDict = {};
+
+            function displaySelectedSkills() {
+                resumeContent = {}
+                resumeContent['resumeSummary'] = [];
+                resumeContent['keySkills'] = [];
+                resumeContent['jobExperience'] = {};
+
+                resumeSkillsDict = {};
+                let skillsQuery = {};
+                const skillMenus = document.getElementById("qualifyConverted").querySelectorAll("select");
+                skillMenus.forEach((menu) => {
+                    if (!menu.options[menu.selectedIndex].disabled) {
+                        if (!(menu.options[menu.selectedIndex].value.split(' - ')[0] in skillsQuery)) {
+                            skillsQuery[menu.options[menu.selectedIndex].value.split(' - ')[0]] = [];
+                        }
+                        if (!skillsQuery[menu.options[menu.selectedIndex].value.split(' - ')[0]].includes(menu.options[menu.selectedIndex].value.split(' - ')[1])) {
+                            skillsQuery[menu.options[menu.selectedIndex].value.split(' - ')[0]].push(menu.options[menu.selectedIndex].value.split(' - ')[1]);
+                        }
+                    }
+                });
+                for (const x in skillsDictionary) {
+                    if (Object.keys(skillsQuery).includes(skillsDictionary[x]['name'])) {
+                        resumeSkillsDict[x] = [];
+                        for (const y in skillsDictionary[x]['skills']) {
+                            if (skillsQuery[skillsDictionary[x]['name']].includes(y)) {
+                                if (skillsDictionary[x]['name'] == 'Experience') {
+                                    // console.log(skillsDictionary[x]['skills'][y]['desc']);
+                                    resumeSkillsDict[x].push(y);
+                                } else {
+                                    resumeSkillsDict[x].push(y);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (Object.keys(resumeSkillsDict).includes("Job Skills")) {
+                    for (const x in skillsDictionary['Job Skills']['skills']) {
+                        if (resumeSkillsDict["Job Skills"].includes(x)) {
+                            resumeContent['resumeSummary'].push(skillsDictionary['Job Skills']['skills'][x]['desc'])
+                        }
+                    }
+                }
+
+                if (Object.keys(resumeSkillsDict).includes("Other Skills")) {
+                    for (const x in skillsDictionary['Other Skills']['skills']) {
+                        if (resumeSkillsDict["Other Skills"].includes(x)) {
+                            resumeContent['resumeSummary'].push(skillsDictionary['Other Skills']['skills'][x])
+                        }
+                    }
+                }
+
+                document.querySelectorAll(".qualRow").forEach((row) => {
+                    const rowId = row.id.replace("row","");
+                    if (document.getElementById("include" + rowId).checked == true) {
+                        const includeQualText = document.getElementById("qual" + rowId).value.split(". ")[0].split("(")[0];;
+                        resumeContent['resumeSummary'].push(includeQualText.charAt(0).toUpperCase() + includeQualText.slice(1));
+                    }
+                });
+
+                for (const x in resumeSkillsDict) {
+                    if (x == "Job Skills") {
+                        for (const v in resumeSkillsDict["Job Skills"]) {
+                            for (const w in skillsDictionary["Job Skills"]['skills']) {
+                                if (resumeSkillsDict["Job Skills"][v] == w) {
+                                    for (const u in skillsDictionary["Job Skills"]['skills'][w]['jobs']) {
+                                        if (!Object.keys(resumeContent['jobExperience']).includes(u)) {
+                                            resumeContent['jobExperience'][u] = {};
+                                            resumeContent['jobExperience'][u]['name'] = jobNames[u]['name'];
+                                            resumeContent['jobExperience'][u]['location'] = jobNames[u]['location'];
+                                            resumeContent['jobExperience'][u]['date'] = jobNames[u]['date'];
+                                            resumeContent['jobExperience'][u]['title'] = jobNames[u]['title'];
+                                            resumeContent['jobExperience'][u]['skills'] = [];
+                                        }
+                                        for (const t in skillsDictionary["Job Skills"]['skills'][w]['jobs'][u]) {
+                                            resumeContent['jobExperience'][u]['skills'].push(skillsDictionary["Job Skills"]['skills'][w]['jobs'][u][t]);
+                                        }
+                                    }
+                                    break;
+                                }
+                            }
+                        }
+                    } else if (x == "Red River College") {
+                        resumeContent['Education'] = {};
+                        resumeContent['Education']['name'] = "Red River Community College";
+                        resumeContent['Education']['date'] =  "Jun 2019 - Jun 2021";
+
+                        for (const v in resumeSkillsDict["Red River College"]) {
+                            for (const w in skillsDictionary["Red River College"]['skills']) {
+                                if (resumeSkillsDict["Red River College"][v] == w) {
+                                    resumeContent['Education'][w] = skillsDictionary["Red River College"]['skills'][w];
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    for (const y in resumeSkillsDict[x]) {
+                        resumeContent['keySkills'].push(resumeSkillsDict[x][y]);
+                    }
+                }
+
+                let resumeText = "";
+                document.getElementById("resumeTextField").style.display = "block";
+                console.log(resumeContent);
+
+                if (resumeContent['resumeSummary']) {
+                    resumeText += "Summary";
+                    resumeText += "\n\n";
+                    for (const x in resumeContent['resumeSummary']) {
+                        resumeText += "- " + resumeContent['resumeSummary'][x] + "\n";
+                    }
+                    resumeText += "\n";
+                }
+
+                if (resumeContent['jobExperience']) {
+                    resumeText += "Job Experience";
+                    resumeText += "\n\n";
+                    for (const x in resumeContent['jobExperience']) {
+                        resumeText += "\n";
+                        resumeText += resumeContent['jobExperience'][x]['name'];
+                        resumeText += "\n";
+                        for (const y in resumeContent['jobExperience'][x]['skills']) {
+                            resumeText += "- " + resumeContent['jobExperience'][x]['skills'][y] + "\n";
+                        }
+                    }
+                    resumeText += "\n\n";
+                }
+
+                if (resumeContent['Education']) {
+                    resumeText += "Education";
+                    resumeText += "\n\n";
+                    for (const x in resumeContent['Education']) {
+                        if (x == "name") {
+                            resumeText += resumeContent['Education'][x];
+                            resumeText += "\n\n";
+                        } else if (x == "date") {
+
+                        } else {
+                            resumeText += x + "\n";
+                            for (const y in resumeContent['Education'][x]) {
+                                resumeText += "- " + resumeContent['Education'][x][y] + "\n";
+                            }
+                            resumeText += "\n";
+                        }
+
+                    }
+                }
+
+                if (resumeContent['keySkills']) {
+                    resumeText += "Key Skills";
+                    resumeText += "\n\n";
+                    for (const x in resumeContent['keySkills']) {
+                        resumeText += resumeContent['keySkills'][x] + "\n";
+                    }
+                    resumeText += "\n\n";
+                }
+
+                document.getElementById("resumeTextField").innerHTML = resumeText;
+
+            }
+
+            function correctGrammar(phrase) {
+                for (const x in grammarCorrections) {
+                    if (grammarCorrections[x].includes(phrase.split(" ")[0])) {
+                        phrase = x + " " + phrase;
+                        break;
+                    }
+                }
+                return phrase;
+            }
+
+            function displayCoverLetter() {
+                let coverLetterText = "";
+                const numRows = document.querySelectorAll(".qualRow").length;
+
+                document.getElementById("coverLetterTextField").style.display = "block";
+
+                document.querySelectorAll(".qualRow").forEach((row) => {
+                    const rowId = row.id.replace("row","");
+                    if (document.getElementById("start" + rowId).checked == true) {
+                        const currentPhraseMenu = document.getElementById("phrase" + rowId);
+                        if (currentPhraseMenu.options[currentPhraseMenu.selectedIndex].disabled == false) {
+                            coverLetterText += "I would be a great fit for this position because ";
+                            coverLetterText += currentPhraseMenu.options[currentPhraseMenu.selectedIndex].innerHTML;
+                            coverLetterText += correctGrammar(document.getElementById("qual" + rowId).value.split(". ")[0].split("(")[0]);
+                            coverLetterText += ". ";
+                        }
+                    }
+                });
+
+                coverPhraseDict = {};
+
+                document.querySelectorAll(".qualRow").forEach((row) => {
+                    const rowId = row.id.replace("row","");
+                    if (document.getElementById("none" + rowId).checked == true) {
+                        const currentPhraseMenu = document.getElementById("phrase" + rowId);
+                        if (currentPhraseMenu.options[currentPhraseMenu.selectedIndex].disabled == false) {
+                            if (!Object.keys(coverPhraseDict).includes(currentPhraseMenu.options[currentPhraseMenu.selectedIndex].innerHTML)) {
+                                coverPhraseDict[currentPhraseMenu.options[currentPhraseMenu.selectedIndex].innerHTML] = [];
+                            }
+                            coverPhraseDict[currentPhraseMenu.options[currentPhraseMenu.selectedIndex].innerHTML].push(document.getElementById("qual" + rowId).value.split(". ")[0].split("(")[0]);
+                        }
+                    }
+                });
+
+                for (const x in coverPhraseDict) {
+                    coverLetterText += x;
+                    if (coverPhraseDict[x].length == 2) {
+                        coverLetterText += correctGrammar(coverPhraseDict[x][0]);
+                        coverLetterText += ", as well as ";
+                        coverLetterText += correctGrammar(coverPhraseDict[x][1]);
+                    } else if (coverPhraseDict[x].length > 2) {
+                        for (const y in coverPhraseDict[x]) {
+                            if ((parseInt(y) + 1) == coverPhraseDict[x].length) {
+                                coverLetterText += ", and ";
+                            } else if (parseInt(y) > 0) {
+                                coverLetterText += ", ";
+                            }
+                            coverLetterText += correctGrammar(coverPhraseDict[x][y]);
+                        }
+                    } else {
+                        coverLetterText += correctGrammar(coverPhraseDict[x][0]);
+                    }
+                    coverLetterText += ". ";
+                }
+                coverLetterText = coverLetterText.replaceAll(" .",".").replaceAll(" , ",", ");
+
+                document.querySelectorAll(".qualRow").forEach((row) => {
+                    const rowId = row.id.replace("row","");
+                    if (document.getElementById("end" + rowId).checked == true) {
+                        const currentPhraseMenu = document.getElementById("phrase" + rowId);
+                        if (currentPhraseMenu.options[currentPhraseMenu.selectedIndex].disabled == false) {
+                            coverLetterText += "Most importantly of all, ";
+                            coverLetterText += currentPhraseMenu.options[currentPhraseMenu.selectedIndex].innerHTML;
+                            coverLetterText += correctGrammar(document.getElementById("qual" + rowId).value.split(". ")[0].split("(")[0]);
+                            coverLetterText += ". ";
+                        }
+                    }
+                });
+
+                document.getElementById("coverLetterTextField").innerHTML = coverLetterText;
+
+                displaySelectedSkills();
+            }
+
+            function handleClick(e) {
+                let rowSets = document.getElementById("qualifyConverted").querySelectorAll(".qualRow");
+                rowSets.forEach((row) => {
+                    const rowNumber = row.id.replace("row","");
+                    if (e.id.includes("start")) {
+                        if (rowNumber != e.id.replace("start","") && document.getElementById("start" + rowNumber).checked == true) {
+                            document.getElementById("start" + rowNumber).checked = false;
+                            document.getElementById("none" + rowNumber).checked = true;
+                        }
+                    }
+                    else if (e.id.includes("end")) {
+                        if (rowNumber != e.id.replace("end","") && document.getElementById("end" + rowNumber).checked == true) {
+                            document.getElementById("end" + rowNumber).checked = false;
+                            document.getElementById("none" + rowNumber).checked = true;
+                        }
+                    }
+                });
+
+                displayCoverLetter();
+            }
+
+            function convertQualify() {
+                document.getElementById("qualifyConverted").innerHTML = null;
+
+                const qualText = document.getElementById("qualifyText").value.replaceAll("- ","").split("\n");
+                document.getElementById("qualifyText").innerHTML = null;
+                for (const x in qualText) {
+                    let newRow = document.createElement("div");
+                    newRow.className = "qualRow";
+                    newRow.id = "row" + x;
+
+                    newRow.appendChild(document.createElement("br"));
+
+                    let newQualCell = document.createElement("input");
+                    newQualCell.id = "qual" + x;
+                    newQualCell.type = "text";
+                    newQualCell.style = "width:750px";
+                    let newQualText = qualText[x];
+                    
+                    newQualCell.value = newQualText.charAt(0).toLowerCase() + newQualText.slice(1);
+                    newQualCell.addEventListener('change', displayCoverLetter);
+                    newRow.appendChild(newQualCell);
+
+                    let newQualInfoCell = document.createElement("div");
+
+                    let newDropCell = document.createElement("div");
+                    let newDropMenu = document.createElement("select");
+                    newDropMenu.id = "skill" + x;
+                    newDropMenu.style = "width:500px";
+                    let selectOption = document.createElement("option");
+                    selectOption.innerHTML = "--select relevant skill--";
+                    selectOption.disabled = true;
+                    selectOption.selected = true;
+                    newDropMenu.appendChild(selectOption);
+                    for (const y in skillsDictionary) {
+                        for (const z in skillsDictionary[y]['skills']) {
+                            let skillOption = document.createElement("option");
+                            skillOption.innerHTML = skillsDictionary[y]['name'] + " - " + z;
+                            newDropMenu.appendChild(skillOption);
+                        }
+                    }
+                    newDropMenu.addEventListener('change', displaySelectedSkills);
+                    newDropCell.appendChild(newDropMenu);                    
+                    newQualInfoCell.appendChild(newDropCell);
+
+                    let newLetterCell = document.createElement("div");
+                    let newLetterDropMenu = document.createElement("select");
+                    newLetterDropMenu.id = "phrase" + x;
+                    newLetterDropMenu.style = "width:500px";
+                    let letterSelectOption = document.createElement("option");
+                    letterSelectOption.innerHTML = "--select cover letter phrase--";
+                    letterSelectOption.disabled = true;
+                    letterSelectOption.selected = true;
+                    newLetterDropMenu.appendChild(letterSelectOption);
+                    for (const y in letterPhrases) {
+                        let letterOption = document.createElement("option");
+                        letterOption.innerHTML = letterPhrases[y];
+                        newLetterDropMenu.appendChild(letterOption);
+                    }
+                    for (const i in jobPhrases) {
+                        for (const j in jobNames) {
+                            let letterOption = document.createElement("option");
+                            letterOption.innerHTML = jobPhrases[i].replace("***",j);
+                            newLetterDropMenu.appendChild(letterOption);
+                        }
+                    }
+                    newLetterDropMenu.addEventListener('change', displayCoverLetter);
+                    newLetterCell.appendChild(newLetterDropMenu);                    
+                    newQualInfoCell.appendChild(newLetterCell);
+
+                    let newControlCell = document.createElement("div");
+                    newControlCell.style = "width:500px;display:inline-flex;";
+
+                    let newRadioCell = document.createElement("div");
+                    newRadioCell.style = "width:180px";
+                    newRadioCell.className = "radioSelection";
+                    newRadioCell.innerHTML = 
+                    '<input type="radio" id="start' + x + '" name="phraseSelection' + x + '" value="Start" onclick="handleClick(this)">'
+                    + '<label for="start' + x + '">Start</label>'
+                    + '<input type="radio" id="end' + x + '" name="phraseSelection' + x + '" value="End" onclick="handleClick(this)">'
+                    + '<label for="end' + x + '">End</label>'
+                    + '<input type="radio" id="none' + x + '" name="phraseSelection' + x + '" value="None" onclick="handleClick(this)" checked=true>'
+                    + '<label for="none' + x + '">None</label>';
+                    newControlCell.appendChild(newRadioCell);
+
+                    let newIncludeCell = document.createElement("div");
+                    newIncludeCell.style = "width:180px";
+                    newIncludeCell.innerHTML = '<input type="checkbox" onclick="displaySelectedSkills()" name="include' + x + '" id="include' + x + '">'
+                    + '<label for="include' + x + '">Include in Resume</label>';
+                    newControlCell.appendChild(newIncludeCell);
+
+                    let newDelCell = document.createElement("div");
+                    newDelCell.style = "width:70px";
+                    let newDelButton = document.createElement("input");
+                    newDelButton.type = "button";
+                    newDelButton.style= "width:60px";
+                    newDelButton.value = "Delete";
+                    newDelButton.id = "del" + x;
+                    newDelButton.onclick = function() {
+                        document.getElementById("qualifyConverted").removeChild(document.getElementById("row" + x));
+                    };
+                    newDelCell.appendChild(newDelButton);
+                    newControlCell.appendChild(newDelCell);
+
+                    newQualInfoCell.appendChild(newControlCell);
+                    newRow.appendChild(newQualInfoCell);
+
+                    document.getElementById("qualifyConverted").appendChild(newRow);
+
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <textarea id="qualifyText" style="width:750px;height:200px;" onchange='convertQualify()'></textarea>
+        <div id="qualifyConverted"></div>
+        <textarea id="coverLetterTextField" style="width:750px;height:200px;display:none;"></textarea>
+        <textarea id="resumeTextField" style="width:750px;height:200px;display:none;"></textarea>
+    </body>
+</html>
