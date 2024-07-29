@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Cover Letter Writing</title>
+        <script>
+            var letterContent;
+            const letterCategories = {
+                "frontEnd":"",
+                "backEnd":"",
+                "databases":"",
+                "software":"",
+                "deployment":""
+            }
+            const letterStrings = {
+                "htmlCSSJavascript": "I am experienced in building client side web pages with " + 
+                    "HTML, CSS, and JavaScript,",
+                "react": " as well as constructing and using React components,",
+                "bootstrap": " and using Bootstrap to give them a professional touch.",
+
+                "java": "I have an Oracle Certification in Java Programming, together with a " +
+                    "college GPA of 4.5 in Java Programming Courses,",
+                "springBoot": " while being able to build and use APIs with Spring Boot.",
+                "python": "I have built many of my own applications with Python,",
+                "django": " using Django or Flask frameworks.",
+                "node": "I also have experience using Node.js to read and write data or files,",
+                "express": " while using Express to create and use APIs.",
+
+                "SQL": "I am adept in creating tables, queries, procedures, " + 
+                    "indexes, and views in SQL databases,",
+                "MySQL": " primarily using MySQL.",
+                "mongoDB": "I have built, entered, queried, and updated data in MongoDB databases.",
+
+                "eclipse": " Eclipse for my Java projects,",
+                "visualStudio": " Visual Studio for many of my web applications,",
+                "microsoftOffice": " am experienced in using Microsoft Word, Excel, Outlook, " +
+                    "and Access,",
+                "SQLServer": " Microsoft SQL Server for SQL Databases,",
+                "MySQLWorkbench": " MySQLWorkbench for MySQL Databases,",
+                "mongoDBCompass": " MongoDB Compass for MongoDB databases,",
+                "postman": " Postman to test requests to APIs,",
+                
+                "gitHub": " use Github to host static web applications or to control versions of " +
+                    "full stack ones,",
+                "heroku": " have hosted some full stack web applications with databases on Heroku,",
+                "firebase": " have experience in using Firebase to host client side web pages,",
+            };
+
+            document.addEventListener('DOMContentLoaded', () => {
+                document.querySelectorAll("input[type='checkbox']").forEach((checkbox)=>{
+                    checkbox.addEventListener('change', (e) => {
+                        constructLetter();
+                    });
+                });
+            });
+
+            function constructLetter() {
+                letterContent = "";
+
+                const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+                const todaysDate = new Date();
+                letterContent += months[todaysDate.getMonth()] + " " + todaysDate.getDate() + ", " + todaysDate.getFullYear();
+
+                companyName = document.getElementById('companyName').value.trim();
+                shortCompanyName = companyName.length > 0 ? companyName.split(" ")[0] : "";
+                positionTitle = document.getElementById('position').value.trim();
+                companyAddress = document.getElementById('companyAddress').value.trim();
+                hrName = document.getElementById('humanResourcesName').value.trim();
+                hrPosition = document.getElementById('humanResourcesPosition').value.trim();
+
+                // companyName = "Relish New Brand Experience Inc.";
+                // shortCompanyName = companyName.length > 0 ? companyName.split(" ")[0] : "";
+                // positionTitle = "Software Developer";
+                // companyAddress = "200-141 Bannatyne Avenue, Winnipeg, MB R3B 0R3";
+                // hrName = document.getElementById('humanResourcesName').value;
+                // hrPosition = document.getElementById('humanResourcesPosition').value;
+
+                letterContent += "\n\n" + companyName + "\n" + companyAddress.replace(", Winnipeg","\nWinnipeg") + "\nAttn: ";
+                if (hrName.length == 0) {
+                    letterContent += shortCompanyName + " Hiring Team";
+                } else {
+                    letterContent += hrName + " - " + hrPosition;
+                }
+
+                letterContent += "\n\n\nSUBJECT: " + positionTitle;
+
+                letterContent += "\n\nAs an avid software programmer, I genuinely enjoy the whole " +
+                "programming process: writing code, modifying it, integrating it, and testing it," + 
+                " then going back in to make it better. This is why I am excited about joining the " +
+                shortCompanyName + " team in the role of " + positionTitle + "."
+
+                letterContent += "\n\nI would be a great fit for this position because ";
+                var softwareSentences = [];
+                var softwareCount = 0;
+                var deploySentences = [];
+                var deployCount = 0;
+                for (const x in letterCategories) {
+                    letterCategories[x] = "";
+                }
+                document.querySelectorAll("input[type='checkbox']").forEach((checkbox)=>{
+                    if (checkbox.checked) {
+                        if (checkbox.className == 'software') {
+                            softwareCount += 1;
+                            softwareSentences.push(letterStrings[checkbox.id]);
+                        } else if (checkbox.className == 'deployment') {
+                            deployCount += 1;
+                            deploySentences.push(letterStrings[checkbox.id]);
+                        } else {
+                            letterCategories[checkbox.className] += letterStrings[checkbox.id];
+                        }
+                    }   
+                });
+                if (softwareSentences.length > 0) {
+                    letterCategories['software'] = 'I have used';
+                }
+                if (deploySentences.length > 0) {
+                    letterCategories['deployment'] = 'I';
+                }
+                for (const y in softwareSentences) {
+                    if (y == softwareCount - 1 && softwareCount > 1) {
+                        letterCategories['software'] += " and";
+                    }
+                    letterCategories['software'] += softwareSentences[y];
+                }
+                for (const y in deploySentences) {
+                    if (y == deployCount - 1 && deployCount > 1) {
+                        letterCategories['deployment'] += " and";
+                    }
+                    letterCategories['deployment'] += deploySentences[y];
+                }
+                for (const x in letterCategories) {
+                    if (letterCategories[x].length > 0) {
+                        letterCategories[x] = letterCategories[x].slice(0, -1) + '.';
+                        letterContent += letterCategories[x] + " ";
+                    }
+                }
+                letterContent.trim();
+                const unknownTechBox = document.getElementById('unknowns').value.trim();
+
+                if (unknownTechBox.length > 0) {
+                    const unknownTechs = unknownTechBox.split(",");
+                    letterContent += "I am able to learn new languages and technologies quickly, such as "
+                    for (const z in unknownTechs) {
+                        if (z != 0) {
+                            letterContent += " or ";
+                        }
+                        letterContent += unknownTechs[z];
+                    }
+                    letterContent += ". ";
+                }
+
+                letterContent += "And most important of all, my skill set includes coaching and cooperating with other developers to produce outstanding programming work as a team.";
+
+                letterContent += "\n\nI am detail oriented, adaptable, and take constructive criticism well. My resume is attached with more information about my skills and experience. I look forward to discussing how I can contribute to " + shortCompanyName + " in this role with you. I can be reached at imcinnes31@gmail.com or (204) 293-1517. Thank you for your time.";
+
+                document.getElementById("letterBodyText").value = letterContent;
+                document.getElementById("letterBodyText").style.height = "";
+                document.getElementById("letterBodyText").style.height = document.getElementById("letterBodyText").scrollHeight + "px";
+            };
+
+            function printDiv() {
+                var inputContents = [];
+                var inputsChecked = [];
+                document.querySelectorAll("input[type='text']").forEach((e) => {
+                    inputContents.push(e.value.trim());
+                });
+                document.querySelectorAll("input[type='checkbox']").forEach((e) => {
+                    inputsChecked.push(e.checked);
+                });
+
+                var originalContents = document.body.innerHTML; 
+
+                const bodyText = document.getElementById("letterBodyText").value;
+
+                var printPage = document.createElement("div");
+                var divToPrint = document.createElement("div");
+                divToPrint.style = document.getElementById("printableArea").style;
+                var header = document.createElement("div");
+                header.innerHTML = '<span style="font-weight: bold;font-size:16.5;">Ian McInnes</span><br>'
+                        + '606-340 Princess St. | Winnipeg, MB | R3B 3L2 | (204) 293-1517 | <br>' +
+                        'imcinnes31@gmail.com<br><br>';
+                header.style = "text-align: right;font-family: 'Times New Roman', Times, serif;font-size:12.5;";
+                var letterBody = document.createElement("div");
+                letterBody.innerHTML = document.getElementById("letterBodyText").value.replaceAll("\n","<br>");                
+                letterBody.style = "font-family: 'Times New Roman', Times, serif;font-size:12.5;";
+                var closing = document.createElement("div");
+                closing.innerHTML = '<br>Sincerely,<br><br>' +
+                '<img src="20240222_225753.png" style="height:48px">' +
+                '<br><br>Ian McInnes';
+                closing.style = "font-family: 'Times New Roman', Times, serif;font-size:12.5;";
+
+                divToPrint.appendChild(header);
+                divToPrint.appendChild(letterBody);
+                divToPrint.appendChild(closing);
+                printPage.appendChild(divToPrint);
+
+                document.body.innerHTML = printPage.innerHTML;
+                document.body.style="margin:96px;"
+
+                setTimeout(function() {
+                    window.print();
+                }, 50);
+
+                setTimeout(function() {
+                    document.body.innerHTML = originalContents;
+                    document.getElementById("letterBodyText").value = bodyText;
+                    document.querySelectorAll("input[type='text']").forEach((e) => {
+                        e.value = inputContents.shift();
+                    });
+                    document.querySelectorAll("input[type='checkbox']").forEach((e) => {
+                        e.checked = inputsChecked.shift();
+                    });
+
+                    document.querySelectorAll("input[type='checkbox']").forEach((checkbox)=>{
+                        checkbox.addEventListener('change', (e) => {
+                            constructLetter();
+                        });
+                    });
+
+                    document.body.style = "none";
+                }, 50);
+
+            }
+
+        </script>
+    </head>
+    <body>
+
+        <form action="coverLetterPrint.html" target="_blank">
+            <h2>Company Info</h2>
+
+            <label for="companyName">Company Name</label>
+            <input type="text" id="companyName" name="companyName" autocomplete="off" onkeyup="constructLetter()">
+            <br>
+            <br>
+            <label for="position">Position Offered</label>
+            <input type="text" id="position" name="position" autocomplete="off" onkeyup="constructLetter()">
+            <br>
+            <br>
+            <label for="companyAddress">Company Address</label>
+            <input type="text" id="companyAddress" name="companyAddress" autocomplete="off" onkeyup="constructLetter()">
+            <br>
+            <br>
+            <label for="humanResourcesName">Human Resources Name</label>
+            <input type="text" id="humanResourcesName" name="humanResourcesName" autocomplete="off" onkeyup="constructLetter()">
+            <br>
+            <br>
+            <label for="humanResourcesPosition">Human Resources Position</label>
+            <input type="text" id="humanResourcesPosition" name="humanResourcesPosition" autocomplete="off" onkeyup="constructLetter()">
+
+            <h2>Check known languages and technologies:</h2>
+
+            <h3>Front End Development</h3>
+
+            <input class="frontEnd" type="checkbox" id="htmlCSSJavascript" name="htmlCSSJavascript">
+            <label for="htmlCSSJavascript">HTML, CSS, Javascript</label>
+
+            <br>
+            
+            <input class="frontEnd" type="checkbox" id="react" name="react">
+            <label for="react">React Components</label>
+
+            <br>
+
+            <input class="frontEnd" type="checkbox" id="bootstrap" name="bootstrap">
+            <label for="bootstrap">Bootstrap</label>
+
+            <h3>Back End Development</h3>
+
+            <input class="backEnd" type="checkbox" id="java" name="java">
+            <label for="java">Java</label>
+
+            <br>
+
+            <input class="backEnd" type="checkbox" id="springBoot" name="springBoot">
+            <label for="springBoot">Spring Boot</label>
+            
+            <br>
+
+            <input class="backEnd" type="checkbox" id="python" name="python">
+            <label for="python">Python</label>
+            
+            <br>
+
+            <input class="backEnd" type="checkbox" id="django" name="django">
+            <label for="django">Django / Flask</label>
+
+            <br>
+            
+            <input class="backEnd" type="checkbox" id="node" name="node">
+            <label for="node">Node.js</label>
+
+            <br>
+            
+            <input class="backEnd" type="checkbox" id="express" name="express">
+            <label for="express">Express</label>
+            
+            <h3>Databases</h3>
+
+            <input class="databases" type="checkbox" id="SQL" name="SQL">
+            <label for="SQL">SQL</label>
+            
+            <br>
+
+            <input class="databases" type="checkbox" id="MySQL" name="MySQL">
+            <label for="MySQL">MySQL</label>
+
+            <br>
+
+            <input class="databases" type="checkbox" id="mongoDB" name="mongoDB">
+            <label for="mongoDB">Mongo DB</label>
+
+            <h3>Software</h3>
+
+            <input class="software" type="checkbox" id="eclipse" name="eclipse">
+            <label for="eclipse">Eclipse</label>
+
+            <br>
+
+            <input class="software" type="checkbox" id="visualStudio" name="visualStudio">
+            <label for="visualStudio">Visual Studio</label>
+
+            <br>
+
+            <input class="software" type="checkbox" id="microsoftOffice" name="microsoftOffice">
+            <label for="microsoftOffice">Microsoft Office</label>
+
+            <br>
+
+            <input class="software" type="checkbox" id="SQLServer" name="SQLServer">
+            <label for="SQLServer">Microsoft SQL Server</label>
+
+            <br>
+
+            <input class="software" type="checkbox" id="MySQLWorkbench" name="MySQLWorkbench">
+            <label for="MySQLWorkbench">MySQLWorkbench</label>
+
+            <br>
+
+            <input class="software" type="checkbox" id="mongoDBCompass" name="mongoDBCompass">
+            <label for="mongoDBCompass">MongoDB Compass</label>
+
+            <br>
+
+            <input class="software" type="checkbox" id="postman" name="postman">
+            <label for="postman">Postman</label>
+
+            <h3>Deployment</h3>
+
+            <input class="deployment" type="checkbox" id="gitHub" name="gitHub">
+            <label for="gitHub">GitHub</label>
+
+            <br>
+
+            <input class="deployment" type="checkbox" id="heroku" name="heroku">
+            <label for="heroku">Heroku</label>
+            
+            <br>
+
+            <input class="deployment" type="checkbox" id="firebase" name="firebase">
+            <label for="firebase">Firebase</label>
+
+            <br>
+
+            <h2>List "technologies willing to Learn" here, separated by commas:</h2>
+            <input type="text" id="unknowns" name="unknowns" autocomplete="off" onkeyup="constructLetter()">
+
+            <br>
+
+            <h2>Cover Letter Body:</h2>
+
+            <div style="width:100%;text-align: center;">
+                <div id="printableArea" style="width:90%;border:1px solid black;padding:10px;margin:auto">
+                    <textarea name="letterContents" id="letterBodyText" style="font-family:'Times New Roman', Times, serif;font-size:12.5;width:100%;" oninput="this.style.height = '';this.style.height = this.scrollHeight + 'px'" style="width:100%;" type="text" id="coverLetterBody"></textarea>
+                </div>
+                <br>
+                <!-- <input type="button" onclick="printDiv()" value="Print Cover Letter" style="font-weight: bold; padding: 5px;"/> -->
+                <input type="submit" value="Make Cover Letter" style="font-weight: bold; padding: 5px;"/>
+            </div>
+        </form>
+    </body>
+</html>
