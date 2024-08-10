@@ -191,11 +191,11 @@ const skillsDictionary =
                     ],
                     "Phare Counseling": [
                         "Helped new developers to get set up with the programming software needed to make the application, and do small programming tasks",
-                        "Promoted to Team Leader, chaired weekly meetings, provided feedback on progress",
+                        "Became Team Leader, chaired weekly meetings, provided feedback on progress",
                         "Delegated tasks to developers, made sure application was completed on time",
                     ],
                     "Rogers Plus": [
-                        "Promoted to Shift Leader, helped new staff to sign up mobile phone plans, perform customer special orders, and sell special items on sale",
+                        "Became Shift Leader, helped new staff to sign up mobile phone plans, perform customer special orders, and sell special items on sale",
                     ],
                 },
             },
@@ -268,7 +268,7 @@ const skillsDictionary =
                     ],
                     "Video Cellar": [
                         "Demonstrated floor service techniques to staff",
-                        "Helped staff to increase sales of special items",
+                        "Assisted staff to increase sales of special items",
                     ],
                     "Rogers Plus": [
                         "Helped other staff with cell phone plans and cash handling duties",

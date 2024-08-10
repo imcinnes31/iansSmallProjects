@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>
+            Resume Print
+        </title>
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const queryString = window.location.search;
+                const urlParams = new URLSearchParams(queryString);
+
+                document.title = "Ian McInnes - ResumeTo" + urlParams.get("companyName").replaceAll(".","").replaceAll(" ","");
+
+                const summaryLines = urlParams.get("summary").replaceAll("- ","").trim().replace(/\r\n+$/, "").split("\r\n");
+                // for (const x in summaryLines) {
+                //     // const newSummaryListItem = document.createElement("li");
+                //     // newSummaryListItem.innerHTML = summaryLines[x];
+                //     // document.getElementById("summaryList").appendChild(newSummaryListItem);
+                //     document.getElementById("summaryText").innerHTML += summaryLines[x] + ". ";
+                // }
+
+                for (const x in summaryLines) {
+                    // const newSummaryListItem = document.createElement("li");
+                    // newSummaryListItem.innerHTML = summaryLines[x];
+                    // document.getElementById("summaryList").appendChild(newSummaryListItem);
+                    document.getElementById("summaryCellText").innerHTML += summaryLines[x] + ". ";
+                }
+
+                const experienceData = urlParams.get("experience").replace(/\r\n+$/, "").split("\r\n\r\n");
+                for (const x in experienceData) {
+                    const currentJobData = experienceData[x].replace(/\r\n+$/, "").split("\r\n");
+                    const currentJobDiv = document.createElement("div");
+                    currentJobDiv.style.width = "90%";
+                    currentJobDiv.className = "jobListing";
+
+                    const currentJobTitle = document.createElement("p");
+                    currentJobTitle.style.fontWeight = "bold";
+                    currentJobTitle.style.fontSize = "16px";
+                    currentJobDiv.appendChild(currentJobTitle);
+
+                    const currentJobName = document.createElement("p");
+                    currentJobName.style.fontWeight = "bold";
+                    currentJobName.style.fontSize = "15px";
+                    currentJobName.style.color = "#8EAADB";
+                    currentJobDiv.appendChild(currentJobName);
+
+                    const currentJobSkills = document.createElement("ul");
+                    currentJobSkills.className = "jobSkillsList";
+                    currentJobDiv.appendChild(currentJobSkills);
+ 
+                    for (const y in currentJobData) {
+                        if (y == 0) {
+                            currentJobTitle.innerHTML = currentJobData[y];
+                       } else if (y == 1) {
+                            currentJobName.innerHTML = currentJobData[y];
+                        } else {
+                            const currentJobSkillItem = document.createElement("li");
+                            currentJobSkills.appendChild(currentJobSkillItem);
+                            currentJobSkillItem.innerHTML = "\t<b>" + currentJobData[y].replace("- ","")
+                                .replace(" to "," </b>to ").replace(" for "," </b>for ")
+                                .replace(" with "," </b>with ").replace(" on "," </b>on ").replace(" about "," </b>about ")
+                                .replace(" in "," </b>in ").replace(" of "," </b>of ").replace(" by "," </b>by ").replace(", ","</b>, ");
+                        }
+                    }
+                    // document.getElementById("jobExperienceSection").appendChild(currentJobDiv);
+
+                    const currentJobRow = document.createElement("tr");
+                    const currentJobCell = document.createElement("td");
+                    const currentJobPad = document.createElement("td");
+                    currentJobCell.style.width = "67%";
+                    currentJobCell.style.paddingBottom = "10px";
+                    currentJobPad.style.width = "33%";
+                    currentJobPad.style.backgroundColor = "#CADEE5";
+                    currentJobCell.appendChild(currentJobDiv);
+                    currentJobRow.appendChild(currentJobCell);
+                    currentJobRow.appendChild(currentJobPad);
+                    document.getElementById("resumeTable").appendChild(currentJobRow);
+                }
+
+                const skillLines = urlParams.get("keySkills").replace(/\r\n+$/, "").split("\r\n");
+
+                // for (const x in skillLines) {
+                //     const newSkillLine = document.createElement("li");
+                //     newSkillLine.innerHTML = skillLines[x];
+                //     document.getElementById("skillsList").appendChild(newSkillLine);
+                // }
+
+                for (const x in skillLines) {
+                    const newSkillLine = document.createElement("li");
+                    newSkillLine.innerHTML = skillLines[x];
+                    document.getElementById("skillsCellList").appendChild(newSkillLine);
+                }
+
+            });
+        </script>
+        <style>
+            @media print {
+                body {
+                    -webkit-print-color-adjust: exact;
+                }
+                div {
+                    page-break-after: auto;
+                }
+            }
+
+            h1, h2 {
+                color: #6781B2;
+                font-weight: bold;
+                margin: 0px 0px;
+            }
+            h1 {
+                font-size: 40px;
+            }
+            h1 span {
+                font-size: 60px;
+            }
+            h2 {
+                font-size: 12px;
+            }
+            h2 span {
+                font-size: 19px;
+            }
+            ul {
+                padding-left: 15px;
+            }
+            #jobExperienceSection p, #educationSection p {
+                margin: 2px;
+            }
+
+            #educationCell p, .jobListing p {
+                margin: 2px;
+            }
+
+            .jobSkillsList {
+                list-style: none;
+            }
+
+            .jobSkillsList li:before {
+                content: '✓';
+            }
+
+            table { page-break-inside:auto; page-break-before: always; }
+            tr    { page-break-inside:avoid; page-break-after:auto }
+
+            td {
+                vertical-align: top;
+            }
+
+        </style>
+    </head>
+    <body style="margin:0px;font-family: Arial, Helvetica, sans-serif;">
+
+        <table cellspacing="0" style="width:100%;">
+            <tbody id="resumeTable">
+                <tr><th colspan="2">
+                    <div id="resumeHeading" style="text-align:center;">
+                        <h1><span>I</span>AN <span>M</span>C<span>I</span>NNES</h1>
+                        <br>
+                        <hr style="height:4px;background-color:#2C3B57;border:none;">
+                        <div style="width:100%;height:21px;display:inline-flex;font-size: 12px;padding: 5px 5px;">
+                            <div style="width:25%;display:flex;align-items:center;">
+                                <div class="contactInfo" style="width:21px;height:21px;background-color:#2C3B57;font-weight:bold;margin-right:10px;display:flex;align-items:center;justify-content:center;">P</div>
+                                <div>204-293-1517</div> 
+                            </div>
+                            <div style="width:25%;display:flex;align-items:center;">
+                                <div class="contactInfo" style="width:21px;height:21px;background-color:#2C3B57;font-weight:bold;margin-right:10px;display:flex;align-items:center;justify-content:center;">E</div>
+                                <a href="mailto:imcinnes31@gmail.com">imcinnes31@gmail.com</a> 
+                            </div>
+                            <div style="width:50%;display:flex;align-items:center;">
+                                <div class="contactInfo" style="width:21px;height:21px;background-color:#2C3B57;font-weight:bold;margin-right:10px;display:flex;align-items:center;justify-content:center;">A</div>
+                                <div>606-340 Princess Street, Winnipeg MB</div> 
+                            </div>
+                        </div>
+                        <hr style="height:4px;background-color:#CADEE5;border:none;">
+                    </div>
+                </th></tr>
+                <tr>
+                    <td id="summaryCell" style="width:67%;">
+                        <div style="width:90%;">
+                            <h2><span>S</span>UMMARY</h2>
+                            <hr>
+                            <p id="summaryCellText" style="font-size:14px;">Dedicated Professional with a multifaceted background in customer service and software development. </p>  
+                        </div>
+                    </td>
+                    <td id="sideCell" rowspan="3" style="width:33%;background-color:#CADEE5;">
+                        <div id="educationCell" style="width:80%;margin:auto;padding-top:10px;">
+                            <h2><span>E</span>DUCATION</h2>
+                            <p style="font-weight: bold;">Red River College Polytech</p>
+                            <p>Winnipeg, Manitoba</p>
+                            <p><b>Software Development Certification</b></p>
+                            <p>Java Programming</p>
+                            <p>SQL Database Development</p>
+                            <p>Business Analysis</p>
+                            <p>4.5 GPA</p>    
+                        </div>
+                        <div id="skillsCell" style="width:80%;margin:auto;padding-top:50px;">
+                            <h2><span>KEY SKILLS</span></h2>
+                            <ul id="skillsCellList">
+
+                            </ul>
+                        </div>    
+                    </td>
+                </tr>
+                <tr>
+                    <td id="extraCell" style="width:67%;">
+                        <div style="width:90%;">
+                            <h2><span>E</span>XPERIENCE</h2>
+                            <hr>   
+                        </div>
+                    </td>
+                </tr>    
+            </tbody>
+        </table>
+
+        <!-- <div id="resumeHeading" style="text-align:center;">
+            <h1><span>I</span>AN <span>M</span>CINNES</h1>
+            <br>
+            <hr style="height:4px;background-color:#2C3B57;border:none;">
+            <div style="width:100%;height:21px;display:inline-flex;font-size: 12px;padding: 5px 5px;">
+                <div style="width:25%;display:flex;align-items:center;">
+                    <div class="contactInfo" style="width:21px;height:21px;background-color:#2C3B57;font-weight:bold;margin-right:10px;display:flex;align-items:center;justify-content:center;">P</div>
+                    <div>204-293-1517</div> 
+                </div>
+                <div style="width:25%;display:flex;align-items:center;">
+                    <div class="contactInfo" style="width:21px;height:21px;background-color:#2C3B57;font-weight:bold;margin-right:10px;display:flex;align-items:center;justify-content:center;">E</div>
+                    <a href="mailto:imcinnes31@gmail.com">imcinnes31@gmail.com</a> 
+                </div>
+                <div style="width:50%;display:flex;align-items:center;">
+                    <div class="contactInfo" style="width:21px;height:21px;background-color:#2C3B57;font-weight:bold;margin-right:10px;display:flex;align-items:center;justify-content:center;">A</div>
+                    <div>606-340 Princess Street, Winnipeg MB</div> 
+                </div>
+            </div>
+            <hr style="height:4px;background-color:#CADEE5;border:none;">
+        </div>
+
+        <div id="resumeBody" style="display:inline-flex;width:100%;">
+            <div style="width:67%;display:block">
+                <div style="width:80%;">
+                    <h2><span>S</span>UMMARY</h2>
+                    <hr>
+                    <p id="summaryText" style="font-size:14px;"></p>
+                    <ul id="summaryList" style="font-size:14px;">
+
+                    </ul>
+                    <h2><span>E</span>XPERIENCE</h2>
+                    <hr>
+                    <div id="jobExperienceSection">
+
+                    </div>
+                </div>
+            </div>
+
+            <div style="width:33%;background-color:#CADEE5;">
+                <div id="educationSection" style="width:80%;margin:auto;padding-top:10px;padding-bottom:50px;">
+                    <h2><span>E</span>DUCATION</h2>
+                    <p style="font-weight: bold;">Red River College Polytech</p>
+                    <p>Winnipeg, Manitoba</p>
+                    <p><b>Software Development Certification</b></p>
+                    <p>Java Programming</p>
+                    <p>SQL Database Development</p>
+                    <p>Business Analysis</p>
+                    <p>4.5 GPA</p>    
+                </div>
+                <div id="skillsSection" style="width:80%;margin:auto;">
+                    <h2><span>KEY SKILLS</span></h2>
+                    <ul id="skillsList">
+
+                    </ul>
+                </div>
+
+            </div>
+
+        </div> -->
+
+    
+    </body>
+</html>

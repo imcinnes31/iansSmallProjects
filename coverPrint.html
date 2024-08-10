@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>
+            Cover Letter Print
+        </title>
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const queryString = window.location.search;
+                const urlParams = new URLSearchParams(queryString);
+
+                document.title = "Ian McInnes - LetterTo" + urlParams.get("companyName").replaceAll(".","").replaceAll(" ","");
+                document.getElementById("letterBody").innerHTML = urlParams.get("coverLetter").replaceAll("\n","<br>");
+
+            });
+        </script>
+        <style>
+            @media print {
+                body {
+                    -webkit-print-color-adjust: exact;
+                }
+            }
+
+        </style>
+    </head>
+    <body style="margin:0px;font-family: Arial, Helvetica, sans-serif;">
+        <div style="margin:96px;">
+            <div style="text-align: right;font-family: 'Times New Roman', Times, serif;font-size:12.5;">
+                <span style="font-weight: bold;font-size:16.5;">Ian McInnes</span>
+                <br>
+                606-340 Princess St. | Winnipeg, MB | R3B 3L2 | (204) 293-1517 | 
+                <br>
+                imcinnes31@gmail.com
+                <br>
+                <br>
+            </div>
+            <div id="letterBody" style="font-family: 'Times New Roman', Times, serif;font-size:12.5;">
+    
+            </div>
+            <div style="font-family: 'Times New Roman', Times, serif;font-size:12.5;">
+                <br>
+                Sincerely,
+                <br>
+                <br>
+                <img src="20240222_225753.png" style="height:48px">
+                <br>
+                <br>
+                Ian McInnes
+            </div>
+        </div>    
+    </body>
+</html>

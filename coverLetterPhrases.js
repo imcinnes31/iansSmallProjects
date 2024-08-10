@@ -2,7 +2,7 @@ const letterPhrases = [
     "My education at RRCC taught me ",
     "I am experienced in ",
     "I am capable of ",
-    "I consider myself well knowledged in ",
+    "I consider myself knowledgeable in ",
     "I have ",
     "I am well versed in ",
     "I hold ",
