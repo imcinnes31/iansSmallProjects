@@ -135,18 +135,20 @@
 
                 if (resumeContent['jobExperience']) {
                     let experienceText = "";
-                    for (const x in resumeContent['jobExperience']) {
-                        experienceText += resumeContent['jobExperience'][x]['title'];
-                        if (x == Object.keys(resumeContent['jobExperience'])[0]) {
-                            experienceText += " (current employer)";
+                    for (const x in jobNames) {
+                        if (resumeContent['jobExperience'][x]) {
+                            experienceText += resumeContent['jobExperience'][x]['title'];
+                            if (x == Object.keys(resumeContent['jobExperience'])[0]) {
+                                experienceText += " (current employer)";
+                            }
+                            experienceText += "\n";
+                            experienceText += resumeContent['jobExperience'][x]['name'] + " / " + resumeContent['jobExperience'][x]['location'];
+                            experienceText += "\n";
+                            for (const y in resumeContent['jobExperience'][x]['skills']) {
+                                experienceText += "- " + resumeContent['jobExperience'][x]['skills'][y] + "\n";
+                            }
+                            experienceText += "\n";
                         }
-                        experienceText += "\n";
-                        experienceText += resumeContent['jobExperience'][x]['name'] + " / " + resumeContent['jobExperience'][x]['location'];
-                        experienceText += "\n";
-                        for (const y in resumeContent['jobExperience'][x]['skills']) {
-                            experienceText += "- " + resumeContent['jobExperience'][x]['skills'][y] + "\n";
-                        }
-                        experienceText += "\n";
                     }
                     document.getElementById("experienceTextField").value = experienceText;
                 }

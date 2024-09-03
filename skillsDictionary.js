@@ -308,8 +308,8 @@ const skillsDictionary =
         "name": "Other",
         "skills": {
             "Driver's License": "Class 5F Driver's License", 
-            "Microsoft Office": "Microsoft Word / Excel / Outlook", 
-            "Google Docs Editors": "Google Docs / Google Spreadsheets",
+            "Microsoft Office": "Proficient in Microsoft Word / Excel / Outlook", 
+            "Google Docs Editors": "Proficient with Google Docs / Google Spreadsheets",
         },
     }
 }
