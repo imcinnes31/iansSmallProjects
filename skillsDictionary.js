@@ -27,7 +27,7 @@ const skillsDictionary =
                     "Canex": [
                         "Searched customers by name or phone number to find account for credit plans or special orders",
                         "Used filters and sorting to find specific requested products for customers, and order them if needed from main warehouse or other stores",
-                        "Created Javascript dictionary of extended warranty data, including product code, barcode number, and price, categorizing them into product types and warranty lengths",
+                        "Created JavaScript dictionary of extended warranty data, including product code, barcode number, and price, categorizing them into product types and warranty lengths",
                         "Created MySQL database of letters for outside sign, including number in inventory and width of letters, using MySQL Workbench",
                     ],
                     "Phare Counseling": [
@@ -61,13 +61,13 @@ const skillsDictionary =
                 "jobs":
                 {                    
                     "Canex": [
-                        "Used HTML, CSS, and Javascript for various purposes:",
+                        "Used HTML, CSS, and JavaScript for various purposes:",
                         "To make 'Sign Wizard' interface to enter in new message for outside sign, or update current letter inventory",
                         "To make 'Canex Warranty' interface to enter in price of product to determine price of warranty, and retrieve warranty barcode",
                         "To replicate form for Applecare extended warranty, using text inputs and dropdown menus to easily search for products and retrieve warranty information, or to alert user if they forgot to fill a field",
                     ],
                     "Phare Counseling": [
-                        "Used HTML, CSS, Javascript, and React components to create client-end webpage for users to find counselors, including checkboxes, radio buttons, and drop down menus to allow the user to narrow their search",
+                        "Used HTML, CSS, JavaScript, and React components to create client-end webpage for users to find counselors, including checkboxes, radio buttons, and drop down menus to allow the user to narrow their search",
                     ],
                 },
             },
@@ -135,7 +135,7 @@ const skillsDictionary =
                         "Created spreadsheets to list technical specifications of electronics to help customers make a better decision about which ones to buy"
                     ],
                     "Phare Counseling": [
-                        "Learned various programming languages (Node, React, MongoDB, Express, Javascript, HTML, CSS) and software (MongoDB Compass, Visual Studio Code) for use in creating the 'Find A Counselor' web application"
+                        "Learned various programming languages (Node, React, MongoDB, Express, JavaScript, HTML, CSS) and software (MongoDB Compass, Visual Studio Code) for use in creating the 'Find A Counselor' web application"
                     ],
                     "Rogers Plus": [
                         "Used store software for inventory, processing rental and sales transactions, or mobile phone plans"
