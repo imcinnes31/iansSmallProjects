@@ -59,6 +59,7 @@
 
             function makeMongoQueries() {
                 let mongoQuery = "";
+                console.log(document.getElementById("sectionID").value);
                 document.querySelectorAll('.newProduct').forEach((e,i) => {
                     let newQueryLine = 'db.storeSections.updateOne({_id: new ObjectId("'
                     + document.getElementById("sectionID").value
@@ -141,7 +142,7 @@
                     <input type="button" onclick="setAllVendors()" value="Set All Vendors" style="margin: 10px; border: 1px solid black"/>
                 </div>
                 <div style="margin: auto; text-align:center; margin-top: 20px">
-                    <label for="vendor">Section ID:</label><input type="text" name="sectionID" id="sectionID" oninput="makeMongoQueries()" style="width: 50%; border: 1px solid black"/>
+                    <label for="vendor">Section ID:</label><input type="text" name="sectionID" id="sectionID" oninput="makeMongoQueries()" onpaste="makeMongoQueries()" style="width: 50%; border: 1px solid black"/>
                 </div>
             </div>
             <div id="productInfoList" style="width: 90%; margin: auto">
