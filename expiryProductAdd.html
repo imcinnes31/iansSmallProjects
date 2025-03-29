@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <style>
+            @media screen and (max-width: 1000px) {
+                h1 {
+                    font-size: 72px;
+                }
+                label {
+                    font-size: 48px;
+                    font-weight: bold;
+                }
+                input {
+                    font-size: 48px;
+                    border-color: "black";
+                    border-width: 1px;
+                    border-style: "solid";
+                }
+                p {
+                    font-size: 48px;
+                }
+                textArea {
+                    width: 90%;
+                    height: 400px;
+                }
+                .barcodeContainer {
+                    width: 50%;
+                }
+                .nameInput {
+                    width: 65%;
+                }
+                .sizeInput {
+                    width: 25%;
+                    margin-left: 10px;
+                }   
+                #UPCList {
+                    font-size: 96px;
+                }  
+                #mongoQueries {
+                    font-size: 36px;
+                }       
+            }
+        </style>
+        <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.8.0/dist/JsBarcode.all.min.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                document.getElementById('UPCList').addEventListener('input', (e) => {
+                    makeIntoBarcodes(e.target.value.replace(" ","").split("\n"));
+                });
+            });
+
+            function setAllVendors() {
+                document.querySelectorAll('.vendorInput').forEach((e) => {
+                    e.placeholder = document.getElementById("generalVendor").value;
+                });
+                makeMongoQueries();
+            }
+
+            function makeMongoQueries() {
+                let mongoQuery = "";
+                document.querySelectorAll('.newProduct').forEach((e,i) => {
+                    let newQueryLine = 'db.storeSections.updateOne({_id: new ObjectId("'
+                    + document.getElementById("sectionID").value
+                    + '")},{$push: {products: {productUPC: "'
+                    + document.getElementById("newNumber" + i).innerHTML
+                    + '",name: "'
+                    + document.getElementById("newName" + i).value
+                    + (document.getElementById("newSize" + i).value.length > 0 ? " " + document.getElementById("newSize" + i).value : "")
+                    + '",vendor: "'
+                    + (document.getElementById("newVendor" + i).value.length > 0 ? document.getElementById("newVendor" + i).value : document.getElementById("generalVendor").value)
+                    + '",expiryDates: []}}});"\n';
+                    mongoQuery += newQueryLine
+                });
+                document.getElementById("mongoQueries").value = mongoQuery;
+            }
+
+            function makeIntoBarcodes(text){
+                document.getElementById("productInfoList").innerHTML = null;
+                const numbers = /^[0-9]+$/;
+                for (const x in text) {
+                    if (text[x].match(numbers) && text[x].length == 12) {
+                        const newDiv = document.createElement("div");
+                        newDiv.id = "newProduct" + x;
+                        newDiv.style.textAlign = "center";
+                        newDiv.className = "newProduct";
+                        const barcodeDiv = document.createElement("canvas");
+                        barcodeDiv.className = "barcodeContainer";
+                        barcodeDiv.id = "newBarcode" + x;
+                        const numberPar = document.createElement("p");
+                        numberPar.id = "newNumber" + x;
+                        numberPar.innerHTML = text[x];
+                        const productDiv = document.createElement("div");
+                        const productName = document.createElement("input");
+                        productName.type = "text";
+                        productName.id = "newName" + x;
+                        productName.className = "nameInput";
+                        productName.placeholder = "Product Description";
+                        productName.addEventListener('input', (e) => {
+                            makeMongoQueries();
+                        });
+                        const productSize = document.createElement("input");
+                        productSize.type = "text";
+                        productSize.id = "newSize" + x;
+                        productSize.className = "sizeInput";
+                        productSize.placeholder = "size";
+                        productSize.addEventListener('input', (e) => {
+                            makeMongoQueries();
+                        });
+                        const productVendor = document.createElement("input");
+                        productVendor.type = "text";
+                        productVendor.id = "newVendor" + x;
+                        productVendor.className = "vendorInput";  
+                        productVendor.style.margin = "10px"; 
+                        productVendor.placeholder = document.getElementById("generalVendor").value.length > 0 ? document.getElementById("generalVendor").value : "productVendor";                
+                        productVendor.addEventListener('input', (e) => {
+                            makeMongoQueries();
+                        });
+                        newDiv.appendChild(barcodeDiv);
+                        newDiv.appendChild(numberPar);
+                        newDiv.appendChild(productName);
+                        newDiv.appendChild(productSize);
+                        newDiv.appendChild(productSize);
+                        newDiv.appendChild(productVendor);
+                        document.getElementById("productInfoList").appendChild(newDiv);
+                        JsBarcode('#' + barcodeDiv.id, text[x]);
+                    }
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <div>
+            <div style="text-align:center">
+                <h1>Scan barcodes here:</h1>
+                <textarea id="UPCList" style="border: 1px solid black; overflow-y: scroll" autofocus></textarea>
+            </div>
+            <div style="width: 90%; margin: auto">
+                <div style="margin: auto; text-align:center; margin-top: 20px">
+                    <label for="vendor">General Vendor:</label><input type="text" id="generalVendor" name="vendor" style="width: 50%; border: 1px solid black"/>
+                    <input type="button" onclick="setAllVendors()" value="Set All Vendors" style="margin: 10px; border: 1px solid black"/>
+                </div>
+                <div style="margin: auto; text-align:center; margin-top: 20px">
+                    <label for="vendor">Section ID:</label><input type="text" name="sectionID" id="sectionID" style="width: 50%; border: 1px solid black"/>
+                </div>
+            </div>
+            <div id="productInfoList" style="width: 90%; margin: auto">
+
+            </div>
+            <div style="text-align:center">
+                <h1>Mongo Update Queries:</h1>
+                <textarea id="mongoQueries" style="border: 1px solid black; overflow-y: scroll" readonly></textarea>
+            </div>
+        </div>
+    </body>
+</html>
