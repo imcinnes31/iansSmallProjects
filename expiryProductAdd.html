@@ -72,14 +72,13 @@
 
             function makeMongoQueries() {
                 let mongoQuery = "";
-                console.log(document.getElementById("sectionID").value);
                 document.querySelectorAll('.newProduct').forEach((e,i) => {
                     let newQueryLine = 'db.storeSections.updateOne({_id: new ObjectId("'
                     + document.getElementById("sectionID").value
                     + '")},{$push: {products: {productUPC: "'
-                    + titleCase(document.getElementById("newNumber" + i).innerHTML)
+                    + document.getElementById("newNumber" + i).innerHTML
                     + '",name: "'
-                    + document.getElementById("newName" + i).value
+                    + titleCase(document.getElementById("newName" + i).value)
                     + (document.getElementById("newSize" + i).value.length > 0 ? " " + document.getElementById("newSize" + i).value : "")
                     + '",vendor: "'
                     + (document.getElementById("newVendor" + i).value.length > 0 ? document.getElementById("newVendor" + i).value : document.getElementById("generalVendor").value)
