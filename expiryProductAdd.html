@@ -82,7 +82,7 @@
                     + (document.getElementById("newSize" + i).value.length > 0 ? " " + document.getElementById("newSize" + i).value : "")
                     + '",vendor: "'
                     + (document.getElementById("newVendor" + i).value.length > 0 ? document.getElementById("newVendor" + i).value : document.getElementById("generalVendor").value)
-                    + '",expiryDates: []}}});"\n';
+                    + '",expiryDates: []}}});\n';
                     mongoQuery += newQueryLine
                 });
                 document.getElementById("mongoQueries").value = mongoQuery;
