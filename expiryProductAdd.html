@@ -71,20 +71,36 @@
             }
 
             function makeMongoQueries() {
-                let mongoQuery = "";
+                let mongoQuery = 'db.storeSections.findOneAndUpdate({_id: new ObjectId("' + document.getElementById("sectionID").value + '")}, { $push: { products: {$each: [';
                 document.querySelectorAll('.newProduct').forEach((e,i) => {
-                    let newQueryLine = 'db.storeSections.updateOne({_id: new ObjectId("'
-                    + document.getElementById("sectionID").value
-                    + '")},{$push: {products: {productUPC: "'
+                    let newQueryLine = '{productUPC: "'
                     + document.getElementById("newNumber" + i).innerHTML
                     + '",name: "'
                     + titleCase(document.getElementById("newName" + i).value)
                     + (document.getElementById("newSize" + i).value.length > 0 ? " " + document.getElementById("newSize" + i).value : "")
                     + '",vendor: "'
                     + (document.getElementById("newVendor" + i).value.length > 0 ? document.getElementById("newVendor" + i).value : document.getElementById("generalVendor").value)
-                    + '",expiryDates: []}}});\n';
-                    mongoQuery += newQueryLine
+                    + '",expiryDates: []},';
+                    mongoQuery += newQueryLine;
                 });
+                mongoQuery += ']}}});\n\nNumber of products: ' + document.querySelectorAll('.newProduct').length;
+
+                let vendorArray = []
+                document.querySelectorAll('.vendorInput').forEach((e) => {
+                    const vendorGiven = e.value.length == 0 ? document.getElementById("generalVendor").value : e.value;
+                    if (!(vendorArray.includes(vendorGiven))) {
+                        vendorArray.push(vendorGiven);
+                    }
+                });
+                mongoQuery += "\n";
+                for (const x in vendorArray) {
+                    mongoQuery += '\n{\n';
+                    mongoQuery += '\tname: '
+                    mongoQuery += vendorArray[x];
+                    mongoQuery += '\n\tcredit: false'
+                    mongoQuery += '\n},';
+                }
+
                 document.getElementById("mongoQueries").value = mongoQuery;
             }
 
