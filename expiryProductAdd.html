@@ -55,6 +55,30 @@
                 });
             });
 
+            function extractText() {
+                const numbers = /^[0-9]+$/;
+                const extracted = document.getElementById("extractedProducts").value.split('\n');
+                const UPCList = document.getElementById("UPCList").value.split('\n');
+                const extLength = extracted.length;
+                let UPCNumber = "";
+                let description = "";
+                for (let i = 0; i < (extLength / 2); i++) {
+                    const j = i * 2;
+                    if (extracted[j].length == 12 && extracted[j].match(numbers)) {
+                        UPCNumber = extracted[j];
+                        description = extracted[j + 1];
+                    } else {
+                        UPCNumber = extracted[j + 1];
+                        description = extracted[j];
+                    }
+                    if (UPCList.includes(UPCNumber)) {
+                        const productDivID = "newName" + UPCList.indexOf(UPCNumber);
+                        document.getElementById(productDivID).value = description;
+                    }
+                }
+                makeMongoQueries();
+            }
+
             function titleCase(str) {
                 let splitStr = str.toLowerCase().split(' ');
                 for (let i = 0; i < splitStr.length; i++) {
@@ -95,9 +119,9 @@
                 mongoQuery += "\n";
                 for (const x in vendorArray) {
                     mongoQuery += '\n{\n';
-                    mongoQuery += '\tname: '
+                    mongoQuery += '\tname: "'
                     mongoQuery += vendorArray[x];
-                    mongoQuery += '\n\tcredit: false'
+                    mongoQuery += '"\n\tcredit: false'
                     mongoQuery += '\n},';
                 }
 
@@ -175,6 +199,10 @@
             </div>
             <div id="productInfoList" style="width: 90%; margin: auto">
 
+            </div>
+            <div style="text-align:center">
+                <h1>Paste extracted here:</h1>
+                <textarea id="extractedProducts" style="border: 1px solid black; overflow-y: scroll" oninput="extractText()" onpaste="extractText()"></textarea>
             </div>
             <div style="text-align:center">
                 <h1>Mongo Update Queries:</h1>
