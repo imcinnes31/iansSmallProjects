@@ -65,14 +65,14 @@
                 for (let i = 0; i < (extLength / 2); i++) {
                     const j = i * 2;
                     if (extracted[j].length == 12 && extracted[j].match(numbers)) {
-                        UPCNumber = extracted[j];
-                        description = extracted[j + 1];
+                        UPCNumber = extracted[j].trim();
+                        description = extracted[j + 1].trim();
                     } else {
-                        UPCNumber = extracted[j + 1];
-                        description = extracted[j];
+                        UPCNumber = extracted[j + 1].trim();
+                        description = extracted[j].trim();
                     }
-                    if (UPCList.includes(UPCNumber)) {
-                        const productDivID = "newName" + UPCList.indexOf(UPCNumber);
+                    const productDivID = "newName" + UPCList.indexOf(UPCNumber);
+                    if (document.getElementById(productDivID)) {
                         document.getElementById(productDivID).value = description;
                     }
                 }
