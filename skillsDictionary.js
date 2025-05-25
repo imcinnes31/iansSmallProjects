@@ -9,6 +9,7 @@ const skillsDictionary =
                 {
                     "Canex": [
                         "Used Visual Studio Code to create web applications:",
+                        "Created 'Expiry Date Tracker', a web application to record expiry dates of products throughout the store, and give alerts when a product should be pulled",
                         "Created 'Sign Wizard', a web application to help change the message on outdoor advertising board by listing letters to pull off and letters to bring out",
                         "Created 'Canex Warranty', a web application to display prices of big ticket service protection plans based on length, price of item, and number of items bought",
                         "Created 'Applecare Form', a web application to automatically fill out the form for Applecare on Apple items, based on item bought and Applecare code, without having to fill it out by hand",
@@ -29,6 +30,7 @@ const skillsDictionary =
                         "Used filters and sorting to find specific requested products for customers, and order them if needed from main warehouse or other stores",
                         "Created JavaScript dictionary of extended warranty data, including product code, barcode number, and price, categorizing them into product types and warranty lengths",
                         "Created MySQL database of letters for outside sign, including number in inventory and width of letters, using MySQL Workbench",
+                        "Created and maintained Mongo database of products in the store, with UPCs, vendors, and upcoming expiry dates",
                     ],
                     "Phare Counseling": [
                         "Entered information about counselors into application database, such as name, specializations, approaches, location, prices, using MongoDB Compass",
@@ -50,6 +52,7 @@ const skillsDictionary =
                 {
                     "Canex": [
                         "Used Python with Flask framework for 'Sign Wizard' application to calculate number of letters needed to bring out or pull off, while determining if there were enough letters for the new message and if it would fit on the sign",
+                        "Used Node with Express to create APIs to add and remove expiry dates, add new products, and get products ready to pull or discount",
                     ],
                     "Phare Counseling": [
                         "Used Node with Express to create APIs, as well as perform database queries to search for, update, and create counselor data",
@@ -65,6 +68,7 @@ const skillsDictionary =
                         "To make 'Sign Wizard' interface to enter in new message for outside sign, or update current letter inventory",
                         "To make 'Canex Warranty' interface to enter in price of product to determine price of warranty, and retrieve warranty barcode",
                         "To replicate form for Applecare extended warranty, using text inputs and dropdown menus to easily search for products and retrieve warranty information, or to alert user if they forgot to fill a field",
+                        "To construct React Front-End components for 'Expiry Date Tracker', used to request date checks, pull alerts, and to construct various reports",
                     ],
                     "Phare Counseling": [
                         "Used HTML, CSS, JavaScript, and React components to create client-end webpage for users to find counselors, including checkboxes, radio buttons, and drop down menus to allow the user to narrow their search",
@@ -78,6 +82,7 @@ const skillsDictionary =
                     "Canex": [
                         "Uploaded all web applications to GitHub, while updating them using Github site or Visual Studio",
                         "Deployed 'Sign Wizard' application on Heroku, reuploading when updates made",
+                        "Deployed back end of 'Expiry Date Tracker' on Heroku, and front end on Netlify",
                     ],
                     "Phare Counseling": [
                         "Stored code using GitHub, checked for any merge conflicts using GitHub Desktop",
@@ -93,7 +98,8 @@ const skillsDictionary =
                     "Canex": [
                         "Counted big ticket items, such as laptops, TVs, video game systems, when stocktaking days were occuring",
                         "Checked prices of items, confirmed if they were correct, or currently on sale",
-                        "Placed new products out in appropriate locations once received, printed price labels when needed"
+                        "Placed new products out in appropriate locations once received, printed price labels when needed",
+                        "Kept track of expiry dates of products in several sections throughout the store, pulling and discounting them when necessary",
                     ],
                     "Video Cellar": [
                         "Went over lists of customers with late movie returns, confirmed over phone when they would be returned",
@@ -132,7 +138,8 @@ const skillsDictionary =
                 "jobs":
                 {
                     "Canex": [
-                        "Created spreadsheets to list technical specifications of electronics to help customers make a better decision about which ones to buy"
+                        "Created spreadsheets to list technical specifications of electronics to help customers make a better decision about which ones to buy",
+                        "Formatted documents to make them more visually appealing",
                     ],
                     "Phare Counseling": [
                         "Learned various programming languages (Node, React, MongoDB, Express, JavaScript, HTML, CSS) and software (MongoDB Compass, Visual Studio Code) for use in creating the 'Find A Counselor' web application"
@@ -188,6 +195,7 @@ const skillsDictionary =
                 {
                     "Canex": [
                         "Helped new staff to conduct credit plan transactions, customer special orders, printing price labels and sale signs, and opening / closing procedures",
+                        "Coached staff to use software I created to assist in their sales",
                     ],
                     "Phare Counseling": [
                         "Helped new developers to get set up with the programming software needed to make the application, and do small programming tasks",
