@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Nutrition Calculator Design</title>
+        <style>
+            label {
+                width: 50%;
+                font-size:48px;
+            }
+            input {
+                width: 50%;
+                font-weight: bold;
+                font-size:36px;
+            }
+            h1 {
+                font-size:72px;
+                text-align:center;
+            }
+            p {
+                height: 15px;
+            }
+        </style>
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+
+            });
+        </script>
+    </head>
+    <body style="background-color: lightgray;">
+        <div style="display: grid; justify-content: center;">
+            <h1>Nutrition Calculator</h1>
+            <div style="width:100%; margin-top:20px; margin-bottom: 20px; background-color: gray; align-items: center;">
+                <div style="display:flex"><label style="width:25%;font-weight: bold;">Name:</label><input style="text-align:center;" type="text" value="Pepsi"/><div style="width:20%; background-color: red; display: grid; justify-content: center; align-items: center; border: 2px solid black;margin-left:5%; font-weight: bold; font-family: Arial, Helvetica, sans-serif; font-size: 36px;">DELETE</div></div>
+                <br>
+                <div style="display:flex"><label>Serving Size:</label><input type="text" value="1 1/2 cups"/></div>
+                <div style="display:flex"><label>Calories:</label><input type="text" value="160"/></div>
+                <div style="display:flex"><label>Trans Fats:</label><input type="text" value="0 g"/></div>
+                <div style="display:flex"><label>Sugar:</label><input type="text" value="44 g"/></div>
+                <div style="display:flex"><label>Cholesterol:</label><input type="text" value="0 mg"/></div>
+                <div style="display:flex"><label>Sodium:</label><input type="text" value="35 mg"/></div>
+                <div style="display:flex"><label>Protein:</label><input type="text" value="0 g"/></div>
+            </div>
+            <div style="width:100%; margin-top:20px; margin-bottom: 20px; background-color: gray; align-items: center;">
+                <div style="display:flex"><label style="width:25%;font-weight: bold;">Name:</label><input style="text-align:center;" type="text" value="Small Doritos Chips"/><div style="width:20%; background-color: red; display: grid; justify-content: center; align-items: center; border: 2px solid black;margin-left:5%; font-weight: bold; font-family: Arial, Helvetica, sans-serif; font-size: 36px;">DELETE</div></div>
+                <br>
+                <div style="display:flex"><label>Serving Size:</label><input type="text" value="1 package"/></div>
+                <div style="display:flex"><label>Calories:</label><input type="text" value="360"/></div>
+                <div style="display:flex"><label>Trans Fats:</label><input type="text" value="19 g"/></div>
+                <div style="display:flex"><label>Sugar:</label><input type="text" value="2 g"/></div>
+                <div style="display:flex"><label>Cholesterol:</label><input type="text" value="5 mg"/></div>
+                <div style="display:flex"><label>Sodium:</label><input type="text" value="530 mg"/></div>
+                <div style="display:flex"><label>Protein:</label><input type="text" value="5 g"/></div>
+            </div>
+            <div style="width:100%; margin-top:20px; margin-bottom: 20px; background-color: gray; align-items: center;">
+                <div style="display:flex"><label style="width:25%;font-weight: bold;">Name:</label><input style="text-align:center;" type="text" value="M&M Teryaki Chicken"/><div style="width:20%; background-color: red; display: grid; justify-content: center; align-items: center; border: 2px solid black;margin-left:5%; font-weight: bold; font-family: Arial, Helvetica, sans-serif; font-size: 36px;">DELETE</div></div>
+                <br>
+                <div style="display:flex"><label>Serving Size:</label><input type="text" value="1 bowl"/></div>
+                <div style="display:flex"><label>Calories:</label><input type="text" value="310"/></div>
+                <div style="display:flex"><label>Trans Fats:</label><input type="text" value="0 g"/></div>
+                <div style="display:flex"><label>Sugar:</label><input type="text" value="17 g"/></div>
+                <div style="display:flex"><label>Cholesterol:</label><input type="text" value="35 mg"/></div>
+                <div style="display:flex"><label>Sodium:</label><input type="text" value="520 mg"/></div>
+                <div style="display:flex"><label>Protein:</label><input type="text" value="19 g"/></div>
+            </div>
+            <p style="font-size:60px; text-align:center; font-weight: bold;">Add New Item:</p>
+            <div style="display:flex; justify-content:center; margin-bottom: 20px;">
+                <div style="border: 2px black solid; width: 40%; margin-right: 5%; display: grid; align-items: center; justify-content: center; font-weight: bold; font-family: Arial, Helvetica, sans-serif; font-size: 36px; background-color: green; color:white;">Use Camera</div>
+                <div style="border: 2px black solid; width: 40%; margin-left: 5%; display: grid; align-items: center; justify-content: center; font-weight: bold; font-family: Arial, Helvetica, sans-serif; font-size: 36px; background-color: green; color:white;">Upload Image</div>
+            </div>
+            <div style="border: 1px solid black; background-color: yellow; padding-bottom: 20px; margin-bottom: 20px;">
+                <p style="font-size:60px; text-align:center; font-weight: bold;">Item Totals:</p>
+                <div style="display:flex; justify-content:center;">
+                    <p style="width: 40%; font-family: Arial, Helvetica, sans-serif; font-size: 48px; font-weight: bold; margin-right: 5%;">Calories:</p>
+                    <p style="width: 40%; font-family: Arial, Helvetica, sans-serif; font-size: 48px; margin-left: 5%;">830</p>
+                </div>
+                <div style="display:flex; justify-content:center;">
+                    <p style="width: 40%; font-family: Arial, Helvetica, sans-serif; font-size: 48px; font-weight: bold; margin-right: 5%;">Trans Fats:</p>
+                    <p style="width: 40%; font-family: Arial, Helvetica, sans-serif; font-size: 48px; margin-left: 5%;">19 g</p>
+                </div>
+                <div style="display:flex; justify-content:center;">
+                    <p style="width: 40%; font-family: Arial, Helvetica, sans-serif; font-size: 48px; font-weight: bold; margin-right: 5%;">Sugar:</p>
+                    <p style="width: 40%; font-family: Arial, Helvetica, sans-serif; font-size: 48px; margin-left: 5%;color:black;">63 g</p>
+                </div>
+                <div style="display:flex; justify-content:center;">
+                    <p style="width: 40%; font-family: Arial, Helvetica, sans-serif; font-size: 48px; font-weight: bold; margin-right: 5%;">Cholesterol:</p>
+                    <p style="width: 40%; font-family: Arial, Helvetica, sans-serif; font-size: 48px; margin-left: 5%;color:black;">40 mg</p>
+                </div>
+                <div style="display:flex; justify-content:center;">
+                    <p style="width: 40%; font-family: Arial, Helvetica, sans-serif; font-size: 48px; font-weight: bold; margin-right: 5%;">Sodium:</p>
+                    <p style="width: 40%; font-family: Arial, Helvetica, sans-serif; font-size: 48px; margin-left: 5%;color:black;">1085 mg</p>
+                </div>
+                <div style="display:flex; justify-content:center;">
+                    <p style="width: 40%; font-family: Arial, Helvetica, sans-serif; font-size: 48px; font-weight: bold; margin-right: 5%;">Protein:</p>
+                    <p style="width: 40%; font-family: Arial, Helvetica, sans-serif; font-size: 48px; margin-left: 5%;color:red;">24 g</p>
+                </div>
+                <p style="padding-left: 50px; padding-right: 50px; height: 80px; font-size:60px; text-align:center; font-weight: bold; color: red;">You don't have enough Proteins. Add more items.</p>
+            </div>
+        </div>
+    </body>
+</html>

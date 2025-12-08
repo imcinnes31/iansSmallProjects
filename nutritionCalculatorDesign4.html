@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Nutrition Calculator Design</title>
+        <style>
+            label {
+                width: 90%;
+                font-size:48px;
+            }
+            input[type="checkbox"] {
+                width: 10%;
+                font-weight: bold;
+                font-size:36px;
+            }
+            h1 {
+                font-size:72px;
+                text-align:center;
+            }
+            h2 {
+                font-size:48px;
+                text-align:center;
+            }
+            h3 {
+                font-size:36px;
+                text-align:center;
+                height: 10px;
+            }
+            p {
+                height: 15px;
+            }
+            input[type="checkbox"] {
+                width: 40px;
+                height: 40px;
+            }
+            input[type="number"] {
+                height: 30px;
+                font-size: 36px;
+            }
+        </style>
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+
+            });
+        </script>
+    </head>
+    <body style="background-color: lightgray; display: grid; justify-content: center;">
+        <h1>User Preferences</h1>
+        <div style="display: grid; justify-content: center; border: 1px solid black; background-color: gray; padding-left: 50px; padding-right: 50px;">
+            <h2>What are you trying to track?</h1>
+            <div style="display: grid; width:100%; margin-top:20px; margin-bottom: 20px; background-color: lightgray; align-items: center;">
+                <div style="display:flex;">
+                    <label>Calories</label><input type="checkbox" checked />
+                </div>
+                <h3>Fats</h3>
+                <div style="display:flex;">
+                    <label>Saturated Fats</label><input type="checkbox" />
+                </div>
+                <div style="display:flex;">
+                    <label>Trans Fats</label><input type="checkbox" checked />
+                </div>
+                <div style="display:flex;">
+                    <label>Other Fats</label><input type="checkbox" />
+                </div>
+                <br>
+                <h3>Carbohydrates</h3>
+                <div style="display:flex;">
+                    <label>Fibres</label><input type="checkbox" />
+                </div>
+                <div style="display:flex;">
+                    <label>Sugars</label><input type="checkbox" checked />
+                </div>
+                <div style="display:flex;">
+                    <label>Other Carbs</label><input type="checkbox" />
+                </div>
+                <br>
+                <br>
+                <div style="display:flex;">
+                    <label>Protein</label><input type="checkbox" checked />
+                </div>
+                <div style="display:flex;">
+                    <label>Cholesterol</label><input type="checkbox" checked />
+                </div>
+                <div style="display:flex;">
+                    <label>Sodium</label><input type="checkbox" checked />
+                </div>
+                <div style="display:flex;">
+                    <label>Potassium</label><input type="checkbox" />
+                </div>
+                <div style="display:flex;">
+                    <label>Calcium</label><input type="checkbox" />
+                </div>
+                <div style="display:flex;">
+                    <label>Iron</label><input type="checkbox" />
+                </div>
+            </div>
+        </div>
+        <br>
+        <div style="border: 1px solid black; background-color: gray; padding-bottom: 20px; margin-bottom: 20px;">
+            <h2>Nutrient Limits</h2>
+            <div style="display: flex; width:90%; margin-top:20px; margin-bottom: 20px; background-color: lightgray; align-items: center; margin-left: 5%; margin-right: 5%;">
+                <label style="width:40%">Calories</label><label style="width:15%; font-size: 36px; text-align:right">Min</label><input style="width:15%;" type="number" value="100" /><label style="width:15%; font-size: 36px; text-align: right;">Max</label><input style="width:15%;" type="number" value="800" />
+            </div>
+            <div style="display: flex; width:90%; margin-top:20px; margin-bottom: 20px; background-color: lightgray; align-items: center; margin-left: 5%; margin-right: 5%;">
+                <label style="width:40%">Trans Fats (g)</label><label style="width:15%; font-size: 36px; text-align:right">Min</label><input style="width:15%;" type="number" value="0" /><label style="width:15%; font-size: 36px; text-align: right;">Max</label><input style="width:15%;" type="number" value="0" />
+            </div>
+            <div style="display: flex; width:90%; margin-top:20px; margin-bottom: 20px; background-color: lightgray; align-items: center; margin-left: 5%; margin-right: 5%;">
+                <label style="width:40%">Sugars (g)</label><label style="width:15%; font-size: 36px; text-align:right">Min</label><input style="width:15%;" type="number" value="0" /><label style="width:15%; font-size: 36px; text-align: right;">Max</label><input style="width:15%;" type="number" value="60" />
+            </div>
+            <div style="display: flex; width:90%; margin-top:20px; margin-bottom: 20px; background-color: lightgray; align-items: center; margin-left: 5%; margin-right: 5%;">
+                <label style="width:40%">Protein (mg)</label><label style="width:15%; font-size: 36px; text-align:right">Min</label><input style="width:15%;" type="number" value="30" /><label style="width:15%; font-size: 36px; text-align: right;">Max</label><input style="width:15%;" type="number" value="100" />
+            </div>
+            <div style="display: flex; width:90%; margin-top:20px; margin-bottom: 20px; background-color: lightgray; align-items: center; margin-left: 5%; margin-right: 5%;">
+                <label style="width:40%">Cholesterol (mg)</label><label style="width:15%; font-size: 36px; text-align:right">Min</label><input style="width:15%;" type="number" value="0" /><label style="width:15%; font-size: 36px; text-align: right;">Max</label><input style="width:15%;" type="number" value="100" />
+            </div>
+            <div style="display: flex; width:90%; margin-top:20px; margin-bottom: 20px; background-color: lightgray; align-items: center; margin-left: 5%; margin-right: 5%;">
+                <label style="width:40%">Sodium (g)</label><label style="width:15%; font-size: 36px; text-align:right">Min</label><input style="width:15%;" type="number" value="0" /><label style="width:15%; font-size: 36px; text-align: right;">Max</label><input style="width:15%;" type="number" value="1000" />
+            </div>
+        </div>
+        <div style="display:flex; justify-content:center; margin-bottom: 20px;">
+            <div style="border: 2px black solid; width: 40%; margin-right: 5%; display: grid; align-items: center; justify-content: center; font-weight: bold; font-family: Arial, Helvetica, sans-serif; font-size: 36px; background-color: green; color:white;">Confirm</div>
+            <div style="border: 2px black solid; width: 40%; margin-left: 5%; display: grid; align-items: center; justify-content: center; font-weight: bold; font-family: Arial, Helvetica, sans-serif; font-size: 36px; background-color: red; color:white;">Cancel</div>
+        </div>
+    </body>
+</html>
