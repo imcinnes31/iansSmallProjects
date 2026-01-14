@@ -84,11 +84,13 @@
                     }
                 });
 
+                newResumeContent = {};
                 for (const x in resumeSkillsDict) {
                     if (x == "Job Skills") {
                         for (const v in resumeSkillsDict["Job Skills"]) {
                             for (const w in skillsDictionary["Job Skills"]['skills']) {
                                 if (resumeSkillsDict["Job Skills"][v] == w) {
+                                    newResumeContent[w] = [];
                                     for (const u in skillsDictionary["Job Skills"]['skills'][w]['jobs']) {
                                         if (!Object.keys(resumeContent['jobExperience']).includes(u)) {
                                             resumeContent['jobExperience'][u] = {};
@@ -100,6 +102,7 @@
                                         }
                                         for (const t in skillsDictionary["Job Skills"]['skills'][w]['jobs'][u]) {
                                             resumeContent['jobExperience'][u]['skills'].push(skillsDictionary["Job Skills"]['skills'][w]['jobs'][u][t]);
+                                            newResumeContent[w].push(skillsDictionary["Job Skills"]['skills'][w]['jobs'][u][t]);
                                         }
                                     }
                                     break;
@@ -130,11 +133,32 @@
                     for (const x in resumeContent['resumeSummary']) {
                         summaryText += "- " + resumeContent['resumeSummary'][x] + "\n";
                     }
-                    document.getElementById("summaryTextField").value = summaryText;
+                    // document.getElementById("summaryTextField").value = summaryText;
                 }
 
                 if (resumeContent['jobExperience']) {
                     let experienceText = "";
+                    let newExperienceText = "";
+                    let newSummaryText = "";
+                    const skillsDropdowns = document.getElementsByClassName("skillDrop");
+                    const skillsDropdownLength = parseInt(skillsDropdowns[skillsDropdowns.length - 1].id.replace("skill",""));
+                    for (const a in newResumeContent) {
+                        newExperienceText += a + "\n";
+                        for (let c = 0; c < skillsDropdownLength; c++) {
+                            if (document.getElementById("skill" + c)) {
+                                if (a == document.getElementById("skill" + c).children[document.getElementById("skill" + c).selectedIndex].innerHTML.replace("Experience - ","")) {
+                                    if (document.getElementById("include" + c).checked) {
+                                        let includeText = document.getElementById("qual" + c).value;
+                                        newSummaryText += includeText[0].toUpperCase() + includeText.substring(1,includeText.length) + ".\n";
+                                    }
+                                }
+                            }
+                        }
+                        for (const b in newResumeContent[a]) {
+                            newExperienceText += "- " + newResumeContent[a][b] + "\n";
+                        }
+                        newExperienceText += "\n";
+                    }
                     for (const x in jobNames) {
                         if (resumeContent['jobExperience'][x]) {
                             experienceText += resumeContent['jobExperience'][x]['title'];
@@ -150,7 +174,10 @@
                             experienceText += "\n";
                         }
                     }
-                    document.getElementById("experienceTextField").value = experienceText;
+                    experienceText += "\n";
+                    // document.getElementById("experienceTextField").value = experienceText;
+                    document.getElementById("experienceTextField").value = newExperienceText;
+                    document.getElementById("summaryTextField").value = newSummaryText;
                 }
 
                 if (resumeContent['Education']) {
@@ -362,6 +389,7 @@
 
                     let newDropCell = document.createElement("div");
                     let newDropMenu = document.createElement("select");
+                    newDropMenu.className = "skillDrop";
                     newDropMenu.id = "skill" + x;
                     newDropMenu.style = "width:500px";
                     let selectOption = document.createElement("option");
@@ -449,7 +477,9 @@
         </script>
     </head>
     <body>
-        <form action="./resumePrint.html" target="_blank">
+        <form target="_blank">
+        <!-- <form action="./resumePrintFunctional.html" target="_blank"> -->
+        <!-- <form action="./resumePrint.html" target="_blank"> -->
 
             <h2>Company Info</h2>
 
@@ -489,15 +519,22 @@
             <h3>Key Skills</h3>
             <textarea id="skillsTextField" name="keySkills" style="width:750px;height:200px;"></textarea>
             <br>
-            <input type="submit" value="Make Resume">
-        </form>
+            <!-- <input type="submit" value="Make Resume"> -->
+            <button type="submit" formaction="resumePrintFunctional.html">Check Resume</button>
+        <!-- </form>
 
-        <form action="./coverPrint.html" target="_blank">
+        <form action="./coverPrint.html" target="_blank"> -->
             <input type="hidden" id="companyNameForCoverLetter" name="companyName">
             <h2>Cover Letter Text</h2>
             <textarea id="coverLetterTextField" name="coverLetter" style="width:750px;height:200px;"></textarea>
             <br>
-            <input type="submit" value="Make Cover Letter">
+            <!-- <input type="submit" value="Make Cover Letter"> -->
+            <button type="submit" formaction="coverPrint.html">Check Cover Letter</button>
+
+            <br>
+            <br>
+            <button type="submit" formaction="resumeAndCoverPrint.html">Make Resume and Cover Letter</button>
+
         </form>
 
     </body>

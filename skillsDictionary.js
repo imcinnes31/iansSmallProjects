@@ -8,15 +8,14 @@ const skillsDictionary =
                 "jobs":
                 {
                     "Canex": [
-                        "Used Visual Studio Code to create web applications:",
                         "Created 'Expiry Date Tracker', a web application to record expiry dates of products throughout the store, and give alerts when a product should be pulled",
                         "Created 'Sign Wizard', a web application to help change the message on outdoor advertising board by listing letters to pull off and letters to bring out",
                         "Created 'Canex Warranty', a web application to display prices of big ticket service protection plans based on length, price of item, and number of items bought",
-                        "Created 'Applecare Form', a web application to automatically fill out the form for Applecare on Apple items, based on item bought and Applecare code, without having to fill it out by hand",
+                        "Created static web applications to automatically fill out forms without having to fill them out by hand",
                     ],
                     "Phare Counseling": [
                         "Helped create 'Find A Counselor', a web application to help clients find a mental health counselor, using Visual Studio Code",
-                        "Added filters to the program to narrow client's search based, price range, specializations, or (if in-person counseling needed) by location",
+                        "Added filters to counselor search program to narrow client's search based, price range, specializations, or (if in-person counseling needed) by location",
                         "Reformatted the entire application for use on mobile devices",
                     ],
                 },
@@ -33,7 +32,7 @@ const skillsDictionary =
                         "Created and maintained Mongo database of products in the store, with UPCs, vendors, and upcoming expiry dates",
                     ],
                     "Phare Counseling": [
-                        "Entered information about counselors into application database, such as name, specializations, approaches, location, prices, using MongoDB Compass",
+                        "Entered information about counselors into 'Find A Counselor' database, such as name, specializations, approaches, location, prices, using MongoDB Compass",
                         "Updated counselor information in database when necessary (price increase, etc.)",
                         "Created MongoDB queries to filter counselor search, for use in back end development",
                     ],
@@ -42,7 +41,7 @@ const skillsDictionary =
                         "Entered information for new rental movies, assigned barcodes, rental item number, and categories",
                     ],
                     "Rogers Plus": [
-                        "Created new rental accounts for customers, took credit information, assigned rental cards",
+
                     ],
                 },
             },
@@ -52,10 +51,10 @@ const skillsDictionary =
                 {
                     "Canex": [
                         "Used Python with Flask framework for 'Sign Wizard' application to calculate number of letters needed to bring out or pull off, while determining if there were enough letters for the new message and if it would fit on the sign",
-                        "Used Node with Express to create APIs to add and remove expiry dates, add new products, and get products ready to pull or discount",
+                        "Used Node with Express to create APIs in 'Expiry Date Tracker' to add and remove expiry dates, add new products, and get products ready to pull or discount",
                     ],
                     "Phare Counseling": [
-                        "Used Node with Express to create APIs, as well as perform database queries to search for, update, and create counselor data",
+                        "Used Node with Express to create APIs in 'Find A Counselor' to perform database queries used to search for, update, and create counselor data",
                     ],
                 },
             },
@@ -64,11 +63,10 @@ const skillsDictionary =
                 "jobs":
                 {                    
                     "Canex": [
-                        "Used HTML, CSS, and JavaScript for various purposes:",
-                        "To make 'Sign Wizard' interface to enter in new message for outside sign, or update current letter inventory",
-                        "To make 'Canex Warranty' interface to enter in price of product to determine price of warranty, and retrieve warranty barcode",
-                        "To replicate form for Applecare extended warranty, using text inputs and dropdown menus to easily search for products and retrieve warranty information, or to alert user if they forgot to fill a field",
-                        "To construct React Front-End components for 'Expiry Date Tracker', used to request date checks, pull alerts, and to construct various reports",
+                        "Made 'Sign Wizard' interface to enter in new message for outside sign, or update current letter inventory",
+                        "Made 'Canex Warranty' interface to enter in price of product to determine price of warranty, and retrieve warranty barcode",
+                        "Used HTML to replicate forms, using text inputs and dropdown menus to easily search for products and retrieve warranty information, or to alert user if they forgot to fill a field",
+                        "Constructed React Front-End components for 'Expiry Date Tracker', used to request date checks, pull alerts, and to construct various reports",
                     ],
                     "Phare Counseling": [
                         "Used HTML, CSS, JavaScript, and React components to create client-end webpage for users to find counselors, including checkboxes, radio buttons, and drop down menus to allow the user to narrow their search",
@@ -138,6 +136,7 @@ const skillsDictionary =
                 "jobs":
                 {
                     "Canex": [
+                        "Skilled in using Microsoft Word and Excel, as well as Google Docs and Google Sheets",
                         "Created spreadsheets to list technical specifications of electronics to help customers make a better decision about which ones to buy",
                         "Formatted documents to make them more visually appealing",
                     ],
@@ -154,18 +153,17 @@ const skillsDictionary =
                 "jobs":
                 {
                     "Canex": [
-                        "Arranged credit plans for customers on electronics, appliances, outside vendors, etc. based on length of plan wanted",
+                        "Arranged credit plans for Canex customers on electronics, appliances, outside vendors, etc. based on length of plan wanted",
                         "Performed credit checks on customers to confirm eligibility for credit plans",
                         "Encouraged the buying of optional service protection plans on certain items, based on price, length of plan, and number of items",
+                        "Constructed 'Canex Warranty' web application to break down protection plan prices based on credit plan length and including additional fees, or to determine minimum down payment amount",
                         "Confirmed needed payments per month, completed necessary paperwork with customers",
                     ],
                     "Rogers Plus": [
-                        "Arranged credit plans for customers on mobile phones and accompanying cellular plans",
-                        "Performed credit checks on customers to confirm eligibility for credit plans",
+                        "Arranged credit plans for Rogers customers on mobile phones and accompanying cellular plans",
                         "Assigned phone number and SIM Card to cellular plans",
-                        "Encouraged the addition of optional features such as texing plans, mobile internet, and long distance / roaming plans",
+                        "Encouraged the addition of optional features such as texting plans, mobile internet, and long distance / roaming plans",
                         "Went over paperwork with customers before completing transaction, citing important contract points",
-                        "Took payments from customers toward their mobile phone bills"
                     ],
                 },
             },
@@ -194,16 +192,16 @@ const skillsDictionary =
                 "jobs":
                 {
                     "Canex": [
-                        "Helped new staff to conduct credit plan transactions, customer special orders, printing price labels and sale signs, and opening / closing procedures",
-                        "Coached staff to use software I created to assist in their sales",
+                        "Helped new staff at Canex to conduct credit plan transactions, customer special orders, printing price labels and sale signs, and opening / closing procedures",
+                        "Coached Canex staff to use software I created to assist in their sales",
                     ],
                     "Phare Counseling": [
-                        "Helped new developers to get set up with the programming software needed to make the application, and do small programming tasks",
-                        "Became Team Leader, chaired weekly meetings, provided feedback on progress",
+                        "Helped new developers at Phare to get set up with the programming software needed to make the application, and do small programming tasks",
+                        "Became Team Leader at Phare, chaired weekly meetings, provided feedback on progress",
                         "Delegated tasks to developers, made sure application was completed on time",
                     ],
                     "Rogers Plus": [
-                        "Became Shift Leader, helped new staff to sign up mobile phone plans, perform customer special orders, and sell special items on sale",
+                        "Became Shift Leader at Rogers, helped new staff to sign up mobile phone plans, perform customer special orders, and sell special items on sale",
                     ],
                 },
             },
@@ -334,5 +332,7 @@ const iansInfo = {
     "name": "Ian McInnes",
     "phone": "(204) 293-1517",
     "email": "imcinnes31@gmail.com",
-    "address": "606 - 340 Princess Street, Winnipeg, MB, R3B 3L2",
+    "address": "306 - 773 Leila Avenue, Winnipeg, MB, R2V 3R6",
+    "github": "github.com/imcinnes31",
+    "linkedin": "linkedin.com/in/ian-mcinnes-mb",
 }
