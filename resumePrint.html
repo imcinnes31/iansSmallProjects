@@ -5,26 +5,27 @@
             Resume Print
         </title>
         <script>
+            const jobNames = {
+                "Canex": {"name":"CANEX 17 Wing","location":"Winnipeg, MB","date":"Jun 2017 - Present","title":"Sales Associate"},
+                "Phare Counseling" : {"name":"Phare Counseling","location":"(Remote)","date":"Aug 2021 - Feb 2022","title":"Full Stack Developer"},
+                "Video Cellar" : {"name":"Video Cellar","location":"Winnipeg, MB","date":"Oct 2013 - Feb 2016","title":"Video Rental Clerk"},
+                "Rogers Plus" : {"name":"Rogers Plus","location":"Winnipeg, MB","date":"Dec 2006 - Aug 2012","title":"Shift Leader"},
+            }
+
             document.addEventListener('DOMContentLoaded', () => {
                 const queryString = window.location.search;
                 const urlParams = new URLSearchParams(queryString);
 
-                document.title = "Ian McInnes - ResumeTo" + urlParams.get("companyName").replaceAll(".","").replaceAll(" ","");
+                document.title = "Ian McInnes - Resume To " + urlParams.get("companyName").replaceAll(".","") + " For " + urlParams.get("position");
 
+                let summaryIntro = "Dedicated Professional with a multifaceted background in customer service and software development, looking for full time employment in the industry.";
                 const summaryLines = urlParams.get("summary").replaceAll("- ","").trim().replace(/\r\n+$/, "").split("\r\n");
-                // for (const x in summaryLines) {
-                //     // const newSummaryListItem = document.createElement("li");
-                //     // newSummaryListItem.innerHTML = summaryLines[x];
-                //     // document.getElementById("summaryList").appendChild(newSummaryListItem);
-                //     document.getElementById("summaryText").innerHTML += summaryLines[x] + ". ";
-                // }
+                for (const x in summaryLines) {
+                    summaryIntro += " " + summaryLines[x];
+                }
 
-                // for (const x in summaryLines) {
-                //     // const newSummaryListItem = document.createElement("li");
-                //     // newSummaryListItem.innerHTML = summaryLines[x];
-                //     // document.getElementById("summaryList").appendChild(newSummaryListItem);
-                //     document.getElementById("summaryCellText").innerHTML += summaryLines[x] + ". ";
-                // }
+                summaryIntro += " Skills include:"
+                document.getElementById("summaryCellText").innerHTML = summaryIntro;
 
                 const experienceData = urlParams.get("experience").replace(/\r\n+$/, "").split("\r\n\r\n");
                 for (const x in experienceData) {
@@ -33,16 +34,16 @@
                     currentJobDiv.style.width = "90%";
                     currentJobDiv.className = "jobListing";
 
+                    const currentTitleDiv = document.createElement("div");
+                    currentTitleDiv.style.height = "30px";
+                    currentTitleDiv.style.display = "flex";
+                    currentTitleDiv.style.alignItems = "center";
+
                     const currentJobTitle = document.createElement("p");
                     currentJobTitle.style.fontWeight = "bold";
                     currentJobTitle.style.fontSize = "16px";
-                    currentJobDiv.appendChild(currentJobTitle);
-
-                    const currentJobName = document.createElement("p");
-                    currentJobName.style.fontWeight = "bold";
-                    currentJobName.style.fontSize = "15px";
-                    currentJobName.style.color = "#8EAADB";
-                    currentJobDiv.appendChild(currentJobName);
+                    currentTitleDiv.appendChild(currentJobTitle);
+                    currentJobDiv.appendChild(currentTitleDiv);
 
                     const currentJobSkills = document.createElement("ul");
                     currentJobSkills.className = "jobSkillsList";
@@ -50,47 +51,103 @@
  
                     for (const y in currentJobData) {
                         if (y == 0) {
-                            currentJobTitle.innerHTML = currentJobData[y];
-                       } else if (y == 1) {
-                            currentJobName.innerHTML = currentJobData[y];
+                            let currentJobTitleString = "<h2>";
+                            const titleWords = currentJobData[0].toUpperCase().split(" ");
+                            for (const a in titleWords) {
+                                if (titleWords[a] == "AND") {
+                                    currentJobTitleString += titleWords[a] + " ";
+                                } else {
+                                    currentJobTitleString += "<span>" + titleWords[a][0] + "</span>";
+                                    currentJobTitleString += titleWords[a].substring(1,titleWords[a].length) + " ";
+                                }
+                            }
+                            currentJobTitle.innerHTML = currentJobTitleString.trim() + "</h2>";
                         } else {
                             const currentJobSkillItem = document.createElement("li");
                             currentJobSkills.appendChild(currentJobSkillItem);
                             currentJobSkillItem.innerHTML = "\t<b>" + currentJobData[y].replace("- ","")
                                 .replace(" to "," </b>to ").replace(" for "," </b>for ")
                                 .replace(" with "," </b>with ").replace(" on "," </b>on ").replace(" about "," </b>about ")
-                                .replace(" in "," </b>in ").replace(" of "," </b>of ").replace(" by "," </b>by ").replace(", ","</b>, ");
+                                .replace(" in "," </b>in ").replace(" of "," </b>of ").replace(" by "," </b>by ").replace("languages","languages</b>").replace(", ","</b>, ");
                         }
                     }
                     // document.getElementById("jobExperienceSection").appendChild(currentJobDiv);
 
-                    const currentJobRow = document.createElement("tr");
-                    const currentJobCell = document.createElement("td");
-                    const currentJobPad = document.createElement("td");
-                    currentJobCell.style.width = "67%";
-                    currentJobCell.style.paddingBottom = "10px";
-                    currentJobPad.style.width = "33%";
-                    currentJobPad.style.backgroundColor = "#CADEE5";
-                    currentJobCell.appendChild(currentJobDiv);
-                    currentJobRow.appendChild(currentJobCell);
-                    currentJobRow.appendChild(currentJobPad);
-                    document.getElementById("resumeTable").appendChild(currentJobRow);
+                    document.getElementById("resumeJobExperience").appendChild(currentJobDiv);
+                    
+                    if (x == 1) {
+                        const resumeDivider = document.createElement("div");
+                        resumeDivider.id = "secondHeading";
+                        resumeDivider.style.textAlign = "center";
+                        resumeDivider.style.display = "flex";
+                        resumeDivider.style.borderTop = "1px solid black";
+                        resumeDivider.style.borderBottom = "1px solid black";
+                        resumeDivider.style.marginBottom = "20px";
+                        const dividerNameContainer = document.createElement("div");
+                        dividerNameContainer.style.display = "flex";
+                        dividerNameContainer.style.width = "60%";
+                        dividerNameContainer.style.alignItems = "center";
+                        dividerNameContainer.style.justifyContent = "left";
+                        const dividerName = document.createElement("h1");
+                        dividerName.innerHTML = "<span>I</span>AN <span>M</span>C<span>I</span>NNES";
+                        dividerNameContainer.appendChild(dividerName);
+                        resumeDivider.appendChild(dividerNameContainer);
+                        const phoneContainer = document.createElement("div");
+                        phoneContainer.style.display = "flex";
+                        phoneContainer.style.width = "20%";
+                        phoneContainer.style.alignItems = "center";
+                        phoneContainer.style.justifyContent = "center";
+                        const phoneIcon = document.createElement("img");
+                        phoneIcon.src = "phone.png";
+                        phoneIcon.style.height = "20px";
+                        phoneIcon.style.paddingRight = "5px";
+                        const phoneText = document.createElement("p");
+                        phoneText.innerHTML = "(204) 293-1517";
+                        phoneContainer.appendChild(phoneIcon);
+                        phoneContainer.appendChild(phoneText);
+                        resumeDivider.appendChild(phoneContainer);
+                        const emailContainer = document.createElement("div");
+                        emailContainer.style.display = "flex";
+                        emailContainer.style.width = "20%";
+                        emailContainer.style.alignItems = "center";
+                        emailContainer.style.justifyContent = "center";
+                        const emailIcon = document.createElement("img");
+                        emailIcon.src = "phone.png";
+                        emailIcon.style.height = "20px";
+                        emailIcon.style.paddingRight = "5px";
+                        const emailText = document.createElement("p");
+                        emailText.innerHTML = "(204) 293-1517";
+                        emailContainer.appendChild(emailIcon);
+                        emailContainer.appendChild(emailText);
+                        resumeDivider.appendChild(emailContainer);
+
+                        document.getElementById("resumeJobExperience").appendChild(resumeDivider);
+                    }
                 }
 
                 const skillLines = urlParams.get("keySkills").replace(/\r\n+$/, "").split("\r\n");
 
-                // for (const x in skillLines) {
-                //     const newSkillLine = document.createElement("li");
-                //     newSkillLine.innerHTML = skillLines[x];
-                //     document.getElementById("skillsList").appendChild(newSkillLine);
-                // }
-
-                for (const x in skillLines) {
-                    const newSkillLine = document.createElement("li");
-                    newSkillLine.innerHTML = skillLines[x];
-                    document.getElementById("skillsCellList").appendChild(newSkillLine);
+                const historyTable = document.createElement("table");
+                historyTable.style.width = "90%";
+                const historyTableBody = document.createElement("tbody");
+                historyTable.appendChild(historyTableBody);
+                for (const d in jobNames) {
+                    const historyRow = document.createElement("tr");
+                    const titleCell = document.createElement("td");
+                    titleCell.style.fontWeight = "bold";
+                    titleCell.innerHTML = jobNames[d]["title"];
+                    const nameCell = document.createElement("td");
+                    nameCell.innerHTML = jobNames[d]["name"];
+                    const dateCell = document.createElement("td");
+                    dateCell.innerHTML = jobNames[d]["date"];
+                    historyRow.appendChild(titleCell);
+                    historyRow.appendChild(nameCell);
+                    historyRow.appendChild(dateCell);
+                    historyTableBody.appendChild(historyRow);
                 }
+                document.getElementById("resumeWorkHistory").appendChild(historyTable);
 
+                window.print();
             });
         </script>
         <style>
@@ -98,27 +155,60 @@
                 body {
                     -webkit-print-color-adjust: exact;
                 }
-                div {
-                    page-break-after: auto;
+
+                #secondHeading {
+                    page-break-before: always;
                 }
+
+                .jobListing {
+                    break-inside: avoid;
+                }
+
+                a {
+                    text-decoration: none;
+                    color: black;
+                }
+
+                img {
+                    filter: grayscale(100%);
+                }
+
             }
 
-            h1, h2 {
-                color: #6781B2;
+            h1, h2, h3 {
+                color: #061738;
                 font-weight: bold;
                 margin: 0px 0px;
             }
-            h1 {
-                font-size: 40px;
+            h3 {
+                font-size: 12px;
             }
-            h1 span {
-                font-size: 60px;
+            h3 span {
+                font-size: 18px;
             }
             h2 {
                 font-size: 12px;
             }
             h2 span {
-                font-size: 19px;
+                font-size: 18px;
+            }
+            h1 {
+                font-size: 42px;
+            }
+            h1 span {
+                font-size: 60px;
+            }
+            #coverHeading h1 {
+                font-size: 42px;
+            }
+            #coverHeading h1 span {
+                font-size: 60px;
+            }
+            #secondHeading h1 {
+                font-size: 28px;
+            }
+            #secondHeading h1 span {
+                font-size: 36px;
             }
             ul {
                 padding-left: 15px;
@@ -131,148 +221,134 @@
                 margin: 2px;
             }
 
-            .jobSkillsList {
+            .jobSkillsList, #volunteerHistory ul {
                 list-style: none;
             }
 
-            .jobSkillsList li:before {
+            .jobSkillsList {
+                margin-top: 5px;
+            }
+
+            .jobSkillsList li:before, #volunteerHistory ul li:before {
                 content: '✓';
             }
 
-            table { page-break-inside:auto; page-break-before: always; }
-            tr    { page-break-inside:avoid; page-break-after:auto }
-
+            table {
+                width: 100%;
+            }
             td {
-                vertical-align: top;
+                width: 33.3%;
+            }
+            #educationHistory p {
+                height: 8px;
+            }
+            #otherQualifications p {
+                height: 8px;
             }
 
         </style>
     </head>
     <body style="margin:0px;font-family: Arial, Helvetica, sans-serif;">
-
-        <table cellspacing="0" style="width:100%;">
-            <tbody id="resumeTable">
-                <tr><th colspan="2">
-                    <div id="resumeHeading" style="text-align:center;">
-                        <h1><span>I</span>AN <span>M</span>C<span>I</span>NNES</h1>
-                        <br>
-                        <hr style="height:4px;background-color:#2C3B57;border:none;">
-                        <div style="width:100%;height:21px;display:inline-flex;font-size: 12px;padding: 5px 5px;">
-                            <div style="width:25%;display:flex;align-items:center;">
-                                <div class="contactInfo" style="width:21px;height:21px;background-color:#2C3B57;font-weight:bold;margin-right:10px;display:flex;align-items:center;justify-content:center;">P</div>
-                                <div>204-293-1517</div> 
-                            </div>
-                            <div style="width:25%;display:flex;align-items:center;">
-                                <div class="contactInfo" style="width:21px;height:21px;background-color:#2C3B57;font-weight:bold;margin-right:10px;display:flex;align-items:center;justify-content:center;">E</div>
-                                <a href="mailto:imcinnes31@gmail.com">imcinnes31@gmail.com</a> 
-                            </div>
-                            <div style="width:50%;display:flex;align-items:center;">
-                                <div class="contactInfo" style="width:21px;height:21px;background-color:#2C3B57;font-weight:bold;margin-right:10px;display:flex;align-items:center;justify-content:center;">A</div>
-                                <div>606-340 Princess Street, Winnipeg MB</div> 
-                            </div>
-                        </div>
-                        <hr style="height:4px;background-color:#CADEE5;border:none;">
-                    </div>
-                </th></tr>
-                <tr>
-                    <td id="summaryCell" style="width:67%;">
-                        <div style="width:90%;">
-                            <h2><span>O</span>BJECTIVE</h2>
-                            <hr>
-                            <p id="summaryCellText" style="font-size:16px;">Dedicated Professional with a multifaceted background in customer service and software development, looking for full time employment in the industry. </p>  
-                        </div>
-                    </td>
-                    <td id="sideCell" rowspan="3" style="width:33%;background-color:#CADEE5;">
-                        <div id="skillsCell" style="width:80%;margin:auto;padding-top:50px;">
-                            <h2><span>K</span>EY <span>S</span>KILLS</h2>
-                            <ul id="skillsCellList">
-
-                            </ul>
-                        </div>    
-                        <div id="educationCell" style="width:80%;margin:auto;padding-top:50px;">
-                            <h2><span>E</span>DUCATION</h2>
-                            <br>
-                            <p style="font-weight: bold;">Red River College Polytech</p>
-                            <p>Winnipeg, Manitoba</p>
-                            <p><b>Software Development Certification</b></p>
-                            <p>Java Programming</p>
-                            <p>SQL Databases</p>
-                            <p>Business Analysis</p>
-                            <p>4.5 GPA</p>    
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td id="extraCell" style="width:67%;">
-                        <div style="width:90%;">
-                            <h2><span>E</span>XPERIENCE</h2>
-                            <hr>   
-                        </div>
-                    </td>
-                </tr>    
-            </tbody>
-        </table>
-
-        <!-- <div id="resumeHeading" style="text-align:center;">
-            <h1><span>I</span>AN <span>M</span>CINNES</h1>
-            <br>
+        <div id="resumeHeading" style="text-align:center;">
+            <h1><span>I</span>AN <span>M</span>C<span>I</span>NNES</h1>
+            <div style="width:60%;display:inline-flex;padding: 5px 5px;">
+                <div id="phoneContainer" style="width:50%;display:flex;align-items:center;justify-content: center;">
+                    <img height="24px" src="phone.png" />
+                    <a style="font-size:20px; margin-left: 5px; margin-right: 20px;" id="phoneNumber" href="tel:+2042931517">(204) 293-1517</a>
+                </div>
+                <div id="emailContainer" style="width:50%;display:flex;align-items:center;justify-content: center;">
+                    <img height="24px" src="email.png" />
+                    <a style="font-size:20px; margin-left: 5px; margin-right: 20px;" id="emailLink" href="mailto:imcinnes31@gmail.com">imcinnes31@gmail.com</a> 
+                </div>
+            </div>
             <hr style="height:4px;background-color:#2C3B57;border:none;">
             <div style="width:100%;height:21px;display:inline-flex;font-size: 12px;padding: 5px 5px;">
-                <div style="width:25%;display:flex;align-items:center;">
-                    <div class="contactInfo" style="width:21px;height:21px;background-color:#2C3B57;font-weight:bold;margin-right:10px;display:flex;align-items:center;justify-content:center;">P</div>
-                    <div>204-293-1517</div> 
+                <div style="width:41.5%;display:flex;align-items:center;justify-content: left;">
+                    <div class="contactInfo" style="padding-left: 5px; padding-right: 5px; height:21px;background-color:#8B8B8B;font-weight:bold;margin-left: 0px; margin-right:5px;display:flex;align-items:center;justify-content:center;">Portfolio</div>
+                    <p id="portfolioLink">imcinnes31.github.io/iansPortfolio/intro.html</a> 
                 </div>
-                <div style="width:25%;display:flex;align-items:center;">
-                    <div class="contactInfo" style="width:21px;height:21px;background-color:#2C3B57;font-weight:bold;margin-right:10px;display:flex;align-items:center;justify-content:center;">E</div>
-                    <a href="mailto:imcinnes31@gmail.com">imcinnes31@gmail.com</a> 
+                <div style="width:25%;display:flex;align-items:center;justify-content: left;">
+                    <div class="contactInfo" style="padding-left: 5px; padding-right: 5px; height:21px;background-color:#8B8B8B;font-weight:bold;margin-left: 5px; margin-right:5px;display:flex;align-items:center;justify-content:center;">GitHub</div>
+                    <p id="githubLink">github.com/imcinnes31</a>  
                 </div>
-                <div style="width:50%;display:flex;align-items:center;">
-                    <div class="contactInfo" style="width:21px;height:21px;background-color:#2C3B57;font-weight:bold;margin-right:10px;display:flex;align-items:center;justify-content:center;">A</div>
-                    <div>606-340 Princess Street, Winnipeg MB</div> 
+                <div style="width:33.5%;display:flex;align-items:center;justify-content: left;">
+                    <div class="contactInfo" style="padding-left: 5px; padding-right: 5px; height:21px;background-color:#8B8B8B;font-weight:bold;margin-left: 5px; margin-right:5px;display:flex;align-items:center;justify-content:center;">LinkedIn</div>
+                    <p id="linkedinLInk">linkedin.com/in/ian-mcinnes-mb</a>  
                 </div>
             </div>
-            <hr style="height:4px;background-color:#CADEE5;border:none;">
+            <hr style="height:4px;background-color:#CACACA;border:none;">
         </div>
+        <div style="display:flex;align-items:center;height:30px;background-color:#DBDBDB;">
+            <h3><span>S</span>UMMARY</h3>
+        </div>
+        <hr>
+        <p id="summaryCellText" style="font-size:16px;"></p>  
+        <table>
+            <tbody>
+                <tr>
+                    <td>• Experience and expertise in software development using HTML, CSS, Javascript and React</td>
+                </tr>
+                <tr>
+                    <td>• Proficient in programming desktop and mobile applications with Java, using Eclipse or Android Studio</td>
+                </tr>
+                <tr>
+                    <td>• Experience and expertise in backend development using Python, Node, Django and Flask</td>
+                </tr>
+                <tr>
+                    <td>• Experience and expertise in data management using Javascript, MySQL, Mongo, MongoDB Compass</td>
+                </tr>
+                <tr>
+                    <td>• Knowledge and understanding of shipping and receiving, logistics and analytics, inventory control, cash management and financial planning</td>
+                </tr>
+            </tbody>
+        </table>
+        <br>
+        <br>
+        <div style="display:flex;align-items:center;height:30px;background-color:#DBDBDB;">
+            <h3><span>J</span>OB <span>S</span>KILLS</h3>
+        </div>
+        <hr>
+        <div id="resumeJobExperience">
 
-        <div id="resumeBody" style="display:inline-flex;width:100%;">
-            <div style="width:67%;display:block">
-                <div style="width:80%;">
-                    <h2><span>S</span>UMMARY</h2>
-                    <hr>
-                    <p id="summaryText" style="font-size:14px;"></p>
-                    <ul id="summaryList" style="font-size:14px;">
+        </div>
+        <br>
+        <div style="display:flex;align-items:center;height:30px;background-color:#DBDBDB;">
+            <h3><span>W</span>ORK <span>H</span>ISTORY</h3>
+        </div>
+        <hr>
+        <div id="resumeWorkHistory">
 
-                    </ul>
-                    <h2><span>E</span>XPERIENCE</h2>
-                    <hr>
-                    <div id="jobExperienceSection">
-
-                    </div>
-                </div>
-            </div>
-
-            <div style="width:33%;background-color:#CADEE5;">
-                <div id="educationSection" style="width:80%;margin:auto;padding-top:10px;padding-bottom:50px;">
-                    <h2><span>E</span>DUCATION</h2>
-                    <p style="font-weight: bold;">Red River College Polytech</p>
-                    <p>Winnipeg, Manitoba</p>
-                    <p><b>Software Development Certification</b></p>
-                    <p>Java Programming</p>
-                    <p>SQL Database Development</p>
-                    <p>Business Analysis</p>
-                    <p>4.5 GPA</p>    
-                </div>
-                <div id="skillsSection" style="width:80%;margin:auto;">
-                    <h2><span>KEY SKILLS</span></h2>
-                    <ul id="skillsList">
-
-                    </ul>
-                </div>
-
-            </div>
-
+        </div>
+        <br>
+        <div style="display:flex;align-items:center;height:30px;background-color:#DBDBDB;">
+            <h3><span>E</span>DUCATION</h3>
+        </div>
+        <hr>
+        <div id="educationHistory">
+            <p style="font-weight:bold">Red River College Polytech, Winnipeg, MB (2019-2021)</p>
+            <p>College Certification in Software Development, Java Programming, SQL Programming</p>
+            <p style="font-weight:bold">University of Winnipeg, Winnipeg, MB (2001-2006)</p>
+            <p>Bachelor of Arts in Theatre, Production, Operations and Management</p>
+        </div>
+        <br>
+        <div style="display:flex;align-items:center;height:30px;background-color:#DBDBDB;">
+            <h3><span>V</span>OLUNTEER <span>W</span>ORK</h3>
+        </div>
+        <hr>
+        <div id="volunteerHistory">
+            <h2><span>S</span>T. <span>J</span>OHN'S <span>P</span>RESBYTERIAN <span>C</span>HURCH, <span>W</span>INNIPEG</h2>
+            <ul>
+                <li> <b>Set up rooms</b> for coffee parties, cleaned up dishes afterwards</li>
+                <li> <b>Helped make</b> pies for fundraising bake sales</li>
+            </ul>
+        </div>
+        <!-- <div style="display:flex;align-items:center;height:30px;background-color:#DBDBDB;">
+            <h3><span>O</span>THER <span>C</span>ERTIFICATIONS</h3>
+        </div>
+        <hr>
+        <div id="otherQualifications">
+            <p style="font-weight:bold">Oracle Certified Associate (Java Programming)</p>
+            <p style="font-weight:bold">Class 5 Driver's License</p>
         </div> -->
-
-    
     </body>
 </html>

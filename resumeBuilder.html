@@ -88,6 +88,8 @@
                 for (const x in resumeSkillsDict) {
                     if (x == "Job Skills") {
                         for (const v in resumeSkillsDict["Job Skills"]) {
+                            console.log(v);
+                            console.log(resumeSkillsDict["Job Skills"][v]);
                             for (const w in skillsDictionary["Job Skills"]['skills']) {
                                 if (resumeSkillsDict["Job Skills"][v] == w) {
                                     newResumeContent[w] = [];
@@ -520,7 +522,7 @@
             <textarea id="skillsTextField" name="keySkills" style="width:750px;height:200px;"></textarea>
             <br>
             <!-- <input type="submit" value="Make Resume"> -->
-            <button type="submit" formaction="resumePrintFunctional.html">Check Resume</button>
+            <button type="submit" formaction="resumePrint.html">Check Resume</button>
         <!-- </form>
 
         <form action="./coverPrint.html" target="_blank"> -->

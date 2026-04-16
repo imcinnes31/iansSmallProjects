@@ -20,33 +20,8 @@ const skillsDictionary =
                         //Personal and education
                         "Built 'Hunger Games Scoreboard' with Android Studio, a Java mobile app to help keep track of arena deaths in the 'Hunger Games' novels",
                         "Created a Nutrition Tracker app using Java to help people keep track of calories, sodium, fats, etc. by taking pictures of nutrition labels or looking up foods using Nutrition Canada APIs",
+                        "Made a \"Hymn Sing Along\" app for St. John's Presbyterian Church to add karaoke style tracks to livestream video when Hymns sung",
                         "Received College Certification by creating a Java Swing desktop app that edits terrain in a classic Macintosh RPG game",
-                    ],
-                },
-            },
-            "Data Management": {
-                "desc": "Entering, filtering, sorting, and confirming data for people, places, and things", 
-                "jobs":
-                {
-                    "Canex": [
-                        "Proficient in SQL Databases, creating tables, views, queries, procedures, and indexes",
-                        "Searched customers by name or phone number to find account for credit plans or special orders",
-                        "Used filters and sorting to find specific requested products for customers, and order them if needed from main warehouse or other stores",
-                        "Created JavaScript dictionary of extended warranty data, including product code, barcode number, and price, categorizing them into product types and warranty lengths",
-                        "Created MySQL database of letters for outside sign, including number in inventory and width of letters, using MySQL Workbench",
-                        "Created and maintained Mongo database of products in the store, with UPCs, vendors, and upcoming expiry dates",
-                    ],
-                    "Phare Counseling": [
-                        "Entered information about counselors into 'Find A Counselor' database, such as name, specializations, approaches, location, prices, using MongoDB Compass",
-                        "Updated counselor information in database when necessary (price increase, etc.)",
-                        "Created MongoDB queries to filter counselor search, for use in back end development",
-                    ],
-                    "Video Cellar": [
-                        "Created new rental accounts for customers, took credit information, assigned rental card numbers",
-                        "Entered information for new rental movies, assigned barcodes, rental item number, and categories",
-                    ],
-                    "Rogers Plus": [
-
                     ],
                 },
             },
@@ -76,6 +51,32 @@ const skillsDictionary =
                     ],
                     "Phare Counseling": [
                         "Used HTML, CSS, JavaScript, and React components to create client-end webpage for users to find counselors, including checkboxes, radio buttons, and drop down menus to allow the user to narrow their search",
+                    ],
+                },
+            },
+            "Data Management": {
+                "desc": "Entering, filtering, sorting, and confirming data for people, places, and things", 
+                "jobs":
+                {
+                    "Canex": [
+                        "Proficient in SQL Databases, creating tables, views, queries, procedures, and indexes",
+                        "Searched customers by name or phone number to find account for credit plans or special orders",
+                        "Used filters and sorting to find specific requested products for customers, and order them if needed from main warehouse or other stores",
+                        "Created JavaScript dictionary of extended warranty data, including product code, barcode number, and price, categorizing them into product types and warranty lengths",
+                        "Created MySQL database of letters for outside sign, including number in inventory and width of letters, using MySQL Workbench",
+                        "Created and maintained Mongo database of products in the store, with UPCs, vendors, and upcoming expiry dates",
+                    ],
+                    "Phare Counseling": [
+                        "Entered information about counselors into 'Find A Counselor' database, such as name, specializations, approaches, location, prices, using MongoDB Compass",
+                        "Updated counselor information in database when necessary (price increase, etc.)",
+                        "Created MongoDB queries to filter counselor search, for use in back end development",
+                    ],
+                    "Video Cellar": [
+                        "Created new rental accounts for customers, took credit information, assigned rental card numbers",
+                        "Entered information for new rental movies, assigned barcodes, rental item number, and categories",
+                    ],
+                    "Rogers Plus": [
+
                     ],
                 },
             },

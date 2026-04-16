@@ -2,16 +2,17 @@
 <html lang="en">
     <head>
         <title>
-            Cover Letter Print
+            Resume Print
         </title>
         <script>
             document.addEventListener('DOMContentLoaded', () => {
                 const queryString = window.location.search;
                 const urlParams = new URLSearchParams(queryString);
 
-                document.title = "Ian McInnes - LetterTo" + urlParams.get("companyName").replaceAll(".","").replaceAll(" ","");
+                document.title = "Ian McInnes - Letter To " + urlParams.get("companyName").replaceAll(".","") + " For " + urlParams.get("position");
                 document.getElementById("letterBody").innerHTML = urlParams.get("coverLetter").replaceAll("\n","<br>");
 
+                window.print();
             });
         </script>
         <style>
@@ -19,19 +20,119 @@
                 body {
                     -webkit-print-color-adjust: exact;
                 }
+
+                #coverLetterDiv {
+                    page-break-after: always;
+                }
+
+                #secondHeading {
+                    page-break-before: always;
+                }
+
+                .jobListing {
+                    break-inside: avoid;
+                }
+
+                a {
+                    text-decoration: none;
+                    color: black;
+                }
+
+                img {
+                    filter: grayscale(100%);
+                }
+
+            }
+
+            h1, h2, h3 {
+                color: #061738;
+                font-weight: bold;
+                margin: 0px 0px;
+            }
+            h3 {
+                font-size: 12px;
+            }
+            h3 span {
+                font-size: 18px;
+            }
+            h2 {
+                font-size: 12px;
+            }
+            h2 span {
+                font-size: 18px;
+            }
+            h1 {
+                font-size: 42px;
+            }
+            h1 span {
+                font-size: 60px;
+            }
+            #coverHeading h1 {
+                font-size: 42px;
+            }
+            #coverHeading h1 span {
+                font-size: 60px;
+            }
+            #secondHeading h1 {
+                font-size: 28px;
+            }
+            #secondHeading h1 span {
+                font-size: 36px;
+            }
+            ul {
+                padding-left: 15px;
+            }
+            #jobExperienceSection p, #educationSection p {
+                margin: 2px;
+            }
+
+            #educationCell p, .jobListing p {
+                margin: 2px;
+            }
+
+            .jobSkillsList, #volunteerHistory ul {
+                list-style: none;
+            }
+
+            .jobSkillsList li:before, #volunteerHistory ul li:before {
+                content: '✓';
+            }
+
+            table {
+                width: 100%;
+            }
+            td {
+                width: 33.3%;
+            }
+            #educationHistory p {
+                height: 8px;
+            }
+            #otherQualifications p {
+                height: 8px;
             }
 
         </style>
     </head>
     <body style="margin:0px;font-family: Arial, Helvetica, sans-serif;">
-        <div style="margin:96px;">
+        <div id="coverHeading" style="text-align:center;">
+            <h1><span>I</span>AN <span>M</span>C<span>I</span>NNES</h1>
+            <div style="width:75%;display:inline-flex;padding: 5px 5px;">
+                <div id="phoneContainer" style="width:50%;display:flex;align-items:center;justify-content: center;">
+                    <img height="24px" src="phone.png" />
+                    <a style="color: black; text-decoration: none; font-size:20px; margin-left: 5px; margin-right: 20px;" id="phoneNumber" href="tel:+2042931517">(204) 293-1517</a>
+                </div>
+                <div id="emailContainer" style="width:50%;display:flex;align-items:center;justify-content: center;">
+                    <img height="24px" src="email.png" />
+                    <a style="color: black; text-decoration: none; font-size:20px; margin-left: 5px; margin-right: 20px;" id="emailLink" href="mailto:imcinnes31@gmail.com">imcinnes31@gmail.com</a> 
+                </div>
+            </div>
+            <hr style="height:4px;background-color:#2C3B57;border:none;">
+        </div>
+        <div id="coverLetterDiv" style="margin: 48px 96px 96px 96px;">
             <div style="font-family: 'Times New Roman', Times, serif;font-size:12.5;">
                 <span style="font-weight: bold;font-size:16.5;">Ian McInnes</span>
                 <br>
-                306-773 Leila Ave. | Winnipeg, MB | R2V 3R6 | (204) 293-1517 | 
-                <br>
-                imcinnes31@gmail.com
-                <br>
+                306-773 Leila Ave. | Winnipeg, MB | R2V 3R6 
                 <br>
             </div>
             <div id="letterBody" style="font-family: 'Times New Roman', Times, serif;font-size:12.5;">
@@ -47,6 +148,6 @@
                 <br>
                 Ian McInnes
             </div>
-        </div>    
+        </div>  
     </body>
 </html>

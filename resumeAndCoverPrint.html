@@ -10,14 +10,13 @@
                 "Phare Counseling" : {"name":"Phare Counseling","location":"(Remote)","date":"Aug 2021 - Feb 2022","title":"Full Stack Developer"},
                 "Video Cellar" : {"name":"Video Cellar","location":"Winnipeg, MB","date":"Oct 2013 - Feb 2016","title":"Video Rental Clerk"},
                 "Rogers Plus" : {"name":"Rogers Plus","location":"Winnipeg, MB","date":"Dec 2006 - Aug 2012","title":"Shift Leader"},
-                "Seven-Eleven" : {"name":"Seven-Eleven Food Stores","location":"Winnipeg, MB","date":"Aug 2003 - Nov 2006","title":"Sales Associate"},
             }
 
             document.addEventListener('DOMContentLoaded', () => {
                 const queryString = window.location.search;
                 const urlParams = new URLSearchParams(queryString);
 
-                document.title = "Ian McInnes - ResumeAndLetterTo" + urlParams.get("companyName").replaceAll(".","").replaceAll(" ","");
+                document.title = "Ian McInnes - Resume And Letter To " + urlParams.get("companyName").replaceAll(".","") + " For " + urlParams.get("position");
                 document.getElementById("letterBody").innerHTML = urlParams.get("coverLetter").replaceAll("\n","<br>");
 
                 let summaryIntro = "Dedicated Professional with a multifaceted background in customer service and software development, looking for full time employment in the industry.";
@@ -90,6 +89,55 @@
                     // document.getElementById("jobExperienceSection").appendChild(currentJobDiv);
 
                     document.getElementById("resumeJobExperience").appendChild(currentJobDiv);
+                    
+                    if (x == 1) {
+                        const resumeDivider = document.createElement("div");
+                        resumeDivider.id = "secondHeading";
+                        resumeDivider.style.textAlign = "center";
+                        resumeDivider.style.display = "flex";
+                        resumeDivider.style.borderTop = "1px solid black";
+                        resumeDivider.style.borderBottom = "1px solid black";
+                        resumeDivider.style.marginBottom = "20px";
+                        const dividerNameContainer = document.createElement("div");
+                        dividerNameContainer.style.display = "flex";
+                        dividerNameContainer.style.width = "60%";
+                        dividerNameContainer.style.alignItems = "center";
+                        dividerNameContainer.style.justifyContent = "left";
+                        const dividerName = document.createElement("h1");
+                        dividerName.innerHTML = "<span>I</span>AN <span>M</span>C<span>I</span>NNES";
+                        dividerNameContainer.appendChild(dividerName);
+                        resumeDivider.appendChild(dividerNameContainer);
+                        const phoneContainer = document.createElement("div");
+                        phoneContainer.style.display = "flex";
+                        phoneContainer.style.width = "20%";
+                        phoneContainer.style.alignItems = "center";
+                        phoneContainer.style.justifyContent = "center";
+                        const phoneIcon = document.createElement("img");
+                        phoneIcon.src = "phone.png";
+                        phoneIcon.style.height = "20px";
+                        phoneIcon.style.paddingRight = "5px";
+                        const phoneText = document.createElement("p");
+                        phoneText.innerHTML = "(204) 293-1517";
+                        phoneContainer.appendChild(phoneIcon);
+                        phoneContainer.appendChild(phoneText);
+                        resumeDivider.appendChild(phoneContainer);
+                        const emailContainer = document.createElement("div");
+                        emailContainer.style.display = "flex";
+                        emailContainer.style.width = "20%";
+                        emailContainer.style.alignItems = "center";
+                        emailContainer.style.justifyContent = "center";
+                        const emailIcon = document.createElement("img");
+                        emailIcon.src = "phone.png";
+                        emailIcon.style.height = "20px";
+                        emailIcon.style.paddingRight = "5px";
+                        const emailText = document.createElement("p");
+                        emailText.innerHTML = "(204) 293-1517";
+                        emailContainer.appendChild(emailIcon);
+                        emailContainer.appendChild(emailText);
+                        resumeDivider.appendChild(emailContainer);
+
+                        document.getElementById("resumeJobExperience").appendChild(resumeDivider);
+                    }
                 }
 
                 const skillLines = urlParams.get("keySkills").replace(/\r\n+$/, "").split("\r\n");
@@ -99,7 +147,6 @@
                 const historyTableBody = document.createElement("tbody");
                 historyTable.appendChild(historyTableBody);
                 for (const d in jobNames) {
-                    console.log(jobNames[d]);
                     const historyRow = document.createElement("tr");
                     const titleCell = document.createElement("td");
                     titleCell.style.fontWeight = "bold";
@@ -126,8 +173,21 @@
                     page-break-after: always;
                 }
 
+                #secondHeading {
+                    page-break-before: always;
+                }
+
                 .jobListing {
                     break-inside: avoid;
+                }
+
+                a {
+                    text-decoration: none;
+                    color: black;
+                }
+
+                img {
+                    filter: grayscale(100%);
                 }
 
             }
@@ -150,10 +210,22 @@
                 font-size: 18px;
             }
             h1 {
-                font-size: 40px;
+                font-size: 42px;
             }
             h1 span {
                 font-size: 60px;
+            }
+            #coverHeading h1 {
+                font-size: 42px;
+            }
+            #coverHeading h1 span {
+                font-size: 60px;
+            }
+            #secondHeading h1 {
+                font-size: 28px;
+            }
+            #secondHeading h1 span {
+                font-size: 36px;
             }
             ul {
                 padding-left: 15px;
@@ -166,11 +238,11 @@
                 margin: 2px;
             }
 
-            .jobSkillsList {
+            .jobSkillsList, #volunteerHistory ul {
                 list-style: none;
             }
 
-            .jobSkillsList li:before {
+            .jobSkillsList li:before, #volunteerHistory ul li:before {
                 content: '✓';
             }
 
@@ -190,14 +262,25 @@
         </style>
     </head>
     <body style="margin:0px;font-family: Arial, Helvetica, sans-serif;">
-        <div id="coverLetterDiv" style="margin:96px;">
+        <div id="coverHeading" style="text-align:center;">
+            <h1><span>I</span>AN <span>M</span>C<span>I</span>NNES</h1>
+            <div style="width:75%;display:inline-flex;padding: 5px 5px;">
+                <div id="phoneContainer" style="width:50%;display:flex;align-items:center;justify-content: center;">
+                    <img height="24px" src="phone.png" />
+                    <a style="color: black; text-decoration: none; font-size:20px; margin-left: 5px; margin-right: 20px;" id="phoneNumber" href="tel:+2042931517">(204) 293-1517</a>
+                </div>
+                <div id="emailContainer" style="width:50%;display:flex;align-items:center;justify-content: center;">
+                    <img height="24px" src="email.png" />
+                    <a style="color: black; text-decoration: none; font-size:20px; margin-left: 5px; margin-right: 20px;" id="emailLink" href="mailto:imcinnes31@gmail.com">imcinnes31@gmail.com</a> 
+                </div>
+            </div>
+            <hr style="height:4px;background-color:#2C3B57;border:none;">
+        </div>
+        <div id="coverLetterDiv" style="margin: 48px 96px 96px 96px;">
             <div style="font-family: 'Times New Roman', Times, serif;font-size:12.5;">
                 <span style="font-weight: bold;font-size:16.5;">Ian McInnes</span>
                 <br>
-                306-773 Leila Ave. | Winnipeg, MB | R2V 3R6 | (204) 293-1517 | 
-                <br>
-                imcinnes31@gmail.com
-                <br>
+                306-773 Leila Ave. | Winnipeg, MB | R2V 3R6 
                 <br>
             </div>
             <div id="letterBody" style="font-family: 'Times New Roman', Times, serif;font-size:12.5;">
@@ -215,90 +298,106 @@
             </div>
         </div>  
         
-                    <div id="resumeHeading" style="text-align:center;">
-                        <h1><span>I</span>AN <span>M</span>C<span>I</span>NNES</h1>
-                        <br>
-                        <hr style="height:4px;background-color:#2C3B57;border:none;">
-                        <div style="width:100%;height:21px;display:inline-flex;font-size: 12px;padding: 5px 5px;">
-                            <div style="width:20%;display:flex;align-items:center;">
-                                <div class="contactInfo" style="width:21px;height:21px;background-color:#8B8B8B;font-weight:bold;margin-right:10px;display:flex;align-items:center;justify-content:center;">P</div>
-                                <div id="phoneNumber">(204) 293-1517</div> 
-                            </div>
-                            <div style="width:25%;display:flex;align-items:center;">
-                                <div class="contactInfo" style="width:21px;height:21px;background-color:#8B8B8B;font-weight:bold;margin-right:10px;display:flex;align-items:center;justify-content:center;">E</div>
-                                <a id="emailLink" href="mailto:imcinnes31@gmail.com">imcinnes31@gmail.com</a> 
-                            </div>
-                            <div style="width:25%;display:flex;align-items:center;">
-                                <div class="contactInfo" style="width:21px;height:21px;background-color:#8B8B8B;font-weight:bold;margin-right:10px;display:flex;align-items:center;justify-content:center;">G</div>
-                                <a id="githubLink" href="github.com/imcinnes31">github.com/imcinnes31</a>  
-                            </div>
-                            <div style="width:30%;display:flex;align-items:center;">
-                                <div class="contactInfo" style="width:21px;height:21px;background-color:#8B8B8B;font-weight:bold;margin-right:10px;display:flex;align-items:center;justify-content:center;">L</div>
-                                <a id="linkedinLInk" href="linkedin.com/in/ian-mcinnes-mb">linkedin.com/in/ian-mcinnes-mb</a>  
-                            </div>
-                        </div>
-                        <hr style="height:4px;background-color:#CACACA;border:none;">
-                    </div>
-                        <div style="display:flex;align-items:center;height:30px;background-color:#DBDBDB;">
-                            <h3><span>O</span>BJECTIVE</h3>
-                        </div>
-                        <hr>
-                        <p id="summaryCellText" style="font-size:16px;"></p>  
-                        <table>
-                            <tbody>
-                                <tr>
-                                    <td>• Experience and expertise in software development using HTML, CSS, Javascript and React</td>
-                                </tr>
-                                <tr>
-                                    <td>• Proficient in programming desktop and mobile applications with Java, using Eclipse or Android Studio</td>
-                                </tr>
-                                <tr>
-                                    <td>• Experience and expertise in backend development using Python, Node, Django and Flask</td>
-                                </tr>
-                                <tr>
-                                    <td>• Experience and expertise in data management using Javascript, MySQL, Mongo, MongoDB Compass</td>
-                                </tr>
-                                <tr>
-                                    <td>• Knowledge and understanding of shipping and receiving, logistics and analytics, inventory control, cash management and financial planning</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <br>
-                        <br>
-                        <div style="display:flex;align-items:center;height:30px;background-color:#DBDBDB;">
-                            <h3><span>J</span>OB <span>S</span>KILLS</h3>
-                        </div>
-                        <hr>
-                        <div id="resumeJobExperience">
+        <div id="resumeHeading" style="text-align:center;">
+            <h1><span>I</span>AN <span>M</span>C<span>I</span>NNES</h1>
+            <div style="width:60%;display:inline-flex;padding: 5px 5px;">
+                <div id="phoneContainer" style="width:50%;display:flex;align-items:center;justify-content: center;">
+                    <img height="24px" src="phone.png" />
+                    <a style="font-size:20px; margin-left: 5px; margin-right: 20px;" id="phoneNumber" href="tel:+2042931517">(204) 293-1517</a>
+                </div>
+                <div id="emailContainer" style="width:50%;display:flex;align-items:center;justify-content: center;">
+                    <img height="24px" src="email.png" />
+                    <a style="font-size:20px; margin-left: 5px; margin-right: 20px;" id="emailLink" href="mailto:imcinnes31@gmail.com">imcinnes31@gmail.com</a> 
+                </div>
+            </div>
+            <hr style="height:4px;background-color:#2C3B57;border:none;">
+            <div style="width:100%;height:21px;display:inline-flex;font-size: 12px;padding: 5px 5px;">
+                <div style="width:41.5%;display:flex;align-items:center;justify-content: left;">
+                    <div class="contactInfo" style="padding-left: 5px; padding-right: 5px; height:21px;background-color:#8B8B8B;font-weight:bold;margin-left: 0px; margin-right:5px;display:flex;align-items:center;justify-content:center;">Portfolio</div>
+                    <p id="portfolioLink">imcinnes31.github.io/iansPortfolio/intro.html</a> 
+                </div>
+                <div style="width:25%;display:flex;align-items:center;justify-content: left;">
+                    <div class="contactInfo" style="padding-left: 5px; padding-right: 5px; height:21px;background-color:#8B8B8B;font-weight:bold;margin-left: 5px; margin-right:5px;display:flex;align-items:center;justify-content:center;">GitHub</div>
+                    <p id="githubLink">github.com/imcinnes31</a>  
+                </div>
+                <div style="width:33.5%;display:flex;align-items:center;justify-content: left;">
+                    <div class="contactInfo" style="padding-left: 5px; padding-right: 5px; height:21px;background-color:#8B8B8B;font-weight:bold;margin-left: 5px; margin-right:5px;display:flex;align-items:center;justify-content:center;">LinkedIn</div>
+                    <p id="linkedinLInk">linkedin.com/in/ian-mcinnes-mb</a>  
+                </div>
+            </div>
+            <hr style="height:4px;background-color:#CACACA;border:none;">
+        </div>
+        <div style="display:flex;align-items:center;height:30px;background-color:#DBDBDB;">
+            <h3><span>S</span>UMMARY</h3>
+        </div>
+        <hr>
+        <p id="summaryCellText" style="font-size:16px;"></p>  
+        <table>
+            <tbody>
+                <tr>
+                    <td>• Experience and expertise in software development using HTML, CSS, Javascript and React</td>
+                </tr>
+                <tr>
+                    <td>• Proficient in programming desktop and mobile applications with Java, using Eclipse or Android Studio</td>
+                </tr>
+                <tr>
+                    <td>• Experience and expertise in backend development using Python, Node, Django and Flask</td>
+                </tr>
+                <tr>
+                    <td>• Experience and expertise in data management using Javascript, MySQL, Mongo, MongoDB Compass</td>
+                </tr>
+                <tr>
+                    <td>• Knowledge and understanding of shipping and receiving, logistics and analytics, inventory control, cash management and financial planning</td>
+                </tr>
+            </tbody>
+        </table>
+        <br>
+        <br>
+        <div style="display:flex;align-items:center;height:30px;background-color:#DBDBDB;">
+            <h3><span>J</span>OB <span>S</span>KILLS</h3>
+        </div>
+        <hr>
+        <div id="resumeJobExperience">
 
-                        </div>
-                        <br>
-                        <div style="display:flex;align-items:center;height:30px;background-color:#DBDBDB;">
-                            <h3><span>W</span>ORK <span>H</span>ISTORY</h3>
-                        </div>
-                        <hr>
-                        <div id="resumeWorkHistory">
+        </div>
+        <br>
+        <div style="display:flex;align-items:center;height:30px;background-color:#DBDBDB;">
+            <h3><span>W</span>ORK <span>H</span>ISTORY</h3>
+        </div>
+        <hr>
+        <div id="resumeWorkHistory">
 
-                        </div>
-                        <br>
-                        <div style="display:flex;align-items:center;height:30px;background-color:#DBDBDB;">
-                            <h3><span>E</span>DUCATION</h3>
-                        </div>
-                        <hr>
-                        <div id="educationHistory">
-                            <p style="font-weight:bold">Red River College Polytech, Winnipeg, MB (2019-2021)</p>
-                            <p>College Certification in Software Development, Java Programming, SQL Programming</p>
-                            <p style="font-weight:bold">University of Winnipeg, Winnipeg, MB (2001-2006)</p>
-                            <p>Bachelor of Arts in Theatre, Production, Operations and Management</p>
-                        </div>
-                        <br>
-                        <div style="display:flex;align-items:center;height:30px;background-color:#DBDBDB;">
-                            <h3><span>O</span>THER <span>C</span>ERTIFICATIONS</h3>
-                        </div>
-                        <hr>
-                        <div id="otherQualifications">
-                            <p style="font-weight:bold">Oracle Certified Associate (Java Programming)</p>
-                            <p style="font-weight:bold">Class 5 Driver's License</p>
-                        </div>
-        </body>
+        </div>
+        <br>
+        <div style="display:flex;align-items:center;height:30px;background-color:#DBDBDB;">
+            <h3><span>E</span>DUCATION</h3>
+        </div>
+        <hr>
+        <div id="educationHistory">
+            <p style="font-weight:bold">Red River College Polytech, Winnipeg, MB (2019-2021)</p>
+            <p>College Certification in Software Development, Java Programming, SQL Programming</p>
+            <p style="font-weight:bold">University of Winnipeg, Winnipeg, MB (2001-2006)</p>
+            <p>Bachelor of Arts in Theatre, Production, Operations and Management</p>
+        </div>
+        <br>
+        <div style="display:flex;align-items:center;height:30px;background-color:#DBDBDB;">
+            <h3><span>V</span>OLUNTEER <span>W</span>ORK</h3>
+        </div>
+        <hr>
+        <div id="volunteerHistory">
+            <h2><span>S</span>T. <span>J</span>OHN'S <span>P</span>RESBYTERIAN <span>C</span>HURCH, <span>W</span>INNIPEG</h2>
+            <ul>
+                <li> <b>Set up rooms</b> for coffee parties, cleaned up dishes afterwards</li>
+                <li> <b>Helped make</b> pies for fundraising bake sales</li>
+            </ul>
+        </div>
+        <!-- <div style="display:flex;align-items:center;height:30px;background-color:#DBDBDB;">
+            <h3><span>O</span>THER <span>C</span>ERTIFICATIONS</h3>
+        </div>
+        <hr>
+        <div id="otherQualifications">
+            <p style="font-weight:bold">Oracle Certified Associate (Java Programming)</p>
+            <p style="font-weight:bold">Class 5 Driver's License</p>
+        </div> -->
+    </body>
 </html>
