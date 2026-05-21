@@ -20,7 +20,7 @@ const skillsDictionary =
                         //Personal and education
                         "Built 'Hunger Games Scoreboard' with Android Studio, a Java mobile app to help keep track of arena deaths in the 'Hunger Games' novels",
                         "Created a Nutrition Tracker app using Java to help people keep track of calories, sodium, fats, etc. by taking pictures of nutrition labels or looking up foods using Nutrition Canada APIs",
-                        "Made a \"Hymn Sing Along\" app for St. John's Presbyterian Church to add karaoke style tracks to livestream video when Hymns sung",
+                        "Made a Java \"Hymn Sing Along\" app for St. John's Presbyterian Church to add karaoke style tracks to livestream video when Hymns sung",
                         "Received College Certification by creating a Java Swing desktop app that edits terrain in a classic Macintosh RPG game",
                     ],
                 },

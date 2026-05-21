@@ -85,7 +85,7 @@
                         resumeDivider.style.marginBottom = "20px";
                         const dividerNameContainer = document.createElement("div");
                         dividerNameContainer.style.display = "flex";
-                        dividerNameContainer.style.width = "60%";
+                        dividerNameContainer.style.width = "50%";
                         dividerNameContainer.style.alignItems = "center";
                         dividerNameContainer.style.justifyContent = "left";
                         const dividerName = document.createElement("h1");
@@ -108,15 +108,15 @@
                         resumeDivider.appendChild(phoneContainer);
                         const emailContainer = document.createElement("div");
                         emailContainer.style.display = "flex";
-                        emailContainer.style.width = "20%";
+                        emailContainer.style.width = "30%";
                         emailContainer.style.alignItems = "center";
                         emailContainer.style.justifyContent = "center";
                         const emailIcon = document.createElement("img");
-                        emailIcon.src = "phone.png";
+                        emailIcon.src = "email.png";
                         emailIcon.style.height = "20px";
                         emailIcon.style.paddingRight = "5px";
                         const emailText = document.createElement("p");
-                        emailText.innerHTML = "(204) 293-1517";
+                        emailText.innerHTML = "imcinnes31@gmail.com";
                         emailContainer.appendChild(emailIcon);
                         emailContainer.appendChild(emailText);
                         resumeDivider.appendChild(emailContainer);
@@ -184,31 +184,34 @@
                 font-size: 12px;
             }
             h3 span {
-                font-size: 18px;
+                font-size: 16px;
             }
             h2 {
                 font-size: 12px;
             }
             h2 span {
-                font-size: 18px;
+                font-size: 16px;
             }
             h1 {
-                font-size: 42px;
+                font-size: 16px;
             }
             h1 span {
-                font-size: 60px;
+                font-size: 20px;
             }
             #coverHeading h1 {
-                font-size: 42px;
+                font-size: 16px;
             }
             #coverHeading h1 span {
-                font-size: 60px;
+                font-size: 20px;
+            }
+            #secondHeading p {
+                font-size: 14px;
             }
             #secondHeading h1 {
-                font-size: 28px;
+                font-size: 16px;
             }
             #secondHeading h1 span {
-                font-size: 36px;
+                font-size: 20px;
             }
             ul {
                 padding-left: 15px;
@@ -238,31 +241,37 @@
             }
             td {
                 width: 33.3%;
+                font-size: 14px;
             }
             #educationHistory p {
                 height: 8px;
+                font-size: 14px;
             }
             #otherQualifications p {
                 height: 8px;
+                font-size: 14px;
+            }
+            li {
+                font-size: 14px;
             }
 
         </style>
     </head>
-    <body style="margin:0px;font-family: Arial, Helvetica, sans-serif;">
+    <body style="margin:48px;font-family: Arial, Helvetica, sans-serif;">
         <div id="resumeHeading" style="text-align:center;">
             <h1><span>I</span>AN <span>M</span>C<span>I</span>NNES</h1>
             <div style="width:60%;display:inline-flex;padding: 5px 5px;">
                 <div id="phoneContainer" style="width:50%;display:flex;align-items:center;justify-content: center;">
-                    <img height="24px" src="phone.png" />
-                    <a style="font-size:20px; margin-left: 5px; margin-right: 20px;" id="phoneNumber" href="tel:+2042931517">(204) 293-1517</a>
+                    <img height="18px" src="phone.png" />
+                    <a style="font-size:14px; margin-left: 5px; margin-right: 20px;" id="phoneNumber" href="tel:+2042931517">(204) 293-1517</a>
                 </div>
                 <div id="emailContainer" style="width:50%;display:flex;align-items:center;justify-content: center;">
-                    <img height="24px" src="email.png" />
-                    <a style="font-size:20px; margin-left: 5px; margin-right: 20px;" id="emailLink" href="mailto:imcinnes31@gmail.com">imcinnes31@gmail.com</a> 
+                    <img height="18px" src="email.png" />
+                    <a style="font-size:14px; margin-left: 5px; margin-right: 20px;" id="emailLink" href="mailto:imcinnes31@gmail.com">imcinnes31@gmail.com</a> 
                 </div>
             </div>
             <hr style="height:4px;background-color:#2C3B57;border:none;">
-            <div style="width:100%;height:21px;display:inline-flex;font-size: 12px;padding: 5px 5px;">
+            <div style="width:100%;height:21px;display:inline-flex;font-size: 10px;padding: 5px 5px;">
                 <div style="width:41.5%;display:flex;align-items:center;justify-content: left;">
                     <div class="contactInfo" style="padding-left: 5px; padding-right: 5px; height:21px;background-color:#8B8B8B;font-weight:bold;margin-left: 0px; margin-right:5px;display:flex;align-items:center;justify-content:center;">Portfolio</div>
                     <p id="portfolioLink">imcinnes31.github.io/iansPortfolio/intro.html</a> 
@@ -282,7 +291,7 @@
             <h3><span>S</span>UMMARY</h3>
         </div>
         <hr>
-        <p id="summaryCellText" style="font-size:16px;"></p>  
+        <p id="summaryCellText" style="font-size:14px;"></p>  
         <table>
             <tbody>
                 <tr>
@@ -295,7 +304,7 @@
                     <td>• Experience and expertise in backend development using Python, Node, Django and Flask</td>
                 </tr>
                 <tr>
-                    <td>• Experience and expertise in data management using Javascript, MySQL, Mongo, MongoDB Compass</td>
+                    <td>• Experience and expertise in data management using MySQL, Mongo, MongoDB Compass</td>
                 </tr>
                 <tr>
                     <td>• Knowledge and understanding of shipping and receiving, logistics and analytics, inventory control, cash management and financial planning</td>
