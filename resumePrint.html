@@ -89,6 +89,7 @@
                         dividerNameContainer.style.alignItems = "center";
                         dividerNameContainer.style.justifyContent = "left";
                         const dividerName = document.createElement("h1");
+                        dividerName.style.color = "#000088";
                         dividerName.innerHTML = "<span>I</span>AN <span>M</span>C<span>I</span>NNES";
                         dividerNameContainer.appendChild(dividerName);
                         resumeDivider.appendChild(dividerNameContainer);
@@ -138,11 +139,22 @@
                     titleCell.innerHTML = jobNames[d]["title"];
                     const nameCell = document.createElement("td");
                     nameCell.innerHTML = jobNames[d]["name"];
-                    const dateCell = document.createElement("td");
-                    dateCell.innerHTML = jobNames[d]["date"];
+                    const dateCell1 = document.createElement("td");
+                    dateCell1.innerHTML = jobNames[d]["date"].split("-")[0];
+                    const hyphenCell = document.createElement("td");
+                    hyphenCell.innerHTML = "-";
+                    const dateCell2 = document.createElement("td");
+                    dateCell2.innerHTML = jobNames[d]["date"].split("-")[1];
+                    titleCell.style.width = "36%";
+                    nameCell.style.width = "36%";
+                    dateCell1.style.width = "13%";
+                    hyphenCell.style.width = "2%";
+                    dateCell2.style.width = "13%";
                     historyRow.appendChild(titleCell);
                     historyRow.appendChild(nameCell);
-                    historyRow.appendChild(dateCell);
+                    historyRow.appendChild(dateCell1);
+                    historyRow.appendChild(hyphenCell);
+                    historyRow.appendChild(dateCell2);
                     historyTableBody.appendChild(historyRow);
                 }
                 document.getElementById("resumeWorkHistory").appendChild(historyTable);
@@ -176,9 +188,11 @@
             }
 
             h1, h2, h3 {
-                color: #061738;
                 font-weight: bold;
                 margin: 0px 0px;
+            }
+            h2, h3 {
+                color: #061738;
             }
             h3 {
                 font-size: 12px;
@@ -194,6 +208,7 @@
             }
             h1 {
                 font-size: 16px;
+                color: #000088;
             }
             h1 span {
                 font-size: 20px;
